@@ -1,12 +1,20 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import * as Api from './backend/api';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text> Delish Dish</Text>
-    </View>
-  );
+
+export default class App extends React.Component{
+  componentDidMount = async () => {
+    await Api.getUser();
+  }
+
+  render(){
+    return (
+      <View>
+        <Text>testing</Text>
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
