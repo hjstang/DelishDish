@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
-import * as Api from "./backend/api";
 import ExploreScreen from "./views/explore";
 import SearchScreen from "./views/search";
 import AddRecipeScreen from "./views/addrecipe";
@@ -81,10 +80,6 @@ const bottomTabNavigator = createBottomTabNavigator(
 const AppContainer = createAppContainer(bottomTabNavigator);
 
 export default class App extends Component {
-  /*componentDidMount = async () => {
-    await Api.getUser();
-  };*/
-
   render() {
     return (
       <View style={styles.container}>

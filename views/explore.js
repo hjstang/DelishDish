@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Button } from "react-native";
-import Menu from "../components/menu";
 
 export default class Explore extends Component {
   constructor(props) {
