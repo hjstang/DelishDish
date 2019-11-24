@@ -1,7 +1,7 @@
 import * as firebase from 'firebase';
 import 'firebase/firestore';
 
-const firebaseConfig = {
+export const firebaseConfig = {
     apiKey: "AIzaSyCrFENIzUVWebMY8-iQ9cHZ6lOG9j8dv08",
     authDomain: "delish-dish.firebaseapp.com",
     databaseURL: "https://delish-dish.firebaseio.com",

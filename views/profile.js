@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Button } from 'react-native';
+import firebase from "firebase";
 
 
 export default class Profile extends Component{
@@ -7,6 +8,7 @@ export default class Profile extends Component{
         return (
             <View style={styles.container}>
                 <Text>profile page</Text>
+                <Button title="Sign out" onPress={() => firebase.auth().signOut()}/>
             </View>
         );
     }

@@ -5,10 +5,22 @@ import SearchScreen from "./views/search";
 import AddRecipeScreen from "./views/addrecipe";
 import FavoritesScreen from "./views/favorites";
 import ProfileScreen from "./views/profile";
-import { createAppContainer } from "react-navigation";
+import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createBottomTabNavigator } from "react-navigation-tabs";
+import { createStackNavigator } from 'react-navigation-stack'
+import LoginScreen from "./views/LoginScreen";
 
 console.disableYellowBox = true;
+
+const SearchStack = createStackNavigator({
+  Search: SearchScreen,
+  Login: LoginScreen
+  },
+    {
+      initialRouteName: "Search",
+      header: null,
+      headerMode: "none"
+    });
 
 const bottomTabNavigator = createBottomTabNavigator(
   {
@@ -24,7 +36,7 @@ const bottomTabNavigator = createBottomTabNavigator(
       }
     },
     Search: {
-      screen: SearchScreen,
+      screen: SearchStack,
       navigationOptions: {
         tabBarIcon: ({ activeTintColor }) => (
           <Image
