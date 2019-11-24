@@ -15,6 +15,7 @@ import thunk from "redux-thunk";
 import { createFirestoreInstance } from "redux-firestore";
 import { ReactReduxFirebaseProvider, getFirebase } from "react-redux-firebase";
 import firebaseConfig from "./backend/firebaseConfig";
+import * as Font from "expo-font";
 
 console.disableYellowBox = true;
 
@@ -110,19 +111,35 @@ const bottomTabNavigator = createBottomTabNavigator(
 const AppContainer = createAppContainer(bottomTabNavigator);
 
 export default class App extends Component {
+  state = {
+    fontLoaded: false
+  };
+
+  async componentDidMount() {
+    await Font.loadAsync({
+      roboto: require("./assets/fonts/roboto-regular.ttf")
+    });
+
+    this.setState({ fontLoaded: true });
+  }
+
   render() {
-    return (
-      <Provider store={store}>
-        <ReactReduxFirebaseProvider
-          firebase={firebaseConfig}
-          config={rrfConfig}
-          dispatch={store.dispatch}
-          createFirestoreInstance={createFirestoreInstance}
-        >
-          <AppContainer style={{ flex: 1 }} />
-        </ReactReduxFirebaseProvider>
-      </Provider>
-    );
+    if (this.state.fontLoaded) {
+      return (
+        <Provider store={store}>
+          <ReactReduxFirebaseProvider
+            firebase={firebaseConfig}
+            config={rrfConfig}
+            dispatch={store.dispatch}
+            createFirestoreInstance={createFirestoreInstance}
+          >
+            <AppContainer style={{ flex: 1 }} />
+          </ReactReduxFirebaseProvider>
+        </Provider>
+      );
+    } else {
+        return <Text> Loading </Text>
+    }
   }
 }
 
