@@ -1,4 +1,4 @@
-import { firestore } from './firebase';
+import { firestore } from './firebaseConfig';
 
 export async function getUser(){
     try {

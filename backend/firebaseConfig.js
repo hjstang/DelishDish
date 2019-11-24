@@ -1,7 +1,8 @@
 import * as firebase from 'firebase';
 import 'firebase/firestore';
+import 'firebase/auth';
 
-export const firebaseConfig = {
+const config = {
     apiKey: "AIzaSyCrFENIzUVWebMY8-iQ9cHZ6lOG9j8dv08",
     authDomain: "delish-dish.firebaseapp.com",
     databaseURL: "https://delish-dish.firebaseio.com",
@@ -11,8 +12,8 @@ export const firebaseConfig = {
     appId: "1:455439935142:web:c68d7f338814529fd0f667"
 };
 
-firebase.initializeApp(firebaseConfig);
+firebase.initializeApp(config);
 
-export const firestore = firebase.firestore();
+firebase.firestore();
 
 export default firebase;
