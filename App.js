@@ -5,10 +5,40 @@ import SearchScreen from "./views/search";
 import AddRecipeScreen from "./views/addrecipe";
 import FavoritesScreen from "./views/favorites";
 import ProfileScreen from "./views/profile";
-import { createAppContainer } from "react-navigation";
+import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createBottomTabNavigator } from "react-navigation-tabs";
+import { createStackNavigator } from "react-navigation-stack";
+import { createStore, applyMiddleware, compose } from "redux";
+import { Provider } from "react-redux";
+import rootReducer from "./store/reducers/rootReducer";
+import thunk from "redux-thunk";
+import { createFirestoreInstance } from "redux-firestore";
+import { ReactReduxFirebaseProvider, getFirebase } from "react-redux-firebase";
+import firebaseConfig from "./backend/firebaseConfig";
 
 console.disableYellowBox = true;
+
+const store = createStore(
+  rootReducer,
+  applyMiddleware(thunk.withExtraArgument(getFirebase))
+);
+
+const rrfConfig = {
+  userProfile: "users",
+  useFirestoreForProfile: true,
+  attachAuthIsReady: true
+};
+
+const SearchStack = createStackNavigator(
+  {
+    Search: SearchScreen
+  },
+  {
+    initialRouteName: "Search",
+    header: null,
+    headerMode: "none"
+  }
+);
 
 const bottomTabNavigator = createBottomTabNavigator(
   {
@@ -24,7 +54,7 @@ const bottomTabNavigator = createBottomTabNavigator(
       }
     },
     Search: {
-      screen: SearchScreen,
+      screen: SearchStack,
       navigationOptions: {
         tabBarIcon: ({ activeTintColor }) => (
           <Image
@@ -72,7 +102,7 @@ const bottomTabNavigator = createBottomTabNavigator(
     initialRouteName: "Explore",
     tabBarOptions: {
       activeTintColor: "blue",
-        height: 79
+      height: 79
     }
   }
 );
@@ -82,9 +112,16 @@ const AppContainer = createAppContainer(bottomTabNavigator);
 export default class App extends Component {
   render() {
     return (
-      <View style={styles.container}>
-        <AppContainer style={{ flex: 1 }} />
-      </View>
+      <Provider store={store}>
+        <ReactReduxFirebaseProvider
+          firebase={firebaseConfig}
+          config={rrfConfig}
+          dispatch={store.dispatch}
+          createFirestoreInstance={createFirestoreInstance}
+        >
+          <AppContainer style={{ flex: 1 }} />
+        </ReactReduxFirebaseProvider>
+      </Provider>
     );
   }
 }
