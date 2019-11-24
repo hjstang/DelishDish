@@ -9,6 +9,8 @@ import {
 } from "react-native";
 import Tag from "./tag";
 import Ingredient from "./ingredient";
+import * as Colors from "../styles/colors";
+import * as Typography from "../styles/typography";
 
 export default class Recipe extends Component {
   constructor(props) {
@@ -21,7 +23,7 @@ export default class Recipe extends Component {
       servings: 0,
       ingredients: [],
       description:
-        "This is the description of the Blue Cheese Burger. It is supereasy to make",
+          "This is the description of the Blue Cheese Burger. It is supereasy to make",
       cuisine: "",
       dishTypes: [],
       healthTypes: [],
@@ -29,6 +31,7 @@ export default class Recipe extends Component {
       sourceURL: ""
     };
   }
+
 
   render() {
     return (
@@ -41,34 +44,34 @@ export default class Recipe extends Component {
         >
           <Image source={require("../assets/burger.png")} />
           <View style={styles.infoBox}>
-            <Text> {this.state.title} </Text>
+            <Text style={Typography.FONT_H1_BLACK}> {this.state.title} </Text>
             <View style={{ flexDirection: "row" }}>
               <View style={{ flexDirection: "row" }}>
                 <Image source={require("../assets/menu/explore.png")} />
-                <Text> {this.state.difficulty} </Text>
+                <Text style={Typography.FONT_REGULAR_GREY}> {this.state.difficulty} </Text>
               </View>
               <View style={{ flexDirection: "row" }}>
                 <Image source={require("../assets/menu/explore.png")} />
-                <Text> {this.state.servings} </Text>
+                <Text style={Typography.FONT_REGULAR_GREY}> {this.state.servings} </Text>
               </View>
             </View>
           </View>
           <View style={styles.info}>
             <View style={styles.ingredients}>
-              <Text> Ingredients </Text>
+              <Text style={Typography.FONT_H3_BLACK_BOLD}> Ingredients </Text>
               <Ingredient name={"Flour"} measure={"g"} quantity={100} />
               <Ingredient name={"Milk"} measure={"dl"} quantity={2} />
               <Ingredient name={"Sugar"} measure={"g"} quantity={50} />
             </View>
             <View styling={styles.description}>
-              <Text>Description</Text>
-              <Text>{this.state.description}</Text>
+              <Text style={Typography.FONT_H3_BLACK_BOLD}> Description </Text>
+              <Text style={Typography.FONT_REGULAR_BLACK}>{this.state.description}</Text>
             </View>
             <View style={styles.tags}>
               <Tag text={"Burger"} type={"#FFB6C3"} />
             </View>
             <Text
-              style={styles.source}
+              style={[Typography.FONT_REGULAR_DARKGREY_BOLD, { marginTop: 10}]}
               onPress={() => Linking.openURL(this.state.sourceURL)}
             >
               Recipe source
@@ -111,5 +114,4 @@ const styles = StyleSheet.create({
   ingredients: { marginTop: 70, marginBottom: 10 },
   description: { },
   tags: { marginTop: 10 },
-  source: { marginTop: 10, color: "grey" }
 });
