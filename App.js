@@ -20,6 +20,12 @@ console.disableYellowBox = true;
 
 const store = createStore(rootReducer, applyMiddleware(thunk.withExtraArgument(getFirebase)));
 
+const rrfConfig = {
+    userProfile: 'users',
+    useFirestoreForProfile: true,
+    attachAuthIsReady: true
+};
+
 const SearchStack = createStackNavigator({
   Search: SearchScreen,
   },
@@ -102,7 +108,7 @@ export default class App extends Component {
   render() {
     return (
       <Provider store={store}>
-          <ReactReduxFirebaseProvider firebase={firebaseConfig} config={{attachAuthIsReady: true}} dispatch={store.dispatch} createFirestoreInstance={createFirestoreInstance}>
+          <ReactReduxFirebaseProvider firebase={firebaseConfig} config={rrfConfig} dispatch={store.dispatch} createFirestoreInstance={createFirestoreInstance}>
               <AppContainer style={{ flex: 1 }} />
           </ReactReduxFirebaseProvider>
       </Provider>

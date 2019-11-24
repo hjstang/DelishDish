@@ -9,7 +9,6 @@ class Search extends Component{
         const { auth } = this.props;
         return (
             <View style={styles.container}>
-                <Text>search page</Text>
                 {auth.uid ?
                     <Text>User logged in</Text>
                     :
