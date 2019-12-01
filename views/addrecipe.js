@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, Button, Picker } from "react-native";
+import { StyleSheet, Text, View, Button, Picker, Image } from "react-native";
 import { connect } from "react-redux";
 import LoginScreen from "../components/LoginScreen";
 import { createRecipe } from "../store/actions/recipeActions";
@@ -11,15 +11,49 @@ import * as Permissions from "expo-permissions";
 import { connectActionSheet } from "@expo/react-native-action-sheet";
 
 class AddRecipe extends Component {
-  uploadImage = async (uri, imageName) => {
+  constructor(props) {
+    super(props);
+    this.state = {
+      title: "Salad",
+      cuisine: "european",
+      description: "Recipe description",
+      difficulty: "easy",
+      favorited: true,
+      imageUrl: null,
+      servings: 4,
+      sourceUrl: "https://matpaabordet.no",
+      ingredients: [
+        { name: "salad", quantity: 500, measure: "gram" },
+        { name: "tomato", quantity: 400, measure: "ml" }
+      ],
+      healthTypes: ["vegan"],
+      dishTypes: ["salad"],
+      mealTypes: ["lunch"]
+    };
+  }
+
+  uuidv4 = () => {
+    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
+      let r = (Math.random() * 16) | 0,
+        v = c == "x" ? r : (r & 0x3) | 0x8;
+      return v.toString(16);
+    });
+  };
+
+  uploadImage = async uri => {
     const response = await fetch(uri);
     const blob = await response.blob();
+    const uuid = this.uuidv4();
 
-    let ref = firebase
+    let ref = await firebase
       .storage()
       .ref()
-      .child(this.props.auth.uid + "/" + imageName);
-    return ref.put(blob);
+      .child(this.props.auth.uid + "/" + uuid);
+    const putImage = await ref.put(blob);
+    ref.getDownloadURL().then(url => {
+      this.setState({ imageUrl: url });
+    });
+    return putImage;
   };
 
   _onOpenActionSheet = () => {
@@ -46,18 +80,16 @@ class AddRecipe extends Component {
       Permissions.CAMERA,
       Permissions.CAMERA_ROLL
     );
-
     if (status !== "granted") {
       alert(
         "Sorry, we need camera and camera roll permission to make this work!"
       );
     }
-
     let result = await ImagePicker.launchCameraAsync();
 
     if (!result.cancelled) {
       {
-        this.uploadImage(result.uri, "test-image2")
+        this.uploadImage(result.uri)
           .then(() => {
             console.log("Image upload success");
           })
@@ -76,8 +108,7 @@ class AddRecipe extends Component {
     let result = await ImagePicker.launchImageLibraryAsync();
 
     if (!result.cancelled) {
-      this.this
-        .uploadImage(result.uri, "test-image3")
+      this.uploadImage(result.uri)
         .then(() => {
           console.log("image library upload success");
         })
@@ -87,27 +118,40 @@ class AddRecipe extends Component {
     }
   };
 
+  getRecipeFromState = () => {
+    const {
+      title,
+      cuisine,
+      description,
+      difficulty,
+      favorited,
+      imageUrl,
+      servings,
+      sourceUrl,
+      ingredients,
+      healthTypes,
+      dishTypes,
+      mealTypes
+    } = this.state;
+    return {
+      title,
+      cuisine,
+      description,
+      difficulty,
+      favorited,
+      imageUrl,
+      servings,
+      sourceUrl,
+      ingredients,
+      healthTypes,
+      dishTypes,
+      mealTypes
+    };
+  };
+
   render() {
     const { auth, defaultValues } = this.props;
     // defaultValues is containing all the predefined values such as measures, dishTypes etc.
-    const recipe = {
-      title: "Salad",
-      cuisine: "european",
-      description: "Recipe description",
-      difficulty: "easy",
-      favorited: true,
-      imageUrl: "https://vg.no",
-      servings: 4,
-      sourceUrl: "https://matpaabordet.no",
-      ingredients: [
-        { name: "salad", quantity: 500, measure: "gram" },
-        { name: "tomato", quantity: 400, measure: "ml" }
-      ],
-      healthTypes: ["vegan"],
-      dishTypes: ["salad"],
-      mealTypes: ["lunch"]
-    };
-
     return (
       <View style={styles.container}>
         {auth.uid ? (
@@ -119,7 +163,7 @@ class AddRecipe extends Component {
             <Text>User logged in</Text>
             <Button
               title="Add Recipe"
-              onPress={() => this.props.createRecipe(recipe)}
+              onPress={() => this.props.createRecipe(this.getRecipeFromState())}
             />
           </View>
         ) : (
