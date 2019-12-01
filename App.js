@@ -16,6 +16,7 @@ import { createFirestoreInstance } from "redux-firestore";
 import { ReactReduxFirebaseProvider, getFirebase } from "react-redux-firebase";
 import firebaseConfig from "./backend/firebaseConfig";
 import * as Font from "expo-font";
+import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 
 console.disableYellowBox = true;
 
@@ -133,12 +134,14 @@ export default class App extends Component {
             dispatch={store.dispatch}
             createFirestoreInstance={createFirestoreInstance}
           >
-            <AppContainer style={{ flex: 1 }} />
+            <ActionSheetProvider>
+              <AppContainer style={{ flex: 1 }} />
+            </ActionSheetProvider>
           </ReactReduxFirebaseProvider>
         </Provider>
       );
     } else {
-        return <Text> Loading </Text>
+      return <Text> Loading </Text>;
     }
   }
 }
