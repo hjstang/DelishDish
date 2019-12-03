@@ -56,6 +56,17 @@ const FavoritesStack = createStackNavigator(
     }
 );
 
+const ProfileStack = createStackNavigator(
+    {
+        Profile: ProfileScreen,
+        Recipe: Recipe
+    } ,{
+        initialRouteName: "Profile",
+        header: null,
+        headerMode: "none"
+    }
+);
+
 const bottomTabNavigator = createBottomTabNavigator(
   {
     Explore: {
@@ -91,7 +102,7 @@ const bottomTabNavigator = createBottomTabNavigator(
       }
     },
     Profile: {
-      screen: ProfileScreen,
+      screen: ProfileStack,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
             <Icon name={"person"} size={30} color={tintColor} />
