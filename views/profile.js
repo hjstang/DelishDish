@@ -31,9 +31,9 @@ class Profile extends Component {
               <Text>{profile.email}</Text>
               <Button title="Sign out" onPress={() => this.props.signOut()} />
               {recipes ? (
-                  <RecipesView favorites={recipes} navigation={navigation}/>
+                  <RecipesView recipes={recipes} navigation={navigation}/>
               ) : (
-                  <ActivityIndicator size="small" color="#000000" />
+                  <ActivityIndicator size="small" color="#000000"/>
               )}
             </View>
           ) : (

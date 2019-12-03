@@ -10,6 +10,7 @@ import {
 import Tag from "./tag";
 import Ingredient from "./ingredient";
 import * as Typography from "../styles/typography";
+import ReturnButton from "../components/returnButton";
 
 export default class Recipe extends Component {
   render() {
@@ -35,6 +36,9 @@ export default class Recipe extends Component {
             }}
           >
             <Image source={require("../assets/burger.png")} />
+            <View style={styles.returnButton}>
+              <ReturnButton navigation={navigation} />
+            </View>
             <View style={styles.infoBox}>
               <Text style={[Typography.FONT_H1_BLACK, { marginVertical: 5 }]}>
                 {recipe.title}
@@ -114,5 +118,9 @@ const styles = StyleSheet.create({
   ingredients: { marginTop: 70, marginBottom: 10 },
   description: {},
   tags: { marginTop: 10 },
-  URL: { marginTop: 10, alignSelf: "center" }
+  URL: { marginTop: 10, alignSelf: "center" },
+  returnButton: {
+    position: "absolute",
+    marginTop: 40
+  }
 });

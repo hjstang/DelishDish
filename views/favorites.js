@@ -22,7 +22,7 @@ class Favorites extends Component {
               <Text style={Typography.FONT_H1_GREEN}>Favorites</Text>
             </View>
             {favorites ? (
-               <RecipesView favorites={favorites} navigation={navigation}/>
+               <RecipesView recipes={favorites} navigation={navigation}/>
             ) : (
               <ActivityIndicator size="small" color="#000000" />
             )}
