@@ -16,6 +16,7 @@ import { createFirestoreInstance } from "redux-firestore";
 import { ReactReduxFirebaseProvider, getFirebase } from "react-redux-firebase";
 import firebaseConfig from "./backend/firebaseConfig";
 import * as Font from "expo-font";
+import Recipe from "./components/recipe";
 
 console.disableYellowBox = true;
 
@@ -39,6 +40,18 @@ const SearchStack = createStackNavigator(
     header: null,
     headerMode: "none"
   }
+);
+
+const FavoritesStack = createStackNavigator(
+    {
+      Favorites: FavoritesScreen,
+      Recipe: Recipe,
+    },
+    {
+      initialRouteName: "Favorites",
+      header: null,
+      headerMode: "none"
+    }
 );
 
 const bottomTabNavigator = createBottomTabNavigator(
@@ -77,7 +90,7 @@ const bottomTabNavigator = createBottomTabNavigator(
       }
     },
     Favorites: {
-      screen: FavoritesScreen,
+      screen: FavoritesStack,
       navigationOptions: {
         tabBarIcon: ({ activeTintColor }) => (
           <Image
