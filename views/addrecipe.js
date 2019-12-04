@@ -181,7 +181,7 @@ const mapStateToProps = state => {
   };
 };
 
-export const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = dispatch => {
   return {
     createRecipe: recipe => dispatch(createRecipe(recipe))
   };
