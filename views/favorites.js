@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, ActivityIndicator, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ActivityIndicator,
+  ScrollView
+} from "react-native";
 import { connect } from "react-redux";
 import LoginScreen from "../components/LoginScreen";
 import { compose } from "redux";
@@ -13,16 +19,20 @@ class Favorites extends Component {
     console.log(auth.uid);
 
     return (
-      <ScrollView contentContainerStyle={styles.container}>
+      <ScrollView>
         {auth.uid ? (
-          <View>
-            <Text style={[Typography.FONT_H3_GREEN,{ alignSelf: "center"}]}> Delish Dish </Text>
-            <View style={{ flexDirection: "row", marginVertical: 15 }}>
-              <Text style={Typography.FONT_H1_BLACK}>Your </Text>
-              <Text style={Typography.FONT_H1_GREEN}>Favorites</Text>
+          <View style={styles.container}>
+            <View>
+              <Text style={[Typography.FONT_H3_GREEN, { alignSelf: "center" }]}>
+                Delish Dish
+              </Text>
+              <View style={{ flexDirection: "row", marginVertical: 15 }}>
+                <Text style={Typography.FONT_H1_BLACK}>Your </Text>
+                <Text style={Typography.FONT_H1_GREEN}>Favorites</Text>
+              </View>
             </View>
             {favorites ? (
-               <RecipesView recipes={favorites} navigation={navigation}/>
+              <RecipesView recipes={favorites} navigation={navigation} />
             ) : (
               <ActivityIndicator size="small" color="#000000" />
             )}
@@ -64,9 +74,9 @@ export default compose(
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#fff",
-    alignItems: "center",
-    flex: 1,
+    marginLeft: 17,
+    flexGrow: 1,
     marginTop: 50,
-    //marginHorizontal: 10
+    marginBottom: 20
   }
 });
