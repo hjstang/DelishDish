@@ -40,7 +40,7 @@ class Favorites extends Component {
             )}
           </View>
         ) : (
-          <LoginScreen />
+          <LoginScreen/>
         )}
       </ScrollView>
     );

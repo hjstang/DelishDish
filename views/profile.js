@@ -54,7 +54,7 @@ class Profile extends Component {
             )}
           </View>
         ) : (
-          <LoginScreen />
+          <LoginScreen style={styles.container}/>
         )}
       </ScrollView>
     );
