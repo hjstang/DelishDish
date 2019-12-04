@@ -34,7 +34,14 @@ export const FONT_H2_WHITE = {
     fontWeight: FONT_WEIGHT_BOLD,
     fontSize: FONT_SIZE_24,
     color: Colors.WHITE
-}
+};
+
+export const FONT_H2_BLACK = {
+    fontFamily: FONT_FAMILY,
+    fontWeight: FONT_WEIGHT_BOLD,
+    fontSize: FONT_SIZE_24,
+    color: Colors.BLACK
+};
 
 export const FONT_H3_DARKGREY = {
     fontFamily: FONT_FAMILY,
