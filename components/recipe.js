@@ -9,75 +9,80 @@ import {
 } from "react-native";
 import Tag from "./tag";
 import Ingredient from "./ingredient";
-import * as Colors from "../styles/colors";
 import * as Typography from "../styles/typography";
+import ReturnButton from "../components/returnButton";
 
 export default class Recipe extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      imageURL: "",
-      title: " Blue Cheese Burger",
-      id: "",
-      difficulty: "Easy",
-      servings: 0,
-      ingredients: [],
-      description:
-          "This is the description of the Blue Cheese Burger. It is supereasy to make",
-      cuisine: "",
-      dishTypes: [],
-      healthTypes: [],
-      favorited: false,
-      sourceURL: ""
-    };
-  }
-
-
   render() {
+    const { navigation } = this.props;
+    const recipe = navigation.state.params.recipe.item;
+
+    const ingredientsList = recipe.ingredients.map(ingredient => {
+      return (
+        <Ingredient
+          name={ingredient.name}
+          measure={ingredient.measure}
+          quantity={ingredient.quantity}
+        />
+      );
+    });
+
     return (
       <View style={styles.container}>
-        <ScrollView
-          scontentContainerStyle={{
-            flexGrow: 1,
-            alignItems: "center"
-          }}
-        >
-          <Image source={require("../assets/burger.png")} />
-          <View style={styles.infoBox}>
-            <Text style={Typography.FONT_H1_BLACK}> {this.state.title} </Text>
-            <View style={{ flexDirection: "row" }}>
-              <View style={{ flexDirection: "row" }}>
-                <Image source={require("../assets/menu/explore.png")} />
-                <Text style={Typography.FONT_REGULAR_GREY}> {this.state.difficulty} </Text>
+        {recipe ? (
+          <ScrollView
+            scontentContainerStyle={{
+              flexGrow: 1
+            }}
+          >
+            <Image source={require("../assets/burger.png")} />
+            <View style={styles.returnButton}>
+              <ReturnButton navigation={navigation} />
+            </View>
+            <View style={styles.infoBox}>
+              <Text style={[Typography.FONT_H1_BLACK, { marginVertical: 5 }]}>
+                {recipe.title}
+              </Text>
+              <View style={{ flexDirection: "row", marginBottom: 5 }}>
+                <View style={{ flexDirection: "row" }}>
+                  <Image source={require("../assets/menu/explore.png")} />
+                  <Text style={Typography.FONT_REGULAR_GREY}>
+                    {recipe.difficulty}
+                  </Text>
+                </View>
+                <View style={{ flexDirection: "row" }}>
+                  <Image source={require("../assets/menu/explore.png")} />
+                  <Text style={Typography.FONT_REGULAR_GREY}>
+                    {recipe.servings}
+                  </Text>
+                </View>
               </View>
-              <View style={{ flexDirection: "row" }}>
-                <Image source={require("../assets/menu/explore.png")} />
-                <Text style={Typography.FONT_REGULAR_GREY}> {this.state.servings} </Text>
+            </View>
+            <View style={styles.info}>
+              <View style={styles.ingredients}>
+                <Text style={Typography.FONT_H3_BLACK_BOLD}>Ingredients</Text>
+                {ingredientsList}
               </View>
+              <View styling={styles.description}>
+                <Text style={Typography.FONT_H3_BLACK_BOLD}>Description</Text>
+                <Text style={Typography.FONT_REGULAR_BLACK}>
+                  {recipe.description}
+                </Text>
+              </View>
+              <View style={styles.tags}>
+                <Tag text={"Burger"} type={"#FFB6C3"} />
+              </View>
+              <Text
+                style={[Typography.FONT_REGULAR_DARKGREY_BOLD, styles.URL]}
+                onPress={() => Linking.openURL(recipe.sourceUrl)}
+              >
+                {recipe.sourceUrl}
+              </Text>
             </View>
-          </View>
-          <View style={styles.info}>
-            <View style={styles.ingredients}>
-              <Text style={Typography.FONT_H3_BLACK_BOLD}> Ingredients </Text>
-              <Ingredient name={"Flour"} measure={"g"} quantity={100} />
-              <Ingredient name={"Milk"} measure={"dl"} quantity={2} />
-              <Ingredient name={"Sugar"} measure={"g"} quantity={50} />
-            </View>
-            <View styling={styles.description}>
-              <Text style={Typography.FONT_H3_BLACK_BOLD}> Description </Text>
-              <Text style={Typography.FONT_REGULAR_BLACK}>{this.state.description}</Text>
-            </View>
-            <View style={styles.tags}>
-              <Tag text={"Burger"} type={"#FFB6C3"} />
-            </View>
-            <Text
-              style={[Typography.FONT_REGULAR_DARKGREY_BOLD, { marginTop: 10}]}
-              onPress={() => Linking.openURL(this.state.sourceURL)}
-            >
-              Recipe source
-            </Text>
-          </View>
-        </ScrollView>
+          </ScrollView>
+        ) : (
+          <Text> No recipe to show </Text>
+        )}
       </View>
     );
   }
@@ -104,14 +109,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginTop: 250,
-    alignSelf: "center",
-    flexDirection: "column"
+    alignSelf: "center"
   },
   info: {
     marginHorizontal: 20,
     justifyContent: "center"
   },
   ingredients: { marginTop: 70, marginBottom: 10 },
-  description: { },
+  description: {},
   tags: { marginTop: 10 },
+  URL: { marginTop: 10, alignSelf: "center" },
+  returnButton: {
+    position: "absolute",
+    marginTop: 40
+  }
 });

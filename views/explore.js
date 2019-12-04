@@ -3,19 +3,10 @@ import { StyleSheet, Text, View, TouchableOpacity, Button } from "react-native";
 import Recipe from "../components/recipe";
 
 export default class Explore extends Component {
-  constructor(props) {
-    super(props);
-    this.menu = this.menu.bind(this);
-  }
-
-  menu() {
-    return <Menu />;
-  }
-
   render() {
     return (
       <View style={styles.container}>
-        <Recipe />
+
       </View>
     );
   }
