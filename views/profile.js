@@ -25,36 +25,43 @@ class Profile extends Component {
       <ScrollView>
         {auth.uid ? (
           <View style={styles.container}>
-            {recipes ? (
-              <View>
-                <View style={{ alignItems: "center" }}>
-                  <Text style={Typography.FONT_H3_GREEN}>Delish Dish</Text>
-                  <Image
-                    source={{ uri: profile.profileImage }}
-                    style={styles.image}
-                  />
-                  <Text style={Typography.FONT_H2_BLACK}>
-                    {profile.name + " " + profile.surname}
+            <View>
+              <View style={{ alignItems: "center" }}>
+                <Text style={Typography.FONT_H3_GREEN}>Delish Dish</Text>
+                <Image
+                  source={{ uri: profile.profileImage }}
+                  style={styles.image}
+                />
+                <Text style={Typography.FONT_H2_BLACK}>
+                  {profile.name + " " + profile.surname}
+                </Text>
+                <Text
+                  style={[
+                    Typography.FONT_REGULAR_GREY_THIN,
+                    { marginTop: 5, marginBottom: 20 }
+                  ]}
+                >
+                  {profile.email}
+                </Text>
+                <TouchableOpacity onPress={() => this.props.signOut()}>
+                  <Text style={[Typography.FONT_REGULAR_BLACK, styles.logout]}>
+                    Log out
                   </Text>
-                  <Text style={[Typography.FONT_REGULAR_GREY, { marginTop: 5, marginBottom: 20 }]}>
-                    {profile.email}
-                  </Text>
-                  <TouchableOpacity onPress={() => this.props.signOut()}>
-                    <Text style={[Typography.FONT_REGULAR_BLACK, styles.logout]}>Log out</Text>
-                  </TouchableOpacity>
-                </View>
-                <View style={styles.text1}>
-                  <Text style={Typography.FONT_H1_BLACK}>Your </Text>
-                  <Text style={Typography.FONT_H1_GREEN}>Recipes</Text>
-                </View>
-                <RecipesView recipes={recipes} navigation={navigation} />
+                </TouchableOpacity>
               </View>
+              <View style={styles.text1}>
+                <Text style={Typography.FONT_H1_BLACK}>Your </Text>
+                <Text style={Typography.FONT_H1_GREEN}>Recipes</Text>
+              </View>
+            </View>
+            {recipes ? (
+              <RecipesView recipes={recipes} navigation={navigation} />
             ) : (
               <ActivityIndicator size="small" color="#000000" />
             )}
           </View>
         ) : (
-          <LoginScreen style={styles.container}/>
+          <LoginScreen style={styles.container} />
         )}
       </ScrollView>
     );
@@ -95,7 +102,7 @@ export default compose(
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#fff",
-    alignItems: "center",
+    marginLeft: 17,
     flexGrow: 1,
     marginTop: 50,
     marginBottom: 20
@@ -107,5 +114,5 @@ const styles = StyleSheet.create({
     marginVertical: 15
   },
   text1: { flexDirection: "row", marginBottom: 15, marginTop: 20 },
-  logout: {textAlign: "center", textDecorationLine: "underline"}
+  logout: { textAlign: "center", textDecorationLine: "underline" }
 });

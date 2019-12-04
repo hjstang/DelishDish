@@ -19,28 +19,26 @@ class Favorites extends Component {
     console.log(auth.uid);
 
     return (
-      <ScrollView >
+      <ScrollView>
         {auth.uid ? (
           <View style={styles.container}>
-            {favorites ? (
-              <View>
-                <Text
-                  style={[Typography.FONT_H3_GREEN, { alignSelf: "center" }]}
-                >
-                  Delish Dish
-                </Text>
-                <View style={{ flexDirection: "row", marginVertical: 15 }}>
-                  <Text style={Typography.FONT_H1_BLACK}>Your </Text>
-                  <Text style={Typography.FONT_H1_GREEN}>Favorites</Text>
-                </View>
-                <RecipesView recipes={favorites} navigation={navigation} />
+            <View>
+              <Text style={[Typography.FONT_H3_GREEN, { alignSelf: "center" }]}>
+                Delish Dish
+              </Text>
+              <View style={{ flexDirection: "row", marginVertical: 15 }}>
+                <Text style={Typography.FONT_H1_BLACK}>Your </Text>
+                <Text style={Typography.FONT_H1_GREEN}>Favorites</Text>
               </View>
+            </View>
+            {favorites ? (
+              <RecipesView recipes={favorites} navigation={navigation} />
             ) : (
               <ActivityIndicator size="small" color="#000000" />
             )}
           </View>
         ) : (
-          <LoginScreen/>
+          <LoginScreen />
         )}
       </ScrollView>
     );
@@ -76,7 +74,7 @@ export default compose(
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#fff",
-    alignItems: "center",
+    marginLeft: 17,
     flexGrow: 1,
     marginTop: 50,
     marginBottom: 20
