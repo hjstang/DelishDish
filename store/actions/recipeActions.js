@@ -19,3 +19,36 @@ export const createRecipe = recipe => {
       });
   };
 };
+
+export const deleteRecipe = recipeId => {
+  return (dispatch, getState, getFirebase) => {
+    const firestore = getFirebase().firestore();
+
+    firestore
+      .collection("recipes")
+      .doc(recipeId)
+      .delete()
+      .then(() => {
+        dispatch({ type: "DELETE_RECIPE", recipeId });
+      })
+      .catch(err => {
+        dispatch({ type: "DELETE_RECIPE_ERROR", err });
+      });
+  };
+};
+
+export const editRecipe = (recipeId, recipeChanges) => {
+  return (dispatch, getState, getFirebase) => {
+    const firestore = getFirebase().firestore();
+    const ref = firestore.collection("recipes").doc(recipeId);
+
+    ref
+      .update(recipeChanges)
+      .then(() => {
+        dispatch({ type: "EDIT_RECIPE", recipeId });
+      })
+      .catch(err => {
+        dispatch({ type: "EDIT_RECIPE_ERROR", err });
+      });
+  };
+};

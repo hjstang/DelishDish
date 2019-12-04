@@ -5,14 +5,40 @@ import {
   View,
   ScrollView,
   Image,
-  Linking
+  Linking,
+  Button
 } from "react-native";
 import Tag from "./tag";
 import Ingredient from "./ingredient";
 import * as Typography from "../styles/typography";
+import {
+  createRecipe,
+  deleteRecipe,
+  editRecipe
+} from "../store/actions/recipeActions";
+import { connect } from "react-redux";
 import ReturnButton from "../components/returnButton";
 
-export default class Recipe extends Component {
+class Recipe extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      imageURL: "",
+      title: " Blue Cheese Burger",
+      id: "",
+      difficulty: "Easy",
+      servings: 0,
+      ingredients: [],
+      description:
+        "This is the description of the Blue Cheese Burger. It is supereasy to make",
+      cuisine: "",
+      dishTypes: [],
+      healthTypes: [],
+      favorited: false,
+      sourceURL: ""
+    };
+  }
+
   render() {
     const { navigation } = this.props;
     const recipe = navigation.state.params.recipe.item;
@@ -87,6 +113,16 @@ export default class Recipe extends Component {
     );
   }
 }
+
+const mapDispatchToProps = dispatch => {
+  return {
+    deleteRecipe: recipeId => dispatch(deleteRecipe(recipeId)),
+    editRecipe: (recipeId, recipeChanges) =>
+      dispatch(editRecipe(recipeId, recipeChanges))
+  };
+};
+
+export default connect(null, mapDispatchToProps)(Recipe);
 
 const styles = StyleSheet.create({
   container: {
