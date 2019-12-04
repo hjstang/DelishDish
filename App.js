@@ -16,7 +16,9 @@ import { createFirestoreInstance } from "redux-firestore";
 import { ReactReduxFirebaseProvider, getFirebase } from "react-redux-firebase";
 import firebaseConfig from "./backend/firebaseConfig";
 import * as Font from "expo-font";
+import Recipe from "./components/recipe";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
+import Icon from "react-native-vector-icons/MaterialIcons";
 
 console.disableYellowBox = true;
 
@@ -42,60 +44,68 @@ const SearchStack = createStackNavigator(
   }
 );
 
+const FavoritesStack = createStackNavigator(
+    {
+      Favorites: FavoritesScreen,
+      Recipe: Recipe,
+    },
+    {
+      initialRouteName: "Favorites",
+      header: null,
+      headerMode: "none"
+    }
+);
+
+const ProfileStack = createStackNavigator(
+    {
+        Profile: ProfileScreen,
+        Recipe: Recipe
+    } ,{
+        initialRouteName: "Profile",
+        header: null,
+        headerMode: "none"
+    }
+);
+
 const bottomTabNavigator = createBottomTabNavigator(
   {
     Explore: {
       screen: ExploreScreen,
       navigationOptions: {
-        tabBarIcon: ({ activeTintColor }) => (
-          <Image
-            source={require("./assets/menu/explore.png")}
-            color={activeTintColor}
-          />
+        tabBarIcon: ({ tintColor }) => (
+            <Icon name={"restaurant"} size={30} color={tintColor} />
         )
       }
     },
     Search: {
       screen: SearchStack,
       navigationOptions: {
-        tabBarIcon: ({ activeTintColor }) => (
-          <Image
-            source={require("./assets/menu/search.png")}
-            color={activeTintColor}
-          />
+        tabBarIcon: ({ tintColor }) => (
+            <Icon name={"search"} size={30} color={tintColor} />
         )
       }
     },
     AddRecipe: {
       screen: AddRecipeScreen,
       navigationOptions: {
-        tabBarIcon: ({ activeTintColor }) => (
-          <Image
-            source={require("./assets/menu/add.png")}
-            color={activeTintColor}
-          />
+        tabBarIcon: ({ tintColor }) => (
+            <Icon name={"add-circle-outline"} size={30} color={tintColor} />
         )
       }
     },
     Favorites: {
-      screen: FavoritesScreen,
+      screen: FavoritesStack,
       navigationOptions: {
-        tabBarIcon: ({ activeTintColor }) => (
-          <Image
-            source={require("./assets/menu/favorite-empty.png")}
-            color={activeTintColor}
-          />
+        tabBarIcon: ({ tintColor }) => (
+            <Icon name={"favorite-border"} size={30} color={tintColor} />
         )
       }
     },
     Profile: {
-      screen: ProfileScreen,
+      screen: ProfileStack,
       navigationOptions: {
-        tabBarIcon: ({ activeTintColor }) => (
-          <Image
-            source={require("./assets/menu/profile.png")}
-            color={activeTintColor}
-          />
+        tabBarIcon: ({ tintColor }) => (
+            <Icon name={"person"} size={30} color={tintColor} />
         )
       }
     }
@@ -103,7 +113,7 @@ const bottomTabNavigator = createBottomTabNavigator(
   {
     initialRouteName: "Explore",
     tabBarOptions: {
-      activeTintColor: "blue",
+      activeTintColor: "#81B687",
       height: 79
     }
   }

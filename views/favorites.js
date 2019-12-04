@@ -1,20 +1,38 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, ActivityIndicator } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ActivityIndicator,
+  ScrollView
+} from "react-native";
 import { connect } from "react-redux";
 import LoginScreen from "../components/LoginScreen";
 import { compose } from "redux";
 import { firestoreConnect } from "react-redux-firebase";
+import RecipesView from "../components/recipesView";
+import * as Typography from "../styles/typography";
 
 class Favorites extends Component {
   render() {
-    const { auth, favorites } = this.props;
+    const { auth, favorites, navigation } = this.props;
+    console.log(auth.uid);
+
     return (
-      <View style={styles.container}>
+      <ScrollView>
         {auth.uid ? (
-          <View>
-            <Text>User logged in</Text>
+          <View style={styles.container}>
+            <View>
+              <Text style={[Typography.FONT_H3_GREEN, { alignSelf: "center" }]}>
+                Delish Dish
+              </Text>
+              <View style={{ flexDirection: "row", marginVertical: 15 }}>
+                <Text style={Typography.FONT_H1_BLACK}>Your </Text>
+                <Text style={Typography.FONT_H1_GREEN}>Favorites</Text>
+              </View>
+            </View>
             {favorites ? (
-              favorites.map(recipe => <Text>{recipe.title}</Text>)
+              <RecipesView recipes={favorites} navigation={navigation} />
             ) : (
               <ActivityIndicator size="small" color="#000000" />
             )}
@@ -22,7 +40,7 @@ class Favorites extends Component {
         ) : (
           <LoginScreen />
         )}
-      </View>
+      </ScrollView>
     );
   }
 }
@@ -56,8 +74,9 @@ export default compose(
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-    flex: 1
+    marginLeft: 17,
+    flexGrow: 1,
+    marginTop: 50,
+    marginBottom: 20
   }
 });
