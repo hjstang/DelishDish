@@ -1,9 +1,12 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, TextInput, Keyboard } from "react-native";
 import LoginScreen from "../components/LoginScreen";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { firestoreConnect } from "react-redux-firebase";
+import * as Typography from "../styles/typography";
+import * as Colors from "../styles/colors";
+import RecipesView from "../components/recipesView";
 
 function searchByMealType(recipes, mealType) {
   if (!recipes) {
@@ -31,10 +34,11 @@ function searchByDishType(recipes, dishType) {
   return resultRecipes;
 }
 
-function searchBySearchWord(recipes, searchWord) {
+function searchBySearchWord(recipes, searchWordOriginal) {
   if (!recipes) {
     return [];
   }
+  const searchWord = searchWordOriginal.toLowerCase();
   const resultRecipes = [];
   recipes.map(recipe => {
     if (recipe.title.toLowerCase().includes(searchWord)) {
@@ -63,16 +67,65 @@ function searchBySearchWord(recipes, searchWord) {
       resultRecipes.push(recipe);
     }
   });
+
+  if (resultRecipes.length < 1) {
+    return null
+  }
   return resultRecipes;
 }
 
 class Search extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      searchWord: "",
+      searchResult: null,
+      searched: false
+    };
+  }
+
+  updateSearchText = searchWord => {
+    this.setState({searchWord})
+  };
+
+  getSearchResult() {
+    Keyboard.dismiss();
+    const searchWord = this.state.searchWord;
+
+    if (searchWord == "") {
+      this.setState({searched: false, searchResult: null});
+    } else {
+      const searchResult = searchBySearchWord(this.props.recipes, searchWord);
+      this.setState({searched: true, searchResult})
+    }
+  }
+
   render() {
-    const { auth, recipes } = this.props;
+    const { auth, recipes, navigation } = this.props;
+    console.log(this.state.searchResult);
     return (
       <View style={styles.container}>
         {auth.uid ? (
-            <Text>User logged in</Text>
+          <View>
+            <Text style={[Typography.FONT_H3_GREEN, { alignSelf: "center" }]}>
+              Delish Dish
+            </Text>
+            <View style={{width: 340}}>
+              <View style={{ marginVertical: 15 }}>
+                <Text style={Typography.FONT_H1_BLACK}>Your Cookbook </Text>
+              </View>
+              <TextInput
+                style={[Typography.FONT_INPUT, styles.textInput]}
+                placeholder="Search.."
+                onChangeText={this.updateSearchText}
+                value={this.state.searchWord}
+                onSubmitEditing={() => this.getSearchResult()}
+              />
+              {this.state.searchResult ? (
+                  <RecipesView recipes={this.state.searchResult} navigation={navigation} />
+              ) : (this.state.searched ? <Text>No result</Text> : <Text>Her skal div vises</Text>)}
+            </View>
+          </View>
         ) : (
           <LoginScreen />
         )}
@@ -107,8 +160,15 @@ export default compose(
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-    flex: 1
+    marginLeft: 17,
+    flexGrow: 1,
+    marginTop: 50,
+    marginBottom: 20
+  },
+  textInput: {
+    height: 42,
+    backgroundColor: Colors.LIGHTGREY,
+    borderRadius: 5,
+    paddingLeft: 10,
   }
 });
