@@ -35,7 +35,8 @@ const rrfConfig = {
 
 const SearchStack = createStackNavigator(
   {
-    Search: SearchScreen
+    Search: SearchScreen,
+    Recipe: Recipe
   },
   {
     initialRouteName: "Search",
@@ -45,26 +46,27 @@ const SearchStack = createStackNavigator(
 );
 
 const FavoritesStack = createStackNavigator(
-    {
-      Favorites: FavoritesScreen,
-      Recipe: Recipe,
-    },
-    {
-      initialRouteName: "Favorites",
-      header: null,
-      headerMode: "none"
-    }
+  {
+    Favorites: FavoritesScreen,
+    Recipe: Recipe
+  },
+  {
+    initialRouteName: "Favorites",
+    header: null,
+    headerMode: "none"
+  }
 );
 
 const ProfileStack = createStackNavigator(
-    {
-        Profile: ProfileScreen,
-        Recipe: Recipe
-    } ,{
-        initialRouteName: "Profile",
-        header: null,
-        headerMode: "none"
-    }
+  {
+    Profile: ProfileScreen,
+    Recipe: Recipe
+  },
+  {
+    initialRouteName: "Profile",
+    header: null,
+    headerMode: "none"
+  }
 );
 
 const bottomTabNavigator = createBottomTabNavigator(
@@ -73,7 +75,7 @@ const bottomTabNavigator = createBottomTabNavigator(
       screen: ExploreScreen,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
-            <Icon name={"restaurant"} size={30} color={tintColor} />
+          <Icon name={"restaurant"} size={30} color={tintColor} />
         )
       }
     },
@@ -81,7 +83,7 @@ const bottomTabNavigator = createBottomTabNavigator(
       screen: SearchStack,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
-            <Icon name={"search"} size={30} color={tintColor} />
+          <Icon name={"search"} size={30} color={tintColor} />
         )
       }
     },
@@ -89,7 +91,7 @@ const bottomTabNavigator = createBottomTabNavigator(
       screen: AddRecipeScreen,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
-            <Icon name={"add-circle-outline"} size={30} color={tintColor} />
+          <Icon name={"add-circle-outline"} size={30} color={tintColor} />
         )
       }
     },
@@ -97,7 +99,7 @@ const bottomTabNavigator = createBottomTabNavigator(
       screen: FavoritesStack,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
-            <Icon name={"favorite-border"} size={30} color={tintColor} />
+          <Icon name={"favorite-border"} size={30} color={tintColor} />
         )
       }
     },
@@ -105,7 +107,7 @@ const bottomTabNavigator = createBottomTabNavigator(
       screen: ProfileStack,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
-            <Icon name={"person"} size={30} color={tintColor} />
+          <Icon name={"person"} size={30} color={tintColor} />
         )
       }
     }
