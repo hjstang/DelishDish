@@ -7,6 +7,7 @@ import { firestoreConnect } from "react-redux-firebase";
 import * as Typography from "../styles/typography";
 import * as Colors from "../styles/colors";
 import RecipesView from "../components/recipesView";
+import { TouchableWithoutFeedback } from "react-native-web";
 
 function searchByMealType(recipes, mealType) {
   if (!recipes) {
@@ -68,8 +69,8 @@ function searchBySearchWord(recipes, searchWordOriginal) {
     }
   });
 
-  if (resultRecipes.length < 1) {
-    return null
+  if (resultRecipes.length < 1) {
+    return null;
   }
   return resultRecipes;
 }
@@ -85,51 +86,59 @@ class Search extends Component {
   }
 
   updateSearchText = searchWord => {
-    this.setState({searchWord})
+    this.setState({ searchWord });
   };
 
   getSearchResult() {
     Keyboard.dismiss();
     const searchWord = this.state.searchWord;
 
-    if (searchWord == "") {
-      this.setState({searched: false, searchResult: null});
+    if (searchWord == "") {
+      this.setState({ searched: false, searchResult: null });
     } else {
       const searchResult = searchBySearchWord(this.props.recipes, searchWord);
-      this.setState({searched: true, searchResult})
+      this.setState({ searched: true, searchResult });
     }
   }
 
   render() {
     const { auth, recipes, navigation } = this.props;
-    console.log(this.state.searchResult);
     return (
-      <View style={styles.container}>
-        {auth.uid ? (
-          <View>
-            <Text style={[Typography.FONT_H3_GREEN, { alignSelf: "center" }]}>
-              Delish Dish
-            </Text>
-            <View style={{width: 340}}>
-              <View style={{ marginVertical: 15 }}>
-                <Text style={Typography.FONT_H1_BLACK}>Your Cookbook </Text>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.container}>
+          {auth.uid ? (
+            <View>
+              <Text style={[Typography.FONT_H3_GREEN, { alignSelf: "center" }]}>
+                Delish Dish
+              </Text>
+              <View style={{ width: 340 }}>
+                <View style={{ marginVertical: 15 }}>
+                  <Text style={Typography.FONT_H1_BLACK}>Your Cookbook </Text>
+                </View>
+                <TextInput
+                  style={[Typography.FONT_INPUT, styles.textInput]}
+                  placeholder="Search.."
+                  onChangeText={this.updateSearchText}
+                  value={this.state.searchWord}
+                  onSubmitEditing={() => this.getSearchResult()}
+                />
+                {this.state.searchResult ? (
+                  <RecipesView
+                    recipes={this.state.searchResult}
+                    navigation={navigation}
+                  />
+                ) : this.state.searched ? (
+                  <Text>No result</Text>
+                ) : (
+                  <Text>Show categories</Text>
+                )}
               </View>
-              <TextInput
-                style={[Typography.FONT_INPUT, styles.textInput]}
-                placeholder="Search.."
-                onChangeText={this.updateSearchText}
-                value={this.state.searchWord}
-                onSubmitEditing={() => this.getSearchResult()}
-              />
-              {this.state.searchResult ? (
-                  <RecipesView recipes={this.state.searchResult} navigation={navigation} />
-              ) : (this.state.searched ? <Text>No result</Text> : <Text>Her skal div vises</Text>)}
             </View>
-          </View>
-        ) : (
-          <LoginScreen />
-        )}
-      </View>
+          ) : (
+            <LoginScreen />
+          )}
+        </View>
+      </TouchableWithoutFeedback>
     );
   }
 }
@@ -169,6 +178,6 @@ const styles = StyleSheet.create({
     height: 42,
     backgroundColor: Colors.LIGHTGREY,
     borderRadius: 5,
-    paddingLeft: 10,
+    paddingLeft: 10
   }
 });
