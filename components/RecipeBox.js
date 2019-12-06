@@ -8,7 +8,7 @@ export default class RecipeBox extends Component {
 
     return (
         <View>
-          <Image style={styles.image} source={require("../assets/burger.png")} />
+          <Image style={styles.image} source={{uri: recipe.imageUrl}} />
           <Text style={[Typography.FONT_SMALL_BLACK, styles.text]}> {recipe.title} </Text>
         </View>
     );

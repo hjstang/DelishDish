@@ -154,3 +154,10 @@ export const FONT_SMALL_GREEN = {
     fontSize: FONT_SIZE_12,
     color: Colors.GREEN
 };
+
+export const FONT_REGULAR_WHITE = {
+    fontFamily: FONT_FAMILY,
+    fontWeight: FONT_WEIGHT_BOLD,
+    fontSize: FONT_SIZE_24,
+    color: Colors.WHITE
+}

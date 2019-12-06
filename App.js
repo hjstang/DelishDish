@@ -17,6 +17,7 @@ import { ReactReduxFirebaseProvider, getFirebase } from "react-redux-firebase";
 import firebaseConfig from "./backend/firebaseConfig";
 import * as Font from "expo-font";
 import Recipe from "./components/recipe";
+import ApiRecipe from "./components/ApiRecipe";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import Icon from "react-native-vector-icons/MaterialIcons";
 
@@ -32,6 +33,18 @@ const rrfConfig = {
   useFirestoreForProfile: true,
   attachAuthIsReady: true
 };
+
+const ExploreStack = createStackNavigator(
+  {
+    Explore: ExploreScreen,
+    ApiRecipe: ApiRecipe
+  },
+  {
+    initialRouteName: "Explore",
+    header: null,
+    headerMode: "none"
+  }
+);
 
 const SearchStack = createStackNavigator(
   {
@@ -72,7 +85,7 @@ const ProfileStack = createStackNavigator(
 const bottomTabNavigator = createBottomTabNavigator(
   {
     Explore: {
-      screen: ExploreScreen,
+      screen: ExploreStack,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
           <Icon name={"restaurant"} size={30} color={tintColor} />

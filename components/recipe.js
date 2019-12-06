@@ -23,7 +23,7 @@ class Recipe extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      imageURL: "",
+      imageUrl: "",
       title: " Blue Cheese Burger",
       id: "",
       difficulty: "Easy",
@@ -35,7 +35,7 @@ class Recipe extends Component {
       dishTypes: [],
       healthTypes: [],
       favorited: false,
-      sourceURL: ""
+      sourceUrl: ""
     };
   }
 
@@ -99,7 +99,7 @@ class Recipe extends Component {
                 <Tag text={"Burger"} type={"#FFB6C3"} />
               </View>
               <Text
-                style={[Typography.FONT_REGULAR_DARKGREY_BOLD, styles.URL]}
+                style={[Typography.FONT_REGULAR_DARKGREY_BOLD, styles.url]}
                 onPress={() => Linking.openURL(recipe.sourceUrl)}
               >
                 {recipe.sourceUrl}
@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
   ingredients: { marginTop: 70, marginBottom: 10 },
   description: {},
   tags: { marginTop: 10 },
-  URL: { marginTop: 10, alignSelf: "center" },
+  url: { marginTop: 10, alignSelf: "center" },
   returnButton: {
     position: "absolute",
     marginTop: 40
