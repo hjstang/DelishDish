@@ -8,10 +8,7 @@ import {
 } from "react-native";
 import RecipeBox from "./RecipeBox";
 import * as Colors from "../styles/colors";
-
-function getBoxWidth(screenWidth) {
-  return (screenWidth * 0.9 - 20) / 2;
-}
+import { getBoxWidth } from "../utils/sizing";
 
 export default class RecipesView extends Component {
   render() {
@@ -29,7 +26,6 @@ export default class RecipesView extends Component {
                 activeOpacity={0.1}
                 onPress={() => {
                   navigation.navigate("Recipe", { recipe: { item } });
-                  console.log(item.title);
                 }}
               >
                 <RecipeBox recipe={item} />

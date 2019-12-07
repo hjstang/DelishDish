@@ -12,6 +12,7 @@ import Tag from "./Tag";
 import * as Typography from "../styles/typography";
 import ReturnButton from "./ReturnButton";
 import * as Colors from "../styles/colors";
+import { getScreenWidth } from "../utils/sizing";
 
 class ApiRecipe extends Component {
   constructor(props) {
@@ -43,7 +44,7 @@ class ApiRecipe extends Component {
       return <Tag text={type} type={"#FFB6C3"} />;
     });
 
-    const screenWidth = Math.round(Dimensions.get("window").width);
+    const screenWidth = getScreenWidth();
 
     return (
       <View style={styles.container}>

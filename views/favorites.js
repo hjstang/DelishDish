@@ -5,7 +5,6 @@ import {
   View,
   ActivityIndicator,
   ScrollView,
-  Dimensions
 } from "react-native";
 import { connect } from "react-redux";
 import LoginScreen from "../components/LoginScreen";
@@ -13,11 +12,12 @@ import { compose } from "redux";
 import { firestoreConnect } from "react-redux-firebase";
 import RecipesView from "../components/RecipesView";
 import * as Typography from "../styles/typography";
+import { getScreenWidth } from "../utils/sizing";
 
 class Favorites extends Component {
   render() {
     const { auth, favorites, navigation } = this.props;
-    const screenWidth = Math.round(Dimensions.get("window").width);
+    const screenWidth = getScreenWidth();
 
     return (
       <ScrollView>
@@ -26,8 +26,14 @@ class Favorites extends Component {
             <Text style={[Typography.FONT_H3_GREEN, { alignSelf: "center" }]}>
               Delish Dish
             </Text>
-            <View style={{width: screenWidth * 0.9}}>
-              <View style={{ flexDirection: "row", marginVertical: 15, marginLeft: 5 }}>
+            <View style={{ width: screenWidth * 0.9 }}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  marginVertical: 15,
+                  marginLeft: 5
+                }}
+              >
                 <Text style={Typography.FONT_H1_BLACK}>Your </Text>
                 <Text style={Typography.FONT_H1_GREEN}>Favorites</Text>
               </View>
