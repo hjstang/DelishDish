@@ -4,7 +4,8 @@ import {
   Text,
   View,
   ActivityIndicator,
-  ScrollView, Dimensions
+  ScrollView,
+  Dimensions
 } from "react-native";
 import { connect } from "react-redux";
 import LoginScreen from "../components/LoginScreen";
@@ -32,7 +33,11 @@ class Favorites extends Component {
               </View>
             </View>
             {favorites ? (
-              <RecipesView recipes={favorites} navigation={navigation} screenWidth={screenWidth} />
+              <RecipesView
+                recipes={favorites}
+                navigation={navigation}
+                screenWidth={screenWidth}
+              />
             ) : (
               <ActivityIndicator size="small" color="#000000" />
             )}

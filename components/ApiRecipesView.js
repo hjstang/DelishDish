@@ -23,13 +23,9 @@ export default class ApiRecipesView extends Component {
           <FlatList
             data={recipes}
             numColumns={2}
-            renderItem={({ item, index }) => (
+            renderItem={({ item }) => (
               <TouchableOpacity
-                style={[
-                  styles.button,
-                  { width: getBoxWidth(screenWidth) },
-                  //index % 2 == 0 ? { marginRight: 5 } : { marginLeft: 5 }
-                ]}
+                style={[styles.button, { width: getBoxWidth(screenWidth) }]}
                 activeOpacity={0.1}
                 onPress={() => {
                   navigation.navigate("ApiRecipe", { recipe: { item } });

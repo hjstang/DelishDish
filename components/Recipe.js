@@ -5,19 +5,14 @@ import {
   View,
   ScrollView,
   Image,
-  Linking,
-  Button
+  Linking
 } from "react-native";
-import Tag from "./tag";
-import Ingredient from "./ingredient";
+import Tag from "./Tag";
+import Ingredient from "./Ingredient";
 import * as Typography from "../styles/typography";
-import {
-  createRecipe,
-  deleteRecipe,
-  editRecipe
-} from "../store/actions/recipeActions";
+import { deleteRecipe, editRecipe } from "../store/actions/recipeActions";
 import { connect } from "react-redux";
-import ReturnButton from "../components/returnButton";
+import ReturnButton from "./ReturnButton";
 
 class Recipe extends Component {
   constructor(props) {

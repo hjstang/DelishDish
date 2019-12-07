@@ -4,25 +4,18 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Button,
   TextInput,
   Keyboard,
   FlatList,
-  ImageBackground,
   Dimensions,
   ActivityIndicator
 } from "react-native";
-import Recipe from "../components/Recipe";
 import config from "../backend/apiConfig";
 import * as Typography from "../styles/typography";
 import * as Colors from "../styles/colors";
 import { TouchableWithoutFeedback } from "react-native-web";
-import RecipesView from "../components/RecipesView";
-import ApiRecipe from "../components/ApiRecipe";
 import ApiRecipesView from "../components/ApiRecipesView";
 import CategoryBox from "../components/CategoryBox";
-import CategoriesView from "../components/CategoriesView";
-import { Asset } from "expo-asset";
 
 function getBoxWidth(screenWidth) {
   return (screenWidth * 0.9 - 20) / 2;
@@ -43,16 +36,6 @@ export default class Explore extends Component {
     this.setState({ searchWord });
   };
 
-  async getRecipeByMealType(mealType) {
-    const response = await fetch(
-      `https://api.edamam.com/search?q=dinner&app_id=${config.appId}&app_key=${config.appKey}&to=5&mealtype=${mealType}`
-    );
-    const responseJson = await response.json();
-    responseJson.hits.map(hit => {
-      console.log(hit.recipe.label);
-    });
-  }
-
   async getApiData(searchWord) {
     const response = await fetch(
       `https://api.edamam.com/search?q=${searchWord}&app_id=${config.appId}&app_key=${config.appKey}&to=5`
@@ -62,15 +45,6 @@ export default class Explore extends Component {
       const recipes = [];
       responseJson.hits.map(hit => {
         const apiRecipe = hit.recipe;
-        /*const ingredientsList = [];
-        apiRecipe.ingredients.map(ingredient => {
-          const obj = {
-            name: ingredient.food,
-            quantity: ingredient.quantity,
-            measure: ingredient.measure
-          };
-          ingredientsList.push(obj);
-        });*/
         const recipe = {
           id: apiRecipe.uri,
           title: apiRecipe.label,
@@ -167,7 +141,7 @@ export default class Explore extends Component {
                     <TouchableOpacity
                       style={[
                         styles.button,
-                        { width: getBoxWidth(screenWidth) },
+                        { width: getBoxWidth(screenWidth) }
                         //index % 2 == 0 ? { marginRight: 5 } : { marginLeft: 5 }
                       ]}
                       activeOpacity={0.1}

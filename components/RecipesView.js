@@ -23,13 +23,9 @@ export default class RecipesView extends Component {
           <FlatList
             data={recipes}
             numColumns={2}
-            renderItem={({ item, index }) => (
+            renderItem={({ item }) => (
               <TouchableOpacity
-                style={[
-                  styles.button,
-                  { width: getBoxWidth(screenWidth) },
-                  index % 2 == 0 ? { marginRight: 5 } : { marginLeft: 5 }
-                ]}
+                style={[styles.button, { width: getBoxWidth(screenWidth) }]}
                 activeOpacity={0.1}
                 onPress={() => {
                   navigation.navigate("Recipe", { recipe: { item } });
@@ -52,7 +48,7 @@ export default class RecipesView extends Component {
 const styles = StyleSheet.create({
   button: {
     height: 138,
-    marginVertical: 5,
+    margin: 5,
     shadowColor: Colors.BLACK,
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
