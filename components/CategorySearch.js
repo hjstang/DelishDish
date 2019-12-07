@@ -14,6 +14,7 @@ import * as Colors from "../styles/colors";
 import RecipesView from "./RecipesView";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { searchBySearchWord } from "../utils/searchFunctions";
+import { getScreenWidth } from "../utils/sizing";
 
 class CategorySearch extends Component {
   constructor(props) {
@@ -44,7 +45,7 @@ class CategorySearch extends Component {
 
   render() {
     const { navigation } = this.props;
-    const screenWidth = Math.round(Dimensions.get("window").width);
+    const screenWidth = getScreenWidth();
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
