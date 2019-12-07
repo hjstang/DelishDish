@@ -22,6 +22,7 @@ import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { Asset } from "expo-asset";
 import { AppLoading } from "expo";
+import CategorySearch from "./components/CategorySearch";
 
 console.disableYellowBox = true;
 
@@ -51,7 +52,8 @@ const ExploreStack = createStackNavigator(
 const SearchStack = createStackNavigator(
   {
     Search: SearchScreen,
-    Recipe: Recipe
+    Recipe: Recipe,
+    CategorySearch: CategorySearch
   },
   {
     initialRouteName: "Search",
@@ -163,7 +165,13 @@ export default class App extends Component {
       require("./assets/images/chicken.jpg"),
       require("./assets/images/soup.jpg"),
       require("./assets/images/fish.jpg"),
-      require("./assets/images/wok.jpg")
+      require("./assets/images/wok.jpg"),
+      require("./assets/images/breakfast.jpg"),
+      require("./assets/images/lunch.jpg"),
+      require("./assets/images/dinner.jpg"),
+      require("./assets/images/snack.jpg"),
+      require("./assets/images/dessert.jpg"),
+      require("./assets/images/baking.jpg")
     ]);
 
     const fontAssets = cacheFonts([

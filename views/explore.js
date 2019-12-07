@@ -7,7 +7,6 @@ import {
   TextInput,
   Keyboard,
   FlatList,
-  Dimensions,
   ActivityIndicator
 } from "react-native";
 import config from "../backend/apiConfig";
@@ -16,10 +15,7 @@ import * as Colors from "../styles/colors";
 import { TouchableWithoutFeedback } from "react-native-web";
 import ApiRecipesView from "../components/ApiRecipesView";
 import CategoryBox from "../components/CategoryBox";
-
-function getBoxWidth(screenWidth) {
-  return (screenWidth * 0.9 - 20) / 2;
-}
+import { getBoxWidth, getScreenWidth } from "../utils/sizing";
 
 export default class Explore extends Component {
   constructor(props) {
@@ -102,9 +98,8 @@ export default class Explore extends Component {
 
   render() {
     const { navigation } = this.props;
-    const screenWidth = Math.round(Dimensions.get("window").width);
-    //const dinnerre = this.getRecipeByMealType("Dinner");
-    //const test = this.getSearchResult();
+    const screenWidth = getScreenWidth();
+
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
@@ -137,12 +132,11 @@ export default class Explore extends Component {
                 <FlatList
                   data={this.categories}
                   numColumns={2}
-                  renderItem={({ item, index }) => (
+                  renderItem={({ item }) => (
                     <TouchableOpacity
                       style={[
                         styles.button,
                         { width: getBoxWidth(screenWidth) }
-                        //index % 2 == 0 ? { marginRight: 5 } : { marginLeft: 5 }
                       ]}
                       activeOpacity={0.1}
                       onPress={() => {
@@ -187,9 +181,7 @@ const styles = StyleSheet.create({
   },
   button: {
     height: 138,
-    //width: 152,
     margin: 5,
-    //marginVertical: 5,
     shadowColor: Colors.BLACK,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.5,
