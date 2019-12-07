@@ -172,7 +172,7 @@ export default class Explore extends Component {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#fff",
-    marginLeft: 17,
+    alignItems: "center",
     flexGrow: 1,
     marginTop: 50,
     marginBottom: 20

@@ -10,7 +10,7 @@ import RecipeBox from "./RecipeBox";
 import * as Colors from "../styles/colors";
 
 function getBoxWidth(screenWidth) {
-  return (screenWidth * 0.9 - 10) / 2;
+  return (screenWidth * 0.9 - 20) / 2;
 }
 
 export default class RecipesView extends Component {

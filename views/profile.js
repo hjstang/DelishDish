@@ -6,7 +6,8 @@ import {
   ActivityIndicator,
   ScrollView,
   Image,
-  TouchableOpacity, Dimensions
+  TouchableOpacity,
+  Dimensions
 } from "react-native";
 import { signIn, signOut } from "../store/actions/authActions";
 import { connect } from "react-redux";
@@ -50,16 +51,22 @@ class Profile extends Component {
                   </Text>
                 </TouchableOpacity>
               </View>
+            </View>
+            <View style={{ width: screenWidth * 0.9 }}>
               <View style={styles.text1}>
                 <Text style={Typography.FONT_H1_BLACK}>Your </Text>
                 <Text style={Typography.FONT_H1_GREEN}>Recipes</Text>
               </View>
+              {recipes ? (
+                <RecipesView
+                  recipes={recipes}
+                  navigation={navigation}
+                  screenWidth={screenWidth}
+                />
+              ) : (
+                <ActivityIndicator size="small" color="#000000" />
+              )}
             </View>
-            {recipes ? (
-              <RecipesView recipes={recipes} navigation={navigation} screenWidth={screenWidth} />
-            ) : (
-              <ActivityIndicator size="small" color="#000000" />
-            )}
           </View>
         ) : (
           <LoginScreen style={styles.container} />
@@ -103,7 +110,7 @@ export default compose(
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#fff",
-    marginLeft: 17,
+    alignItems: "center",
     flexGrow: 1,
     marginTop: 50,
     marginBottom: 20
@@ -114,6 +121,11 @@ const styles = StyleSheet.create({
     borderRadius: 55,
     marginVertical: 15
   },
-  text1: { flexDirection: "row", marginBottom: 15, marginTop: 20 },
+  text1: {
+    flexDirection: "row",
+    marginBottom: 15,
+    marginTop: 20,
+    marginLeft: 5
+  },
   logout: { textAlign: "center", textDecorationLine: "underline" }
 });
