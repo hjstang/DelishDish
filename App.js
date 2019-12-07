@@ -5,6 +5,7 @@ import SearchScreen from "./views/search";
 import AddRecipeScreen from "./views/addrecipe";
 import FavoritesScreen from "./views/favorites";
 import ProfileScreen from "./views/profile";
+import AddIngredient from "./views/addIngredient";
 import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import { createStackNavigator } from "react-navigation-stack";
@@ -67,6 +68,17 @@ const ProfileStack = createStackNavigator(
     }
 );
 
+const AddRecipeStack = createStackNavigator(
+    {
+        AddRecipe: AddRecipeScreen,
+        AddIngredient:  AddIngredient
+    } ,{
+        initialRouteName: "AddRecipe",
+        header: null,
+        headerMode: "none"
+    }
+);
+
 const bottomTabNavigator = createBottomTabNavigator(
   {
     Explore: {
@@ -86,7 +98,7 @@ const bottomTabNavigator = createBottomTabNavigator(
       }
     },
     AddRecipe: {
-      screen: AddRecipeScreen,
+      screen: AddRecipeStack,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
             <Icon name={"add-circle-outline"} size={30} color={tintColor} />
