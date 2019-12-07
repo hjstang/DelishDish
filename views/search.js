@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, TextInput, Keyboard } from "react-native";
+import {StyleSheet, Text, View, TextInput, Keyboard, Dimensions} from "react-native";
 import LoginScreen from "../components/LoginScreen";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { firestoreConnect } from "react-redux-firebase";
 import * as Typography from "../styles/typography";
 import * as Colors from "../styles/colors";
-import RecipesView from "../components/recipesView";
+import RecipesView from "../components/RecipesView";
 import { TouchableWithoutFeedback } from "react-native-web";
 
 function searchByMealType(recipes, mealType) {
@@ -103,6 +103,7 @@ class Search extends Component {
 
   render() {
     const { auth, recipes, navigation } = this.props;
+    const screenWidth = Math.round(Dimensions.get("window").width);
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
@@ -111,8 +112,8 @@ class Search extends Component {
               <Text style={[Typography.FONT_H3_GREEN, { alignSelf: "center" }]}>
                 Delish Dish
               </Text>
-              <View style={{ width: 340 }}>
-                <View style={{ marginVertical: 15 }}>
+              <View style={{ width: screenWidth * 0.9 }}>
+                <View style={{ marginVertical: 15, marginLeft: 5 }}>
                   <Text style={Typography.FONT_H1_BLACK}>Your Cookbook </Text>
                 </View>
                 <TextInput
@@ -126,6 +127,7 @@ class Search extends Component {
                   <RecipesView
                     recipes={this.state.searchResult}
                     navigation={navigation}
+                    screenWidth={screenWidth}
                   />
                 ) : this.state.searched ? (
                   <Text>No result</Text>
@@ -169,13 +171,14 @@ export default compose(
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#fff",
-    marginLeft: 17,
+    alignItems: "center",
     flexGrow: 1,
     marginTop: 50,
     marginBottom: 20
   },
   textInput: {
     height: 42,
+    marginHorizontal: 5,
     backgroundColor: Colors.LIGHTGREY,
     borderRadius: 5,
     paddingLeft: 10

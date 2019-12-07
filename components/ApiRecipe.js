@@ -6,36 +6,24 @@ import {
   ScrollView,
   Image,
   Linking,
-  Button
+  Dimensions
 } from "react-native";
-import Tag from "./tag";
-import Ingredient from "./ingredient";
+import Tag from "./Tag";
 import * as Typography from "../styles/typography";
-import {
-  createRecipe,
-  deleteRecipe,
-  editRecipe
-} from "../store/actions/recipeActions";
-import { connect } from "react-redux";
-import ReturnButton from "../components/returnButton";
+import ReturnButton from "./ReturnButton";
+import * as Colors from "../styles/colors";
 
-class Recipe extends Component {
+class ApiRecipe extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      imageURL: "",
+      imageUrl: "",
       title: " Blue Cheese Burger",
       id: "",
-      difficulty: "Easy",
       servings: 0,
       ingredients: [],
-      description:
-        "This is the description of the Blue Cheese Burger. It is supereasy to make",
-      cuisine: "",
-      dishTypes: [],
       healthTypes: [],
-      favorited: false,
-      sourceURL: ""
+      sourceUrl: ""
     };
   }
 
@@ -45,13 +33,17 @@ class Recipe extends Component {
 
     const ingredientsList = recipe.ingredients.map(ingredient => {
       return (
-        <Ingredient
-          name={ingredient.name}
-          measure={ingredient.measure}
-          quantity={ingredient.quantity}
-        />
+        <View style={styles.ingredient} key={ingredient}>
+          <Text style={Typography.FONT_REGULAR_GREY}> {ingredient} </Text>
+        </View>
       );
     });
+
+    const tagList = recipe.healthTypes.map(type => {
+      return <Tag text={type} type={"#FFB6C3"} />;
+    });
+
+    const screenWidth = Math.round(Dimensions.get("window").width);
 
     return (
       <View style={styles.container}>
@@ -61,7 +53,10 @@ class Recipe extends Component {
               flexGrow: 1
             }}
           >
-            <Image source={require("../assets/burger.png")} />
+            <Image
+              style={{ width: screenWidth, height: 321 }}
+              source={{ uri: recipe.imageUrl }}
+            />
             <View style={styles.returnButton}>
               <ReturnButton navigation={navigation} />
             </View>
@@ -89,17 +84,9 @@ class Recipe extends Component {
                 <Text style={Typography.FONT_H3_BLACK_BOLD}>Ingredients</Text>
                 {ingredientsList}
               </View>
-              <View styling={styles.description}>
-                <Text style={Typography.FONT_H3_BLACK_BOLD}>Description</Text>
-                <Text style={Typography.FONT_REGULAR_BLACK}>
-                  {recipe.description}
-                </Text>
-              </View>
-              <View style={styles.tags}>
-                <Tag text={"Burger"} type={"#FFB6C3"} />
-              </View>
+              <View style={styles.tags}>{tagList}</View>
               <Text
-                style={[Typography.FONT_REGULAR_DARKGREY_BOLD, styles.URL]}
+                style={[Typography.FONT_REGULAR_DARKGREY_BOLD, styles.url]}
                 onPress={() => Linking.openURL(recipe.sourceUrl)}
               >
                 {recipe.sourceUrl}
@@ -114,15 +101,7 @@ class Recipe extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    deleteRecipe: recipeId => dispatch(deleteRecipe(recipeId)),
-    editRecipe: (recipeId, recipeChanges) =>
-      dispatch(editRecipe(recipeId, recipeChanges))
-  };
-};
-
-export default connect(null, mapDispatchToProps)(Recipe);
+export default ApiRecipe;
 
 const styles = StyleSheet.create({
   container: {
@@ -154,9 +133,16 @@ const styles = StyleSheet.create({
   ingredients: { marginTop: 70, marginBottom: 10 },
   description: {},
   tags: { marginTop: 10 },
-  URL: { marginTop: 10, alignSelf: "center" },
+  Url: { marginTop: 10, alignSelf: "center" },
   returnButton: {
     position: "absolute",
     marginTop: 40
+  },
+  ingredient: {
+    flexDirection: "row",
+    borderBottomColor: Colors.GREY,
+    borderBottomWidth: 1,
+    width: 320,
+    marginTop: 10
   }
 });

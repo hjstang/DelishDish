@@ -6,7 +6,9 @@ export default class Tag extends Component {
   render() {
     return (
       <View style={[styles.tag, { backgroundColor: this.props.type }]}>
-        <Text style={[Typography.FONT_REGULAR_WHITE_BOLD, styles.text]}>{this.props.text}</Text>
+        <Text style={[Typography.FONT_REGULAR_WHITE_BOLD, styles.text]}>
+          {this.props.text}
+        </Text>
       </View>
     );
   }
@@ -19,7 +21,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: 50,
     marginTop: 10
-  }, text: {
+  },
+  text: {
     alignSelf: "center"
   }
 });
