@@ -5,7 +5,6 @@ import * as Typography from "../styles/typography";
 export default class CategoryBox extends Component {
   render() {
     const { category } = this.props;
-    console.log(category);
     return (
       <View style={styles.container}>
         <ImageBackground style={styles.image} source={category.image}>
@@ -42,6 +41,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: 'rgba(0,0,0,0.2)'
+    backgroundColor: "rgba(0,0,0,0.2)"
   }
 });

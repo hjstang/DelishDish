@@ -6,7 +6,7 @@ import { compose } from "redux";
 import { firestoreConnect } from "react-redux-firebase";
 import * as Typography from "../styles/typography";
 import * as Colors from "../styles/colors";
-import RecipesView from "../components/recipesView";
+import RecipesView from "../components/RecipesView";
 import { TouchableWithoutFeedback } from "react-native-web";
 
 function searchByMealType(recipes, mealType) {

@@ -6,18 +6,27 @@ import {
   TouchableOpacity,
   Button,
   TextInput,
-  Keyboard, FlatList
+  Keyboard,
+  FlatList,
+  ImageBackground,
+  Dimensions,
+  ActivityIndicator
 } from "react-native";
-import Recipe from "../components/recipe";
+import Recipe from "../components/Recipe";
 import config from "../backend/apiConfig";
 import * as Typography from "../styles/typography";
 import * as Colors from "../styles/colors";
 import { TouchableWithoutFeedback } from "react-native-web";
-import RecipesView from "../components/recipesView";
+import RecipesView from "../components/RecipesView";
 import ApiRecipe from "../components/ApiRecipe";
 import ApiRecipesView from "../components/ApiRecipesView";
 import CategoryBox from "../components/CategoryBox";
 import CategoriesView from "../components/CategoriesView";
+import { Asset } from "expo-asset";
+
+function getBoxWidth(screenWidth) {
+  return (screenWidth * 0.9 - 20) / 2;
+}
 
 export default class Explore extends Component {
   constructor(props) {
@@ -25,7 +34,8 @@ export default class Explore extends Component {
     this.state = {
       searchWord: "",
       searchResult: null,
-      searched: false
+      searched: false,
+      isLoading: false
     };
   }
 
@@ -72,9 +82,13 @@ export default class Explore extends Component {
         };
         recipes.push(recipe);
       });
-      this.setState({ searchResult: recipes, searched: true });
+      this.setState({
+        searchResult: recipes,
+        searched: true,
+        isLoading: false
+      });
     } else {
-      this.setState({ searchResult: null, searched: true });
+      this.setState({ searchResult: null, searched: true, isLoading: false });
     }
   }
 
@@ -87,33 +101,34 @@ export default class Explore extends Component {
     } else {
       await this.getApiData(searchWord);
     }
-  };
+  }
 
   categories = [
     {
       title: "Salad",
-      image: require("../assets/salad.jpg")
+      image: require("../assets/images/salad.jpg")
     },
     {
       title: "Chicken",
-      image: require("../assets/salad.jpg")
+      image: require("../assets/images/chicken.jpg")
     },
     {
       title: "Soup",
-      image: require("../assets/salad.jpg")
+      image: require("../assets/images/soup.jpg")
     },
     {
       title: "Fish",
-      image: require("../assets/salad.jpg")
+      image: require("../assets/images/fish.jpg")
     },
     {
       title: "Wok",
-      image: require("../assets/salad.jpg")
+      image: require("../assets/images/wok.jpg")
     }
   ];
 
   render() {
     const { navigation } = this.props;
+    const screenWidth = Math.round(Dimensions.get("window").width);
     //const dinnerre = this.getRecipeByMealType("Dinner");
     //const test = this.getSearchResult();
     return (
@@ -122,8 +137,8 @@ export default class Explore extends Component {
           <Text style={[Typography.FONT_H3_GREEN, { alignSelf: "center" }]}>
             Delish Dish
           </Text>
-          <View style={{ width: 340 }}>
-            <View style={{ marginVertical: 15 }}>
+          <View style={{ width: screenWidth * 0.9 }}>
+            <View style={{ marginVertical: 15, marginLeft: 5 }}>
               <Text style={Typography.FONT_H1_BLACK}>Explore New Recipes </Text>
             </View>
             <TextInput
@@ -131,35 +146,47 @@ export default class Explore extends Component {
               placeholder="Search.."
               onChangeText={this.updateSearchText}
               value={this.state.searchWord}
-              onSubmitEditing={() => this.getSearchResult(this.state.searchWord)}
+              onSubmitEditing={() =>
+                this.getSearchResult(this.state.searchWord)
+              }
             />
             {this.state.searchResult ? (
               <ApiRecipesView
                 recipes={this.state.searchResult}
                 navigation={navigation}
+                screenWidth={screenWidth}
               />
             ) : this.state.searched ? (
               <Text>No result</Text>
+            ) : !this.state.isLoading ? (
+              <View>
+                <FlatList
+                  data={this.categories}
+                  numColumns={2}
+                  renderItem={({ item, index }) => (
+                    <TouchableOpacity
+                      style={[
+                        styles.button,
+                        { width: getBoxWidth(screenWidth) },
+                        //index % 2 == 0 ? { marginRight: 5 } : { marginLeft: 5 }
+                      ]}
+                      activeOpacity={0.1}
+                      onPress={() => {
+                        this.setState({
+                          searchWord: item.title,
+                          isLoading: true
+                        });
+                        this.getSearchResult(item.title);
+                      }}
+                    >
+                      <CategoryBox category={item} />
+                    </TouchableOpacity>
+                  )}
+                  keyExtractor={item => item.title}
+                />
+              </View>
             ) : (
-                <View>
-                  <FlatList
-                      data={this.categories}
-                      numColumns={2}
-                      renderItem={({ item }) => (
-                          <TouchableOpacity
-                              style={styles.button}
-                              activeOpacity={0.1}
-                              onPress={() => {
-                                this.setState({searchWord: item.title});
-                                this.getSearchResult(item.title);
-                              }}
-                          >
-                            <CategoryBox category={item} />
-                          </TouchableOpacity>
-                      )}
-                      keyExtractor={item => item.title}
-                  />
-                </View>
+              <ActivityIndicator />
             )}
           </View>
         </View>
@@ -180,12 +207,15 @@ const styles = StyleSheet.create({
     height: 42,
     backgroundColor: Colors.LIGHTGREY,
     borderRadius: 5,
-    paddingLeft: 10
+    paddingLeft: 10,
+    marginBottom: 20,
+    marginHorizontal: 5
   },
   button: {
     height: 138,
-    width: 152,
+    //width: 152,
     margin: 5,
+    //marginVertical: 5,
     shadowColor: Colors.BLACK,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.5,

@@ -9,10 +9,13 @@ import {
 import RecipeBox from "./RecipeBox";
 import * as Colors from "../styles/colors";
 
-export default class RecipesView extends Component {
+function getBoxWidth(screenWidth) {
+  return (screenWidth * 0.9 - 10) / 2;
+}
 
+export default class RecipesView extends Component {
   render() {
-    const { recipes, navigation } = this.props;
+    const { recipes, navigation, screenWidth } = this.props;
 
     return (
       <View>
@@ -20,16 +23,20 @@ export default class RecipesView extends Component {
           <FlatList
             data={recipes}
             numColumns={2}
-            renderItem={({ item }) => (
+            renderItem={({ item, index }) => (
               <TouchableOpacity
-                style={styles.button}
+                style={[
+                  styles.button,
+                  { width: getBoxWidth(screenWidth) },
+                  index % 2 == 0 ? { marginRight: 5 } : { marginLeft: 5 }
+                ]}
                 activeOpacity={0.1}
                 onPress={() => {
-                  navigation.navigate("Recipe", {recipe: {item}});
+                  navigation.navigate("Recipe", { recipe: { item } });
                   console.log(item.title);
                 }}
               >
-                <RecipeBox recipe={item}/>
+                <RecipeBox recipe={item} />
               </TouchableOpacity>
             )}
             keyExtractor={item => item.id}
@@ -45,17 +52,16 @@ export default class RecipesView extends Component {
 const styles = StyleSheet.create({
   button: {
     height: 138,
-    width: 152,
-    margin: 5,
+    marginVertical: 5,
     shadowColor: Colors.BLACK,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.5,
-    shadowRadius: 1,
-    elevation: 1,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 1.65,
+    elevation: 8,
     backgroundColor: "#fff",
     borderBottomLeftRadius: 5,
     borderBottomRightRadius: 5,
     borderTopLeftRadius: 0,
     borderTopRightRadius: 0
-  },
+  }
 });

@@ -4,19 +4,19 @@ import {
   Text,
   View,
   ActivityIndicator,
-  ScrollView
+  ScrollView, Dimensions
 } from "react-native";
 import { connect } from "react-redux";
 import LoginScreen from "../components/LoginScreen";
 import { compose } from "redux";
 import { firestoreConnect } from "react-redux-firebase";
-import RecipesView from "../components/recipesView";
+import RecipesView from "../components/RecipesView";
 import * as Typography from "../styles/typography";
 
 class Favorites extends Component {
   render() {
     const { auth, favorites, navigation } = this.props;
-    console.log(auth.uid);
+    const screenWidth = Math.round(Dimensions.get("window").width);
 
     return (
       <ScrollView>
@@ -32,7 +32,7 @@ class Favorites extends Component {
               </View>
             </View>
             {favorites ? (
-              <RecipesView recipes={favorites} navigation={navigation} />
+              <RecipesView recipes={favorites} navigation={navigation} screenWidth={screenWidth} />
             ) : (
               <ActivityIndicator size="small" color="#000000" />
             )}

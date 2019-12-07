@@ -10,6 +10,7 @@
   "dependencies": {
     "@expo/react-native-action-sheet": "^3.4.0",
     "expo": "^35.0.0",
+    "expo-asset": "~7.0.0",
     "expo-font": "^7.0.0",
     "expo-google-app-auth": "^7.0.0",
     "expo-image-picker": "~7.0.0",

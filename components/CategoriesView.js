@@ -13,7 +13,6 @@ import CategoryBox from "./CategoryBox";
 export default class CategoriesView extends Component {
   render() {
     const { categories, navigation } = this.props;
-    console.log(categories);
 
     return (
       <View>

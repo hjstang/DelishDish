@@ -6,7 +6,7 @@ import {
   ActivityIndicator,
   ScrollView,
   Image,
-  TouchableOpacity
+  TouchableOpacity, Dimensions
 } from "react-native";
 import { signIn, signOut } from "../store/actions/authActions";
 import { connect } from "react-redux";
@@ -14,11 +14,12 @@ import LoginScreen from "../components/LoginScreen";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import * as Typography from "../styles/typography";
-import RecipesView from "../components/recipesView";
+import RecipesView from "../components/RecipesView";
 
 class Profile extends Component {
   render() {
     const { auth, profile, recipes, navigation } = this.props;
+    const screenWidth = Math.round(Dimensions.get("window").width);
     // TODO: Fill page with the profile info. The info is contained in "profile" as "email", "name", "surname" and "profileImage"
     // TODO: Fill page with user recipes. All the user-recipes is contained in "userRecipes" as an array of recipe-objects
     return (
@@ -55,7 +56,7 @@ class Profile extends Component {
               </View>
             </View>
             {recipes ? (
-              <RecipesView recipes={recipes} navigation={navigation} />
+              <RecipesView recipes={recipes} navigation={navigation} screenWidth={screenWidth} />
             ) : (
               <ActivityIndicator size="small" color="#000000" />
             )}
