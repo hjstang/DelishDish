@@ -57,7 +57,7 @@ class Recipe extends Component {
               flexGrow: 1
             }}
           >
-            <Image source={require("../images/assets/burger.png")} />
+            <Image source={require("../assets/images/burger.png")} />
             {!createdNow ? (
               <View style={styles.returnButton}>
                 <ReturnButton navigation={navigation} />
