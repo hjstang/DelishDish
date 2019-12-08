@@ -5,7 +5,6 @@ import SearchScreen from "./views/search";
 import AddRecipeScreen from "./views/addrecipe";
 import FavoritesScreen from "./views/favorites";
 import ProfileScreen from "./views/profile";
-import AddIngredient from "./views/addIngredient";
 import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import { createStackNavigator } from "react-navigation-stack";
@@ -71,7 +70,7 @@ const ProfileStack = createStackNavigator(
 const AddRecipeStack = createStackNavigator(
     {
         AddRecipe: AddRecipeScreen,
-        AddIngredient:  AddIngredient
+        Recipe: Recipe
     } ,{
         initialRouteName: "AddRecipe",
         header: null,

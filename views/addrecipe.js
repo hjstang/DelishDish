@@ -89,10 +89,6 @@ class AddRecipe extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      addIngredientName: "",
-      addQuantity: null,
-      addMeasure: "",
-      deletedRowKey: null,
       title: "",
       cuisine: [],
       description: "",
@@ -362,8 +358,30 @@ class AddRecipe extends Component {
     return false;
   };
 
+  resetState = () => {
+    this.setState({
+      title: "",
+      cuisine: [],
+      description: "",
+      difficulty: "",
+      imageUrl: null,
+      servings: null,
+      sourceUrl: "",
+      ingredients: [],
+      healthTypes: [],
+      dishTypes: [],
+      mealTypes: [],
+      activeKeyRow: null,
+      mealTypeModalVisible: false,
+      dishTypeModalVisible: false,
+      healthTypeModalVisible: false,
+      cuisineModalVisible: false,
+      addIngredientModalVisible: false
+    });
+  };
+
   render() {
-    const { auth, defaultValues } = this.props;
+    const { auth, defaultValues, navigation } = this.props;
     const screenWidth = Math.round(Dimensions.get("window").width);
 
     const pickerStyle = {
@@ -581,18 +599,30 @@ class AddRecipe extends Component {
                   disabled={!this.validateAddRecipe()}
                   style={
                     this.validateAddRecipe()
-                      ? [
+                      ? [styles.addButton, { backgroundColor: Colors.GREEN }]
+                      : [
                           styles.addButton,
-                          { backgroundColor: Colors.GREEN}
+                          { backgroundColor: Colors.MEDIUM_GREY }
                         ]
-                      : [styles.addButton, { backgroundColor: Colors.MEDIUM_GREY }]
                   }
-                  onPress={
-                    () => {
-                      console.log(this.getRecipeFromState());
-                    }
-                    //this.props.createRecipe(this.getRecipeFromState())
-                  }
+                  onPress={() => {
+                    const recipeId = this.uuidv4();
+                    const recipeFromState = this.getRecipeFromState();
+                    const authorId = auth.uid;
+                    const createdAt = new Date();
+                    const recipe = {
+                      id: recipeId,
+                      authorId,
+                      createdAt,
+                      ...recipeFromState
+                    };
+                    this.props.createRecipe(recipe, recipeId);
+                    navigation.navigate("Recipe", {
+                      recipe: recipe,
+                      createdNow: true
+                    });
+                    this.resetState();
+                  }}
                 >
                   <Text style={Typography.FONT_H3_WHITE}>
                     Add to your cookbook
@@ -618,7 +648,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    createRecipe: recipe => dispatch(createRecipe(recipe))
+    createRecipe: (recipe, recipeId) => dispatch(createRecipe(recipe, recipeId))
   };
 };
 

@@ -25,7 +25,7 @@ export default class RecipesView extends Component {
                 style={styles.button}
                 activeOpacity={0.1}
                 onPress={() => {
-                  navigation.navigate("Recipe", {recipe: {item}});
+                  navigation.navigate("Recipe", {recipe: item});
                   console.log(item.title);
                 }}
               >

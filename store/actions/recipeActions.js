@@ -1,15 +1,13 @@
-export const createRecipe = recipe => {
+export const createRecipe = (recipe, recipeId) => {
   return (dispatch, getState, getFirebase) => {
     // make async call to database
     const firestore = getFirebase().firestore();
-    const authorId = getState().firebase.auth.uid;
 
-    firestore
-      .collection("recipes")
-      .add({
-        ...recipe,
-        authorId,
-        createdAt: new Date()
+    const newRecipeRef = firestore.collection("recipes").doc(recipeId);
+
+    newRecipeRef
+      .set({
+        ...recipe
       })
       .then(() => {
         dispatch({ type: "CREATE_RECIPE", recipe });
