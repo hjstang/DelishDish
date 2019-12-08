@@ -5,25 +5,20 @@ import {
   View,
   ScrollView,
   Image,
-  Linking,
-  Button
+  Linking
 } from "react-native";
-import Tag from "./tag";
-import Ingredient from "./ingredient";
+import Tag from "./Tag";
+import Ingredient from "./Ingredient";
 import * as Typography from "../styles/typography";
-import {
-  createRecipe,
-  deleteRecipe,
-  editRecipe
-} from "../store/actions/recipeActions";
+import { deleteRecipe, editRecipe } from "../store/actions/recipeActions";
 import { connect } from "react-redux";
-import ReturnButton from "../components/returnButton";
+import ReturnButton from "./ReturnButton";
 
 class Recipe extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      imageURL: "",
+      imageUrl: "",
       title: " Blue Cheese Burger",
       id: "",
       difficulty: "Easy",
@@ -35,7 +30,7 @@ class Recipe extends Component {
       dishTypes: [],
       healthTypes: [],
       favorited: false,
-      sourceURL: ""
+      sourceUrl: ""
     };
   }
 
@@ -62,7 +57,7 @@ class Recipe extends Component {
               flexGrow: 1
             }}
           >
-            <Image source={require("../assets/burger.png")} />
+            <Image source={require("../images/assets/burger.png")} />
             {!createdNow ? (
               <View style={styles.returnButton}>
                 <ReturnButton navigation={navigation} />
@@ -102,7 +97,7 @@ class Recipe extends Component {
                 <Tag text={"Burger"} type={"#FFB6C3"} />
               </View>
               <Text
-                style={[Typography.FONT_REGULAR_DARKGREY_BOLD, styles.URL]}
+                style={[Typography.FONT_REGULAR_DARKGREY_BOLD, styles.url]}
                 onPress={() => Linking.openURL(recipe.sourceUrl)}
               >
                 {recipe.sourceUrl}
@@ -157,7 +152,7 @@ const styles = StyleSheet.create({
   ingredients: { marginTop: 70, marginBottom: 10 },
   description: {},
   tags: { marginTop: 10 },
-  URL: { marginTop: 10, alignSelf: "center" },
+  url: { marginTop: 10, alignSelf: "center" },
   returnButton: {
     position: "absolute",
     marginTop: 40

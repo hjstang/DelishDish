@@ -4,13 +4,20 @@ import * as Typography from "../styles/typography";
 
 export default class RecipeBox extends Component {
   render() {
-    const {recipe} = this.props;
+    const { recipe } = this.props;
 
     return (
-        <View>
-          <Image style={styles.image} source={require("../assets/burger.png")} />
-          <Text style={[Typography.FONT_SMALL_BLACK, styles.text]}> {recipe.title} </Text>
+      <View>
+        <View style={styles.image}>
+          <Image
+            style={{ height: 105, width: "100%" }}
+            source={{ uri: recipe.imageUrl }}
+          />
         </View>
+        <Text style={[Typography.FONT_SMALL_BLACK, styles.text]}>
+          {recipe.title}
+        </Text>
+      </View>
     );
   }
 }
@@ -18,8 +25,6 @@ export default class RecipeBox extends Component {
 const styles = StyleSheet.create({
   container: {},
   image: {
-    height: 105,
-    width: 152,
     overflow: "hidden",
     borderBottomLeftRadius: 0,
     borderBottomRightRadius: 0,

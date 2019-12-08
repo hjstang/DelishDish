@@ -6,7 +6,7 @@ import {
   ActivityIndicator,
   ScrollView,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
 import { signIn, signOut } from "../store/actions/authActions";
 import { connect } from "react-redux";
@@ -14,11 +14,13 @@ import LoginScreen from "../components/LoginScreen";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import * as Typography from "../styles/typography";
-import RecipesView from "../components/recipesView";
+import RecipesView from "../components/RecipesView";
+import {getScreenWidth} from "../utils/sizing";
 
 class Profile extends Component {
   render() {
     const { auth, profile, recipes, navigation } = this.props;
+    const screenWidth = getScreenWidth();
     // TODO: Fill page with the profile info. The info is contained in "profile" as "email", "name", "surname" and "profileImage"
     // TODO: Fill page with user recipes. All the user-recipes is contained in "userRecipes" as an array of recipe-objects
     return (
@@ -49,16 +51,22 @@ class Profile extends Component {
                   </Text>
                 </TouchableOpacity>
               </View>
+            </View>
+            <View style={{ width: screenWidth * 0.9 }}>
               <View style={styles.text1}>
                 <Text style={Typography.FONT_H1_BLACK}>Your </Text>
                 <Text style={Typography.FONT_H1_GREEN}>Recipes</Text>
               </View>
+              {recipes ? (
+                <RecipesView
+                  recipes={recipes}
+                  navigation={navigation}
+                  screenWidth={screenWidth}
+                />
+              ) : (
+                <ActivityIndicator size="small" color="#000000" />
+              )}
             </View>
-            {recipes ? (
-              <RecipesView recipes={recipes} navigation={navigation} />
-            ) : (
-              <ActivityIndicator size="small" color="#000000" />
-            )}
           </View>
         ) : (
           <LoginScreen style={styles.container} />
@@ -102,7 +110,7 @@ export default compose(
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#fff",
-    marginLeft: 17,
+    alignItems: "center",
     flexGrow: 1,
     marginTop: 50,
     marginBottom: 20
@@ -113,6 +121,11 @@ const styles = StyleSheet.create({
     borderRadius: 55,
     marginVertical: 15
   },
-  text1: { flexDirection: "row", marginBottom: 15, marginTop: 20 },
+  text1: {
+    flexDirection: "row",
+    marginBottom: 15,
+    marginTop: 20,
+    marginLeft: 5
+  },
   logout: { textAlign: "center", textDecorationLine: "underline" }
 });

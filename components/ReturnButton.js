@@ -12,7 +12,7 @@ export default class ContinueButton extends Component {
         onPress={() => navigation.goBack()}
         style={styles.button}
       >
-        <Icon name={"chevron-left"} size={40} />
+        <Icon name={"chevron-left"} size={40} style={{ marginLeft: 5 }} />
       </TouchableOpacity>
     );
   }
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: Colors.WHITE,
     width: 50,
-    height: 35,
+    height: 40,
     borderBottomRightRadius: 10,
     borderTopRightRadius: 10,
     alignContent: "center",
