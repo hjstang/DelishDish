@@ -72,29 +72,31 @@ class ChooseTypeModal extends Component {
             <Text style={[Typography.FONT_H2_BLACK, { marginBottom: 20 }]}>
               Choose {type}
             </Text>
-            <ScrollView style={{flexGrow: 1, marginBottom: 200}}>
-              <FlatList
-                data={types}
-                renderItem={({ item }) => this.renderItem(item)}
-                keyExtractor={item => item}
-                extraData={this.state.refresh}
-                contentContainerStyle={{ marginBottom: 20 }}
-              />
-              <TouchableOpacity
-                disabled={this.state.chosen.length == 0}
-                onPress={() => {
-                  onPress(this.state.chosen);
-                  setModalVisible();
-                }}
-                style={
-                  this.state.chosen.length > 0
-                    ? [styles.button, { backgroundColor: Colors.LIGHTGREEN }]
-                    : [styles.button, { backgroundColor: Colors.MEDIUM_GREY }]
-                }
-              >
-                <Text style={Typography.FONT_H3_WHITE}>Choose</Text>
-              </TouchableOpacity>
-            </ScrollView>
+            <View style={{ maxHeight: 550 }}>
+              <View style={{ flexGrow: 1 }}>
+                <FlatList
+                  data={types}
+                  renderItem={({ item }) => this.renderItem(item)}
+                  keyExtractor={item => item}
+                  extraData={this.state.refresh}
+                  contentContainerStyle={{ marginBottom: 20 }}
+                />
+                <TouchableOpacity
+                  disabled={this.state.chosen.length == 0}
+                  onPress={() => {
+                    onPress(this.state.chosen);
+                    setModalVisible();
+                  }}
+                  style={
+                    this.state.chosen.length > 0
+                      ? [styles.button, { backgroundColor: Colors.LIGHTGREEN }]
+                      : [styles.button, { backgroundColor: Colors.MEDIUM_GREY }]
+                  }
+                >
+                  <Text style={Typography.FONT_H3_WHITE}>Choose</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
           </View>
         </View>
       </Modal>
@@ -119,7 +121,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 5,
-    marginBottom: 20
+    marginTop: 20
   },
   goBackButton: {
     position: "absolute",
