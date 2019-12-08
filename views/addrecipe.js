@@ -3,16 +3,12 @@ import {
   StyleSheet,
   Text,
   View,
-  Button,
   Image,
-  ScrollView,
   TouchableOpacity,
   TextInput,
   Dimensions,
   FlatList,
-  Modal,
   Alert,
-  StatusBar
 } from "react-native";
 import { connect } from "react-redux";
 import LoginScreen from "../components/LoginScreen";
@@ -30,6 +26,7 @@ import PickerSelect from "react-native-picker-select";
 import Swipeout from "react-native-swipeout";
 import ChooseTypeModal from "../components/ChooseTypeModal";
 import AddIngredientModal from "../components/AddIngredientModal";
+import { KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 
 const MEAL_TYPES = [
   "Breakfast",
@@ -394,7 +391,7 @@ class AddRecipe extends Component {
     };
 
     return (
-      <ScrollView>
+      <KeyboardAwareScrollView>
         {auth.uid ? (
           <View style={styles.container}>
             <View style={[styles.imageBox, { width: screenWidth }]}>
@@ -634,7 +631,7 @@ class AddRecipe extends Component {
         ) : (
           <LoginScreen />
         )}
-      </ScrollView>
+      </KeyboardAwareScrollView>
     );
   }
 }
