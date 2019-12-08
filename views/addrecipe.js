@@ -11,7 +11,8 @@ import {
   Dimensions,
   FlatList,
   Modal,
-  Alert
+  Alert,
+  StatusBar
 } from "react-native";
 import { connect } from "react-redux";
 import LoginScreen from "../components/LoginScreen";
@@ -26,43 +27,103 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import * as Typography from "../styles/typography";
 import * as Colors from "../styles/colors";
 import PickerSelect from "react-native-picker-select";
-import AddIngredient from "./addIngredient";
-import RNPickerSelect from "react-native-picker-select";
 import Swipeout from "react-native-swipeout";
+import ChooseTypeModal from "../components/ChooseTypeModal";
+import AddIngredientModal from "../components/AddIngredientModal";
 
-let data = [
-  { name: "salad", quantity: 500, measure: "gram" },
-  { name: "tomato", quantity: 400, measure: "ml" },
-  { name: "basil", quantity: 200, measure: "g" },
-  { name: "potato", quantity: 3, measure: "units" },
-  { name: "cucumber", quantity: 1, measure: "units" }
+const MEAL_TYPES = [
+  "Breakfast",
+  "Lunch",
+  "Dinner",
+  "Snack",
+  "Dessert",
+  "Drink",
+  "Baking"
+];
+const DISH_TYPES = [
+  "Bread",
+  "Drinks",
+  "Desserts",
+  "Main course",
+  "Pancake",
+  "Salad",
+  "Sandwiches",
+  "Side dish",
+  "Soup",
+  "Starter",
+  "Sweets"
+];
+const HEALTH_TYPES = [
+  "Vegan",
+  "Vegetarian",
+  "Gluten-free",
+  "Dairy-free",
+  "Egg-free",
+  "Fodmap-free",
+  "Keto-friendly",
+  "Kosher",
+  "No-suger",
+  "Pescetarian"
+];
+const CUISINE_TYPES = [
+  "American",
+  "Asian",
+  "British",
+  "Central Europe",
+  "Chinese",
+  "Eastern Europe",
+  "French",
+  "Indian",
+  "Italian",
+  "Japanese",
+  "Kosher",
+  "Mediterranean",
+  "Mexican",
+  "Middle Eastern",
+  "Nordic",
+  "South American",
+  "South East Asian"
 ];
 
 class AddRecipe extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalVisible: false,
-      addName: "",
+      addIngredientName: "",
       addQuantity: null,
       addMeasure: "",
       deletedRowKey: null,
-      title: "Salad",
-      cuisine: "european",
-      description: "Recipe description",
-      difficulty: "easy",
-      favorited: true,
+      title: "",
+      cuisine: [],
+      description: "",
+      difficulty: "",
       imageUrl: null,
-      servings: 4,
-      sourceUrl: "https://matpaabordet.no",
-      ingredients: [
-        { name: "salad", quantity: 500, measure: "gram" },
-        { name: "tomato", quantity: 400, measure: "ml" }
-      ],
-      healthTypes: ["vegan"],
-      dishTypes: ["salad"],
-      mealTypes: ["lunch"]
+      servings: null,
+      sourceUrl: "",
+      ingredients: [],
+      healthTypes: [],
+      dishTypes: [],
+      mealTypes: [],
+      activeKeyRow: null,
+      mealTypeModalVisible: false,
+      dishTypeModalVisible: false,
+      healthTypeModalVisible: false,
+      cuisineModalVisible: false,
+      addIngredientModalVisible: false
     };
+
+    this.setMealTypeModalVisible = this.setMealTypeModalVisible.bind(this);
+    this.addMealTypes = this.addMealTypes.bind(this);
+    this.setDishTypeModalVisible = this.setDishTypeModalVisible.bind(this);
+    this.addDishTypes = this.addDishTypes.bind(this);
+    this.setHealthTypeModalVisible = this.setHealthTypeModalVisible.bind(this);
+    this.addHealthTypes = this.addHealthTypes.bind(this);
+    this.setCuisineModalVisible = this.setCuisineModalVisible.bind(this);
+    this.addCuisine = this.addCuisine.bind(this);
+    this.setAddIngredientModalVisible = this.setAddIngredientModalVisible.bind(
+      this
+    );
+    this.addNewIngredient = this.addNewIngredient.bind(this);
   }
 
   uuidv4 = () => {
@@ -157,7 +218,6 @@ class AddRecipe extends Component {
       cuisine,
       description,
       difficulty,
-      favorited,
       imageUrl,
       servings,
       sourceUrl,
@@ -171,7 +231,7 @@ class AddRecipe extends Component {
       cuisine,
       description,
       difficulty,
-      favorited,
+      favorited: false,
       imageUrl,
       servings,
       sourceUrl,
@@ -182,59 +242,139 @@ class AddRecipe extends Component {
     };
   };
 
-  setModalVisible(visible) {
-    this.setState({ modalVisible: visible });
-  }
-
-  addNewIngredient() {
-    this.state.ingredients.push({
-      name: this.state.addName,
-      quantity: this.state.addQuantity,
-      measure: this.state.addMeasure
+  setAddIngredientModalVisible() {
+    this.setState({
+      addIngredientModalVisible: !this.state.addIngredientModalVisible
     });
-    console.log(this.state.ingredients);
   }
 
-  onChangeMeasure = measure => {
-    this.setState({ addMeasure: measure });
-  };
-
-  onChangeName = name => {
-    this.setState({ addName: name });
-  };
-
-  onChangeQuantity = quantity => {
-    this.setState({ addQuantity: quantity });
-  };
-
-  onChangeTitle(title) {
-    this.setState({ title: title });
-    console.log(this.state.title);
+  setMealTypeModalVisible() {
+    this.setState({ mealTypeModalVisible: !this.state.mealTypeModalVisible });
   }
 
-  onChangeDifficulty(difficulty) {
-    this.setState({ difficulty: difficulty });
-    console.log(this.state.difficulty);
+  setDishTypeModalVisible() {
+    this.setState({ dishTypeModalVisible: !this.state.dishTypeModalVisible });
   }
-
-  onChangeServings(servings) {
-    this.setState({ servings: servings });
-    console.log(this.state.servings);
-  }
-
-  refreshFlatList = deletedKey => {
-    this.setState(prevState => {
-      return {
-        deletedRowKey: deletedKey
-      };
+  setHealthTypeModalVisible() {
+    this.setState({
+      healthTypeModalVisible: !this.state.healthTypeModalVisible
     });
+  }
+
+  setCuisineModalVisible() {
+    this.setState({ cuisineModalVisible: !this.state.cuisineModalVisible });
+  }
+
+  addMealTypes(mealTypes) {
+    this.setState({ mealTypes });
+  }
+
+  addDishTypes(dishTypes) {
+    this.setState({ dishTypes });
+  }
+
+  addHealthTypes(healthTypes) {
+    this.setState({ healthTypes });
+  }
+
+  addCuisine(cuisine) {
+    this.setState({ cuisine });
+  }
+
+  addNewIngredient(ingredient) {
+    this.state.ingredients.push(ingredient);
+  }
+
+  removeIngredient(index) {
+    let array = [...this.state.ingredients];
+    array.splice(index, 1);
+    this.setState({ ingredients: array });
+  }
+
+  swipeSettings = index => {
+    return {
+      autoClose: true,
+      onClose: (secId, rowId, direction) => {
+        if (this.state.activeRowKey != null) {
+          this.setState({ activeRowKey: null });
+        }
+      },
+      onOpen: (secId, rowId, direction) => {
+        this.setState({ activeRowKey: index });
+      },
+      right: [
+        {
+          onPress: () => {
+            const deletingRow = this.state.activeRowKey;
+            console.log(deletingRow);
+            Alert.alert(
+              "Alert",
+              "Are you sure you want to delete?",
+              [
+                {
+                  text: "No",
+                  onPress: () => console.log("Cancel Pressed"),
+                  style: "cancel"
+                },
+                {
+                  text: "Yes",
+                  onPress: () => {
+                    console.log("Yes pressed");
+                    this.removeIngredient(index);
+                  }
+                }
+              ],
+              { cancelable: true }
+            );
+          },
+          text: "Delete",
+          type: "delete"
+        }
+      ],
+      rowId: this.props.index,
+      sectionId: 1
+    };
+  };
+
+  flatListItem = (item, index) => {
+    return (
+      <Swipeout {...this.swipeSettings(index)}>
+        <View
+          style={{
+            flex: 1,
+            height: 60,
+            justifyContent: "center",
+            paddingLeft: 10,
+            backgroundColor: index % 2 === 0 ? Colors.LIGHTGREY : Colors.WHITE
+          }}
+        >
+          <Text style={Typography.FONT_H3_BLACK}>
+            {item.quantity + " " + item.measure + " " + item.name}
+          </Text>
+        </View>
+      </Swipeout>
+    );
+  };
+  validateAddRecipe = () => {
+    if (this.state.title && this.state.imageUrl) {
+      return true;
+    }
+    return false;
   };
 
   render() {
     const { auth, defaultValues } = this.props;
     const screenWidth = Math.round(Dimensions.get("window").width);
 
-    // defaultValues is containing all the predefined values such as measures, dishTypes etc.
+    const pickerStyle = {
+      inputIOS: {
+        color: Colors.BLACK
+      },
+      inputAndroid: {
+        color: Colors.BLACK
+      }
+    };
+
     return (
       <ScrollView>
         {auth.uid ? (
@@ -263,248 +403,208 @@ class AddRecipe extends Component {
                 </TouchableOpacity>
               )}
             </View>
-            <View style={styles.inputBox}>
-              <TextInput
-                placeholder={"Title"}
-                style={styles.inputText}
-                onValueChange={title => this.onChangeTitle(title)}
-              />
-            </View>
-            <View style={styles.inputBox}>
-              <PickerSelect
-                onValueChange={difficulty =>
-                  this.onChangeDifficulty(difficulty)
-                }
-                items={[
-                  { label: "Easy", value: "easy" },
-                  { label: "Medium", value: "medium" },
-                  { label: "Hard", value: "hard" }
-                ]}
-                placeholder={{ label: "Difficulty", value: null }}
-              />
-            </View>
-            <View style={styles.inputBox}>
-              <PickerSelect
-                onValueChange={servings => this.onChangeServings(servings)}
-                items={[
-                  { label: "1", value: "1" },
-                  { label: "2", value: "2" },
-                  { label: "3", value: "3" },
-                  { label: "4", value: "4" },
-                  { label: "5", value: "5" },
-                  { label: "6", value: "6" }
-                ]}
-                placeholder={{ label: "Servings", value: null }}
-              />
-            </View>
-            <View>
-              <Text style={Typography.FONT_H2_BLACK}>Ingredients</Text>
-              <FlatList
-                data={data}
-                renderItem={({ item, index }) => {
-                  return (
-                    <FlatListItem
-                      item={item}
-                      index={index}
-                      parentFlatList={this}
-                    >
-
-                    </FlatListItem>
-                  );
-                }}
-                extraData={this.state.ingredients}
-              />
-              <TouchableOpacity
-                onPress={() => {
-                  this.setModalVisible(true);
-                }}
-                style={styles.button}
-              >
-                <Text>Add ingredient</Text>
-              </TouchableOpacity>
-
-              <Modal
-                //animationType="slide"
-                transparent={false}
-                visible={this.state.modalVisible}
-              >
-                <View style={{ marginTop: 50 }}>
-                  <View>
-                    <TouchableOpacity
-                      onPress={() => {
-                        this.setModalVisible(!this.state.modalVisible);
-                      }}
-                    >
-                      <Icon name={"keyboard-arrow-left"} size={40} />
-                    </TouchableOpacity>
-                    <View style={{ alignItems: "center" }}>
-                      <View style={styles.inputBox}>
-                        <TextInput
-                          placeholder={"Ingredient name"}
-                          onChangeText={name => this.onChangeName(name)}
-                          style={{ marginLeft: 10 }}
-                          value={this.state.addName}
-                        />
-                      </View>
-                      <View style={styles.inputBox}>
-                        <TextInput
-                          placeholder={"quantity"}
-                          onChangeText={quantity =>
-                            this.onChangeQuantity(quantity)
-                          }
-                          style={{ marginLeft: 10 }}
-                          value={this.state.quantity}
-                        />
-                      </View>
-                      <View style={styles.inputBox}>
-                        <RNPickerSelect
-                          onValueChange={measure =>
-                            this.onChangeMeasure(measure)
-                          }
-                          value={this.state.measure}
-                          items={[
-                            { label: "Tablespoon", value: "Tablespoon" },
-                            { label: "Teaspoon", value: "Teaspoon" },
-                            { label: "Liter", value: "Liter" },
-                            { label: "Desiliter", value: "Desiliter" },
-                            { label: "Milliliter", value: "Milliliter" },
-                            { label: "Gram", value: "Gram" },
-                            { label: "Kilogram", value: "Kilogram" },
-                            { label: "Units", value: "Units" }
-                          ]}
-                          placeholder={{ label: "Measure", value: null }}
-                          style={{ marginLeft: 10 }}
-                        />
-                      </View>
-                      <TouchableOpacity
-                        onPress={() => {
-                          this.addNewIngredient();
-                          this.setModalVisible(!this.state.modalVisible);
-                        }}
-                        style={[
-                          styles.button,
-                          { backgroundColor: Colors.LIGHTGREEN }
-                        ]}
-                      >
-                        <Text style={Typography.FONT_H3_WHITE}>Add</Text>
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-                </View>
-              </Modal>
-
-              <Text style={Typography.FONT_H2_BLACK}>Description</Text>
-              <View style={styles.description}>
+            <View style={{ width: screenWidth * 0.9 }}>
+              <View style={styles.inputBox}>
                 <TextInput
-                  multiline={true}
-                  style={{ margin: 5, width: 290, height: 140 }}
-                  textAlignVertical={"top"}
+                  placeholder="Title"
+                  style={[Typography.FONT_INPUT, styles.inputText]}
+                  onChangeText={title => this.setState({ title })}
+                  value={this.state.title}
                 />
               </View>
-            </View>
-            <View>
-              <Text>Meal Type: </Text>
-              <Text>None</Text>
-              <Text>Dish Type</Text>
-              <Text>Cuisine</Text>
-              <Text>Food Preferences</Text>
-              <TextInput placeholde={"Add Source URL"} />
-              <TouchableOpacity
-                style={styles.addButton}
-                onPress={() =>
-                  this.props.createRecipe(this.getRecipeFromState())
-                }
-              >
-                <Text style={Typography.FONT_H3_WHITE}>
-                  Add to your cookbook
+              <View style={styles.inputBox}>
+                <PickerSelect
+                  style={pickerStyle}
+                  onValueChange={difficulty => this.setState({ difficulty })}
+                  items={[
+                    { label: "Easy", value: "easy" },
+                    { label: "Medium", value: "medium" },
+                    { label: "Hard", value: "hard" }
+                  ]}
+                  placeholder={{ label: "Difficulty", value: null }}
+                />
+              </View>
+              <View style={styles.inputBox}>
+                <PickerSelect
+                  style={pickerStyle}
+                  onValueChange={servings => this.setState({ servings })}
+                  items={[
+                    { label: "1", value: "1" },
+                    { label: "2", value: "2" },
+                    { label: "3", value: "3" },
+                    { label: "4", value: "4" },
+                    { label: "5", value: "5" },
+                    { label: "6", value: "6" }
+                  ]}
+                  placeholder={{ label: "Servings", value: null }}
+                />
+              </View>
+              <View>
+                <Text style={[Typography.FONT_H2_BLACK, { marginBottom: 10 }]}>
+                  Ingredients
                 </Text>
-              </TouchableOpacity>
+                <FlatList
+                  data={this.state.ingredients}
+                  renderItem={({ item, index }) =>
+                    this.flatListItem(item, index)
+                  }
+                  extraData={this.state}
+                  keyExtractor={item => item.name}
+                  contentContainerStyle={{ marginBottom: 10 }}
+                />
+                <TouchableOpacity
+                  onPress={() => {
+                    this.setAddIngredientModalVisible();
+                  }}
+                  style={styles.button}
+                >
+                  <Text style={Typography.FONT_REGULAR_WHITE_BOLD}>
+                    Add ingredient
+                  </Text>
+                </TouchableOpacity>
+                <AddIngredientModal
+                  visible={this.state.addIngredientModalVisible}
+                  screenWidth={screenWidth}
+                  setModalVisible={this.setAddIngredientModalVisible}
+                  onAddIngredient={this.addNewIngredient}
+                />
+                <Text style={[Typography.FONT_H2_BLACK, { marginBottom: 10 }]}>
+                  Description
+                </Text>
+                <View style={styles.description}>
+                  <TextInput
+                    multiline={true}
+                    style={{ margin: 5, width: 290, height: 140 }}
+                    textAlignVertical={"top"}
+                    value={this.state.description}
+                    onChangeText={description => this.setState({ description })}
+                  />
+                </View>
+              </View>
+              <View>
+                <TouchableOpacity
+                  underlayColor={Colors.LIGHTGREY}
+                  style={styles.typeSelection}
+                  onPress={() => this.setMealTypeModalVisible()}
+                >
+                  <Text style={Typography.FONT_H3_BLACK_BOLD}>Meal Type</Text>
+                  <Text>
+                    {this.state.mealTypes.length > 0
+                      ? this.state.mealTypes[0] + "..."
+                      : "None"}
+                  </Text>
+                </TouchableOpacity>
+                <ChooseTypeModal
+                  type="Meal type"
+                  types={MEAL_TYPES}
+                  chosen={this.state.mealTypes}
+                  visible={this.state.mealTypeModalVisible}
+                  onPress={this.addMealTypes}
+                  screenWidth={screenWidth}
+                  setModalVisible={this.setMealTypeModalVisible}
+                />
+                <TouchableOpacity
+                  style={styles.typeSelection}
+                  onPress={() => this.setDishTypeModalVisible()}
+                >
+                  <Text style={Typography.FONT_H3_BLACK_BOLD}>Dish Type</Text>
+                  <Text>
+                    {this.state.dishTypes.length > 0
+                      ? this.state.dishTypes[0] + "..."
+                      : "None"}
+                  </Text>
+                </TouchableOpacity>
+
+                <ChooseTypeModal
+                  type="Dish type"
+                  types={DISH_TYPES}
+                  chosen={this.state.dishTypes}
+                  visible={this.state.dishTypeModalVisible}
+                  onPress={this.addDishTypes}
+                  screenWidth={screenWidth}
+                  setModalVisible={this.setDishTypeModalVisible}
+                />
+
+                <TouchableOpacity
+                  style={styles.typeSelection}
+                  onPress={() => this.setCuisineModalVisible()}
+                >
+                  <Text style={Typography.FONT_H3_BLACK_BOLD}>Cuisine</Text>
+                  <Text>
+                    {this.state.cuisine.length > 0
+                      ? this.state.cuisine[0] + "..."
+                      : "None"}
+                  </Text>
+                </TouchableOpacity>
+                <ChooseTypeModal
+                  type="Cuisine"
+                  types={CUISINE_TYPES}
+                  chosen={this.state.cuisine}
+                  visible={this.state.cuisineModalVisible}
+                  onPress={this.addCuisine}
+                  screenWidth={screenWidth}
+                  setModalVisible={this.setCuisineModalVisible}
+                />
+
+                <TouchableOpacity
+                  style={styles.typeSelection}
+                  onPress={() => this.setHealthTypeModalVisible()}
+                >
+                  <Text style={Typography.FONT_H3_BLACK_BOLD}>
+                    Food Preferences
+                  </Text>
+                  <Text>
+                    {this.state.healthTypes.length > 0
+                      ? this.state.healthTypes[0] + "..."
+                      : "None"}
+                  </Text>
+                </TouchableOpacity>
+                <ChooseTypeModal
+                  type="Food Preferences"
+                  types={HEALTH_TYPES}
+                  chosen={this.state.healthTypes}
+                  visible={this.state.healthTypeModalVisible}
+                  onPress={this.addHealthTypes}
+                  screenWidth={screenWidth}
+                  setModalVisible={this.setHealthTypeModalVisible}
+                />
+
+                <View style={styles.inputBox}>
+                  <TextInput
+                    placeholder="Source URL"
+                    style={[Typography.FONT_INPUT, styles.inputText]}
+                    onChangeText={sourceUrl => this.setState({ sourceUrl })}
+                    value={this.state.sourceUrl}
+                  />
+                </View>
+                <TouchableOpacity
+                  disabled={!this.validateAddRecipe()}
+                  style={
+                    this.validateAddRecipe()
+                      ? [
+                          styles.addButton,
+                          { backgroundColor: Colors.GREEN}
+                        ]
+                      : [styles.addButton, { backgroundColor: Colors.MEDIUM_GREY }]
+                  }
+                  onPress={
+                    () => {
+                      console.log(this.getRecipeFromState());
+                    }
+                    //this.props.createRecipe(this.getRecipeFromState())
+                  }
+                >
+                  <Text style={Typography.FONT_H3_WHITE}>
+                    Add to your cookbook
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         ) : (
           <LoginScreen />
         )}
       </ScrollView>
-    );
-  }
-}
-
-class FlatListItem extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      activeRowKey: null
-    };
-  }
-
-  render() {
-    const swipeSettings = {
-      autoClose: true,
-      onClose: (secId, rowId, direction) => {
-        if (this.state.activeRowKey != null) {
-          this.setState({ activeRowKey: null });
-        }
-      },
-      onOpen: (secId, rowId, direction) => {
-        // Should have a key for each item and not use name here!!!!
-        this.setState({ activeRowKey: this.props.index });
-      },
-      right: [
-        {
-          onPress: () => {
-            const deletingRow = this.state.activeRowKey;
-            console.log(deletingRow);
-            Alert.alert(
-              "Alert",
-              "Are you sure you want to delete?",
-              [
-                {
-                  text: "No",
-                  onPress: () => console.log("Cancel Pressed"),
-                  style: "cancel"
-                },
-                {
-                  text: "Yes",
-                  onPress: () => {
-                    console.log("Yes pressed");
-                    console.log(deletingRow);
-                    console.log(this.props.index);
-                    data.slice(this.props.index);
-                    this.props.parentFlatList.refreshFlatList(deletingRow);
-
-                  }
-                }
-              ],
-              { cancelable: true }
-            );
-          },
-          text: "Delete",
-          type: "delete"
-        }
-      ],
-      rowId: this.props.index,
-      sectionId: 1
-    };
-
-    return (
-      <Swipeout {...swipeSettings}>
-        <View
-          style={{
-            flex: 1,
-            height: 60,
-            backgroundColor:
-              this.props.index % 2 === 0 ? Colors.WHITE : Colors.LIGHTGREY
-          }}
-        >
-          <Text style={Typography.FONT_H3_BLACK}>
-            {this.props.item.quantity +
-              " " +
-              this.props.item.measure +
-              " " +
-              this.props.item.name}
-          </Text>
-        </View>
-      </Swipeout>
     );
   }
 }
@@ -542,8 +642,9 @@ export default compose(
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#fff",
-    justifyContent: "center",
-    flexGrow: 1
+    alignItems: "center",
+    flexGrow: 1,
+    marginBottom: 20
   },
   addImage: {
     width: 150,
@@ -556,21 +657,24 @@ const styles = StyleSheet.create({
     height: 250,
     backgroundColor: Colors.MEDIUM_GREY,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    marginBottom: 20
   },
   inputBox: {
-    width: 300,
+    width: "100%",
     height: 40,
     backgroundColor: Colors.LIGHTGREY,
     alignSelf: "center",
-    marginVertical: 20,
+    marginBottom: 30,
     borderRadius: 5,
-    justifyContent: "center"
+    justifyContent: "center",
+    paddingLeft: 10
   },
   inputText: {
-    width: 290,
-    height: 40,
-    alignSelf: "center"
+    height: 40
+  },
+  pickerStyle: {
+    paddingLeft: 10
   },
   button: {
     width: 120,
@@ -579,22 +683,37 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 5
+    borderRadius: 5,
+    marginBottom: 20
   },
   description: {
-    width: 300,
+    width: "100%",
     height: 150,
     borderRadius: 5,
     backgroundColor: Colors.LIGHTGREY,
-    alignSelf: "center"
+    alignSelf: "center",
+    marginBottom: 10,
+    paddingLeft: 10
   },
   addButton: {
     width: 250,
-    height: 30,
-    backgroundColor: Colors.LIGHTGREEN,
+    height: 40,
     alignSelf: "center",
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 5
+  },
+  goBackButton: {
+    position: "absolute",
+    marginTop: -10,
+    marginLeft: -5
+  },
+  typeSelection: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    height: 60,
+    alignItems: "center",
+    marginHorizontal: 5,
+    marginBottom: 10
   }
 });
