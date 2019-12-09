@@ -36,7 +36,8 @@ class Recipe extends Component {
 
   render() {
     const { navigation } = this.props;
-    const recipe = navigation.state.params.recipe.item;
+    const recipe = navigation.state.params.recipe;
+    const createdNow = navigation.state.params.createdNow;
 
     const ingredientsList = recipe.ingredients.map(ingredient => {
       return (
@@ -57,9 +58,11 @@ class Recipe extends Component {
             }}
           >
             <Image source={require("../assets/images/burger.png")} />
-            <View style={styles.returnButton}>
-              <ReturnButton navigation={navigation} />
-            </View>
+            {!createdNow ? (
+              <View style={styles.returnButton}>
+                <ReturnButton navigation={navigation} />
+              </View>
+            ) : null}
             <View style={styles.infoBox}>
               <Text style={[Typography.FONT_H1_BLACK, { marginVertical: 5 }]}>
                 {recipe.title}

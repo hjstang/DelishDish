@@ -86,6 +86,17 @@ const ProfileStack = createStackNavigator(
   }
 );
 
+const AddRecipeStack = createStackNavigator(
+    {
+        AddRecipe: AddRecipeScreen,
+        Recipe: Recipe
+    } ,{
+        initialRouteName: "AddRecipe",
+        header: null,
+        headerMode: "none"
+    }
+);
+
 const bottomTabNavigator = createBottomTabNavigator(
   {
     Explore: {
@@ -105,7 +116,7 @@ const bottomTabNavigator = createBottomTabNavigator(
       }
     },
     AddRecipe: {
-      screen: AddRecipeScreen,
+      screen: AddRecipeStack,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
           <Icon name={"add-circle-outline"} size={30} color={tintColor} />
