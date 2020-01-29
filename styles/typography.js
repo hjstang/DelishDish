@@ -115,6 +115,13 @@ export const FONT_REGULAR_GREY_THIN = {
     color: Colors.GREY
 };
 
+export const FONT_REGULAR_BLACK_THIN = {
+    fontFamily: FONT_FAMILY,
+    fontWeight: FONT_WEIGHT_LIGHT,
+    fontSize: FONT_SIZE_14,
+    color: Colors.BLACK
+};
+
 export const FONT_REGULAR_WHITE_BOLD = {
     fontFamily: FONT_FAMILY_BOLD,
     fontWeight: FONT_WEIGHT_BOLD,

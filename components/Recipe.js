@@ -5,20 +5,21 @@ import {
   View,
   ScrollView,
   Image,
-  Linking
+  Linking,
+  TouchableOpacity
 } from "react-native";
 import Tag from "./Tag";
 import Ingredient from "./Ingredient";
 import * as Typography from "../styles/typography";
+import * as Colors from "../styles/colors";
 import { deleteRecipe, editRecipe } from "../store/actions/recipeActions";
 import { connect } from "react-redux";
 import ReturnButton from "./ReturnButton";
+import { getScreenWidth } from "../utils/sizing";
+import Icon from "react-native-vector-icons/MaterialIcons";
 
-class Recipe extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      imageUrl: "",
+/*
+imageUrl: "",
       title: " Blue Cheese Burger",
       id: "",
       difficulty: "Easy",
@@ -29,14 +30,18 @@ class Recipe extends Component {
       cuisine: "",
       dishTypes: [],
       healthTypes: [],
+      mealTypes: [],
       favorited: false,
       sourceUrl: ""
-    };
-  }
+ */
+
+class Recipe extends Component {
+
 
   render() {
     const { navigation } = this.props;
     const recipe = navigation.state.params.recipe.item;
+    console.log(recipe);
 
     const ingredientsList = recipe.ingredients.map(ingredient => {
       return (
@@ -66,17 +71,32 @@ class Recipe extends Component {
               </Text>
               <View style={{ flexDirection: "row", marginBottom: 5 }}>
                 <View style={{ flexDirection: "row" }}>
-                  <Image source={require("../assets/menu/explore.png")} />
+                  <Icon
+                    name={"restaurant-menu"}
+                    size={25}
+                    color={Colors.GREY}
+                  />
                   <Text style={Typography.FONT_REGULAR_GREY}>
                     {recipe.difficulty}
                   </Text>
                 </View>
                 <View style={{ flexDirection: "row" }}>
-                  <Image source={require("../assets/menu/explore.png")} />
+                  <Icon name={"room-service"} size={25} color={Colors.GREY} />
                   <Text style={Typography.FONT_REGULAR_GREY}>
-                    {recipe.servings}
+                    {"Servings " + recipe.servings}
                   </Text>
                 </View>
+                <TouchableOpacity>
+                  {recipe.favorited ? (
+                    <Icon name={"favorite"} size={25} color={Colors.GREEN} />
+                  ) : (
+                    <Icon
+                      name={"favorite-outline"}
+                      size={25}
+                      color={Colors.GREY}
+                    />
+                  )}
+                </TouchableOpacity>
               </View>
             </View>
             <View style={styles.info}>
@@ -86,12 +106,42 @@ class Recipe extends Component {
               </View>
               <View styling={styles.description}>
                 <Text style={Typography.FONT_H3_BLACK_BOLD}>Description</Text>
-                <Text style={Typography.FONT_REGULAR_BLACK}>
+                <Text style={Typography.FONT_REGULAR_BLACK_THIN}>
                   {recipe.description}
                 </Text>
               </View>
-              <View style={styles.tags}>
-                <Tag text={"Burger"} type={"#FFB6C3"} />
+              <View
+                style={[
+                  styles.tags,
+                  {
+                    flexDirection: "row",
+                    flexWrap: "wrap",
+                    alignItems: "flex-start",
+                    width: getScreenWidth()
+                  }
+                ]}
+              >
+                {recipe.cuisine ? (
+                  <Tag text={recipe.cuisine} type={Colors.CUISINE} />
+                ) : null}
+                {recipe.mealTypes
+                  ? recipe.mealTypes.map(tag => (
+                      <Tag text={tag} type={Colors.MEAL_TYPE} />
+                    ))
+                  : null}
+                {recipe.dishTypes
+                  ? recipe.dishTypes.map(tag => (
+                      <Tag text={tag} type={Colors.DISH_TYPE} />
+                    ))
+                  : null}
+                {recipe.healthTypes
+                  ? recipe.healthTypes.map(tag => (
+                      <Tag text={tag} type={Colors.HEALTH_TYPE} />
+                    ))
+                  : null}
+                <Tag text={"South East Asian"} type={Colors.CUISINE} />
+                <Tag text={"Keto-friendly"} type={Colors.HEALTH_TYPE} />
+                <Tag text={"Pescatarian"} type={Colors.DISH_TYPE} />
               </View>
               <Text
                 style={[Typography.FONT_REGULAR_DARKGREY_BOLD, styles.url]}
@@ -99,6 +149,9 @@ class Recipe extends Component {
               >
                 {recipe.sourceUrl}
               </Text>
+              <TouchableOpacity>
+                <Text>Edit dish</Text>
+              </TouchableOpacity>
             </View>
           </ScrollView>
         ) : (
@@ -142,10 +195,7 @@ const styles = StyleSheet.create({
     marginTop: 250,
     alignSelf: "center"
   },
-  info: {
-    marginHorizontal: 20,
-    justifyContent: "center"
-  },
+  info: {},
   ingredients: { marginTop: 70, marginBottom: 10 },
   description: {},
   tags: { marginTop: 10 },
