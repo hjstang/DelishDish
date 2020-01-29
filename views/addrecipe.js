@@ -8,7 +8,7 @@ import {
   TextInput,
   Dimensions,
   FlatList,
-  Alert,
+  Alert, Keyboard,
 } from "react-native";
 import { connect } from "react-redux";
 import LoginScreen from "../components/LoginScreen";
@@ -493,6 +493,8 @@ class AddRecipe extends Component {
                     textAlignVertical={"top"}
                     value={this.state.description}
                     onChangeText={description => this.setState({ description })}
+                    returnKeyType="done"
+                    onSubmitEditing={Keyboard.dismiss}
                   />
                 </View>
               </View>
