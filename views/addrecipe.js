@@ -443,6 +443,7 @@ class AddRecipe extends Component {
                     { label: "Hard", value: "hard" }
                   ]}
                   placeholder={{ label: "Difficulty", value: null }}
+                  value={this.state.difficulty}
                 />
               </View>
               <View style={styles.inputBox}>
@@ -458,6 +459,7 @@ class AddRecipe extends Component {
                     { label: "6", value: "6" }
                   ]}
                   placeholder={{ label: "Servings", value: null }}
+                  value={this.state.servings}
                 />
               </View>
               <View>
@@ -512,8 +514,12 @@ class AddRecipe extends Component {
                 >
                   <Text style={Typography.FONT_H3_BLACK_BOLD}>Meal Type</Text>
                   <Text>
-                    {this.state.mealTypes.length > 0
-                      ? this.state.mealTypes[0] + "..."
+                    {this.state.mealTypes.length > 1
+                      ? this.state.mealTypes[0] +
+                        "+" +
+                        (this.state.mealTypes.length - 1)
+                      : this.state.mealTypes.length == 1
+                      ? this.state.mealTypes[0]
                       : "None"}
                   </Text>
                 </TouchableOpacity>
@@ -532,8 +538,12 @@ class AddRecipe extends Component {
                 >
                   <Text style={Typography.FONT_H3_BLACK_BOLD}>Dish Type</Text>
                   <Text>
-                    {this.state.dishTypes.length > 0
-                      ? this.state.dishTypes[0] + "..."
+                    {this.state.dishTypes.length > 1
+                      ? this.state.dishTypes[0] +
+                        "+" +
+                        (this.state.dishTypes.length - 1)
+                      : this.state.dishTypes.length == 1
+                      ? this.state.dishTypes[0]
                       : "None"}
                   </Text>
                 </TouchableOpacity>
@@ -554,8 +564,12 @@ class AddRecipe extends Component {
                 >
                   <Text style={Typography.FONT_H3_BLACK_BOLD}>Cuisine</Text>
                   <Text>
-                    {this.state.cuisine.length > 0
-                      ? this.state.cuisine[0] + "..."
+                    {this.state.cuisine.length > 1
+                      ? this.state.cuisine[0] +
+                        "+" +
+                        (this.state.cuisine.length - 1)
+                      : this.state.cuisine.length == 1
+                      ? this.state.cuisine[0]
                       : "None"}
                   </Text>
                 </TouchableOpacity>
@@ -577,8 +591,12 @@ class AddRecipe extends Component {
                     Food Preferences
                   </Text>
                   <Text>
-                    {this.state.healthTypes.length > 0
-                      ? this.state.healthTypes[0] + "..."
+                    {this.state.healthTypes.length > 1
+                      ? this.state.healthTypes[0] +
+                        "+" +
+                        (this.state.healthTypes.length - 1)
+                      : this.state.healthTypes.length == 1
+                      ? this.state.healthTypes[0]
                       : "None"}
                   </Text>
                 </TouchableOpacity>
