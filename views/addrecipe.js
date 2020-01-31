@@ -8,7 +8,9 @@ import {
   TextInput,
   Dimensions,
   FlatList,
-  Alert, Keyboard,
+  Alert,
+  Keyboard,
+  ActivityIndicator
 } from "react-native";
 import { connect } from "react-redux";
 import LoginScreen from "../components/LoginScreen";
@@ -26,7 +28,7 @@ import PickerSelect from "react-native-picker-select";
 import Swipeout from "react-native-swipeout";
 import ChooseTypeModal from "../components/ChooseTypeModal";
 import AddIngredientModal from "../components/AddIngredientModal";
-import { KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const MEAL_TYPES = [
   "Breakfast",
@@ -102,7 +104,8 @@ class AddRecipe extends Component {
       dishTypeModalVisible: false,
       healthTypeModalVisible: false,
       cuisineModalVisible: false,
-      addIngredientModalVisible: false
+      addIngredientModalVisible: false,
+      imageIsLoading: false
     };
 
     this.setMealTypeModalVisible = this.setMealTypeModalVisible.bind(this);
@@ -128,6 +131,7 @@ class AddRecipe extends Component {
   };
 
   uploadImage = async uri => {
+    this.setState({ imageIsLoading: true });
     const response = await fetch(uri);
     const blob = await response.blob();
     const uuid = this.uuidv4();
@@ -138,7 +142,7 @@ class AddRecipe extends Component {
       .child(this.props.auth.uid + "/" + uuid);
     const putImage = await ref.put(blob);
     ref.getDownloadURL().then(url => {
-      this.setState({ imageUrl: url });
+      this.setState({ imageUrl: url, imageIsLoading: false });
     });
     return putImage;
   };
@@ -395,7 +399,7 @@ class AddRecipe extends Component {
         {auth.uid ? (
           <View style={styles.container}>
             <View style={[styles.imageBox, { width: screenWidth }]}>
-              {this.state.imageUrl ? (
+              {this.state.imageUrl && !this.state.imageIsLoading ? (
                 <TouchableOpacity
                   onPress={() => this._onOpenActionSheet()}
                   style={styles.addImage}
@@ -408,6 +412,8 @@ class AddRecipe extends Component {
                     }}
                   />
                 </TouchableOpacity>
+              ) : this.state.imageIsLoading ? (
+                <ActivityIndicator />
               ) : (
                 <TouchableOpacity
                   onPress={() => this._onOpenActionSheet()}
