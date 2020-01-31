@@ -42,10 +42,9 @@ export function searchByMealType(recipes, mealTypeOriginal) {
   if (!recipes) {
     return null;
   }
-  const mealType = mealTypeOriginal.toLowerCase();
   const resultRecipes = [];
   recipes.map(recipe => {
-    if (recipe.mealTypes.includes(mealType)) {
+    if (recipe.mealTypes.includes(mealTypeOriginal)) {
       resultRecipes.push(recipe);
     }
   });
