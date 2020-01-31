@@ -64,6 +64,7 @@ class AddIngredientModal extends Component {
               onChangeText={name => this.setState({ name })}
               style={[Typography.FONT_INPUT, styles.inputText, styles.inputBox]}
               value={this.state.name}
+              placeholderTextColor={Colors.MEDIUM_GREY}
             />
             <TextInput
               placeholder="Quantity"
@@ -71,6 +72,7 @@ class AddIngredientModal extends Component {
               style={[Typography.FONT_INPUT, styles.inputBox]}
               value={this.state.quantity}
               keyboardType={"numeric"}
+              placeholderTextColor={Colors.MEDIUM_GREY}
             />
             <View style={styles.inputBox}>
               <PickerSelect
@@ -87,6 +89,7 @@ class AddIngredientModal extends Component {
                   { label: "Units", value: "Units" }
                 ]}
                 placeholder={{ label: "Measure", value: null }}
+                placeholderTextColor={Colors.MEDIUM_GREY}
               />
             </View>
             <TouchableOpacity
