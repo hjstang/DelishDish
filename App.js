@@ -23,6 +23,7 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import { Asset } from "expo-asset";
 import { AppLoading } from "expo";
 import CategorySearch from "./components/CategorySearch";
+import ApiCategorySearch from "./components/ApiCategorySearch";
 
 console.disableYellowBox = true;
 
@@ -40,7 +41,8 @@ const rrfConfig = {
 const ExploreStack = createStackNavigator(
   {
     Explore: ExploreScreen,
-    ApiRecipe: ApiRecipe
+    ApiRecipe: ApiRecipe,
+    ApiCategorySearch: ApiCategorySearch
   },
   {
     initialRouteName: "Explore",
@@ -87,14 +89,15 @@ const ProfileStack = createStackNavigator(
 );
 
 const AddRecipeStack = createStackNavigator(
-    {
-        AddRecipe: AddRecipeScreen,
-        Recipe: Recipe
-    } ,{
-        initialRouteName: "AddRecipe",
-        header: null,
-        headerMode: "none"
-    }
+  {
+    AddRecipe: AddRecipeScreen,
+    Recipe: Recipe
+  },
+  {
+    initialRouteName: "AddRecipe",
+    header: null,
+    headerMode: "none"
+  }
 );
 
 const bottomTabNavigator = createBottomTabNavigator(
