@@ -22,7 +22,6 @@ class Recipe extends Component {
   render() {
     const { navigation } = this.props;
     const recipe = navigation.state.params.recipe.item;
-    console.log(recipe);
 
     const ingredientsList = recipe.ingredients.map((ingredient, index) => {
       return (
@@ -47,7 +46,7 @@ class Recipe extends Component {
             <View>
               <Image
                 source={{ uri: recipe.imageUrl }}
-                style={{ width: screenWidth, height: 250}}
+                style={{ width: screenWidth, height: 250 }}
               />
               <View style={styles.returnButton}>
                 <ReturnButton navigation={navigation} />
@@ -87,12 +86,17 @@ class Recipe extends Component {
                 </TouchableOpacity>
               </View>
             </View>
-            <View style={[styles.info, {width: screenWidth*0.90, alignSelf: "center"}]}>
+            <View
+              style={[
+                styles.info,
+                { width: screenWidth * 0.9, alignSelf: "center" }
+              ]}
+            >
               <View style={styles.ingredients}>
                 <Text style={Typography.FONT_H3_BLACK_BOLD}>Ingredients</Text>
                 {ingredientsList}
               </View>
-              <View styling={styles.description}>
+              <View>
                 <Text style={Typography.FONT_H3_BLACK_BOLD}>Description</Text>
                 <Text style={Typography.FONT_REGULAR_BLACK_THIN}>
                   {recipe.description}
@@ -198,7 +202,6 @@ const styles = StyleSheet.create({
     alignSelf: "center"
   },
   ingredients: { marginTop: 70, marginBottom: 10 },
-  description: {},
   tags: { marginTop: 10 },
   url: { marginTop: 10, alignSelf: "center" },
   returnButton: {
