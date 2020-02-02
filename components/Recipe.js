@@ -18,52 +18,40 @@ import ReturnButton from "./ReturnButton";
 import { getScreenWidth } from "../utils/sizing";
 import Icon from "react-native-vector-icons/MaterialIcons";
 
-/*
-imageUrl: "",
-      title: " Blue Cheese Burger",
-      id: "",
-      difficulty: "Easy",
-      servings: 0,
-      ingredients: [],
-      description:
-        "This is the description of the Blue Cheese Burger. It is supereasy to make",
-      cuisine: "",
-      dishTypes: [],
-      healthTypes: [],
-      mealTypes: [],
-      favorited: false,
-      sourceUrl: ""
- */
-
 class Recipe extends Component {
-
-
   render() {
     const { navigation } = this.props;
     const recipe = navigation.state.params.recipe.item;
     console.log(recipe);
 
-    const ingredientsList = recipe.ingredients.map(ingredient => {
+    const ingredientsList = recipe.ingredients.map((ingredient, index) => {
       return (
         <Ingredient
           name={ingredient.name}
           measure={ingredient.measure}
           quantity={ingredient.quantity}
+          key={"key" + index}
         />
       );
     });
+    const screenWidth = getScreenWidth();
 
     return (
       <View style={styles.container}>
         {recipe ? (
           <ScrollView
-            scontentContainerStyle={{
+            contentContainerStyle={{
               flexGrow: 1
             }}
           >
-            <Image source={require("../assets/images/burger.png")} />
-            <View style={styles.returnButton}>
-              <ReturnButton navigation={navigation} />
+            <View>
+              <Image
+                source={{ uri: recipe.imageUrl }}
+                style={{ width: screenWidth, height: 250}}
+              />
+              <View style={styles.returnButton}>
+                <ReturnButton navigation={navigation} />
+              </View>
             </View>
             <View style={styles.infoBox}>
               <Text style={[Typography.FONT_H1_BLACK, { marginVertical: 5 }]}>
@@ -91,7 +79,7 @@ class Recipe extends Component {
                     <Icon name={"favorite"} size={25} color={Colors.GREEN} />
                   ) : (
                     <Icon
-                      name={"favorite-outline"}
+                      name={"favorite-border"}
                       size={25}
                       color={Colors.GREY}
                     />
@@ -99,7 +87,7 @@ class Recipe extends Component {
                 </TouchableOpacity>
               </View>
             </View>
-            <View style={styles.info}>
+            <View style={[styles.info, {width: screenWidth*0.90, alignSelf: "center"}]}>
               <View style={styles.ingredients}>
                 <Text style={Typography.FONT_H3_BLACK_BOLD}>Ingredients</Text>
                 {ingredientsList}
@@ -116,32 +104,46 @@ class Recipe extends Component {
                   {
                     flexDirection: "row",
                     flexWrap: "wrap",
-                    alignItems: "flex-start",
-                    width: getScreenWidth()
+                    alignItems: "flex-start"
                   }
                 ]}
               >
-                {recipe.cuisine ? (
-                  <Tag text={recipe.cuisine} type={Colors.CUISINE} />
-                ) : null}
+                {recipe.cuisine
+                  ? recipe.cuisine.map((tag, index) => (
+                      <Tag
+                        text={tag}
+                        type={Colors.CUISINE}
+                        key={"key" + index}
+                      />
+                    ))
+                  : null}
                 {recipe.mealTypes
-                  ? recipe.mealTypes.map(tag => (
-                      <Tag text={tag} type={Colors.MEAL_TYPE} />
+                  ? recipe.mealTypes.map((tag, index) => (
+                      <Tag
+                        text={tag}
+                        type={Colors.MEAL_TYPE}
+                        key={"key" + index}
+                      />
                     ))
                   : null}
                 {recipe.dishTypes
-                  ? recipe.dishTypes.map(tag => (
-                      <Tag text={tag} type={Colors.DISH_TYPE} />
+                  ? recipe.dishTypes.map((tag, index) => (
+                      <Tag
+                        text={tag}
+                        type={Colors.DISH_TYPE}
+                        key={"key" + index}
+                      />
                     ))
                   : null}
                 {recipe.healthTypes
-                  ? recipe.healthTypes.map(tag => (
-                      <Tag text={tag} type={Colors.HEALTH_TYPE} />
+                  ? recipe.healthTypes.map((tag, index) => (
+                      <Tag
+                        text={tag}
+                        type={Colors.HEALTH_TYPE}
+                        key={"key" + index}
+                      />
                     ))
                   : null}
-                <Tag text={"South East Asian"} type={Colors.CUISINE} />
-                <Tag text={"Keto-friendly"} type={Colors.HEALTH_TYPE} />
-                <Tag text={"Pescatarian"} type={Colors.DISH_TYPE} />
               </View>
               <Text
                 style={[Typography.FONT_REGULAR_DARKGREY_BOLD, styles.url]}
@@ -149,8 +151,8 @@ class Recipe extends Component {
               >
                 {recipe.sourceUrl}
               </Text>
-              <TouchableOpacity>
-                <Text>Edit dish</Text>
+              <TouchableOpacity style={styles.editButton}>
+                <Text style={Typography.FONT_H3_WHITE}>Edit dish</Text>
               </TouchableOpacity>
             </View>
           </ScrollView>
@@ -180,11 +182,11 @@ const styles = StyleSheet.create({
     flexGrow: 1
   },
   infoBox: {
-    backgroundColor: "white",
+    backgroundColor: Colors.WHITE,
     borderRadius: 20,
-    width: 325,
+    width: 322,
     height: 125,
-    shadowColor: "#000000",
+    shadowColor: Colors.BLACK,
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.5,
     shadowRadius: 1,
@@ -192,10 +194,9 @@ const styles = StyleSheet.create({
     position: "absolute",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 250,
+    marginTop: 170,
     alignSelf: "center"
   },
-  info: {},
   ingredients: { marginTop: 70, marginBottom: 10 },
   description: {},
   tags: { marginTop: 10 },
@@ -203,5 +204,14 @@ const styles = StyleSheet.create({
   returnButton: {
     position: "absolute",
     marginTop: 40
+  },
+  editButton: {
+    width: 140,
+    height: 30,
+    backgroundColor: Colors.LIGHTGREEN,
+    alignSelf: "center",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 5
   }
 });
