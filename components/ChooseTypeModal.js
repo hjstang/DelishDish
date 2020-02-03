@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     flexGrow: 1,
-    marginBottom: 20
+    marginBottom: 40
   },
   button: {
     width: 120,

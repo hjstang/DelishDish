@@ -9,6 +9,8 @@ import {
   Dimensions,
   FlatList,
   Alert,
+  Keyboard,
+  ActivityIndicator
 } from "react-native";
 import { connect } from "react-redux";
 import LoginScreen from "../components/LoginScreen";
@@ -26,7 +28,7 @@ import PickerSelect from "react-native-picker-select";
 import Swipeout from "react-native-swipeout";
 import ChooseTypeModal from "../components/ChooseTypeModal";
 import AddIngredientModal from "../components/AddIngredientModal";
-import { KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const MEAL_TYPES = [
   "Breakfast",
@@ -102,7 +104,8 @@ class AddRecipe extends Component {
       dishTypeModalVisible: false,
       healthTypeModalVisible: false,
       cuisineModalVisible: false,
-      addIngredientModalVisible: false
+      addIngredientModalVisible: false,
+      imageIsLoading: false
     };
 
     this.setMealTypeModalVisible = this.setMealTypeModalVisible.bind(this);
@@ -128,6 +131,7 @@ class AddRecipe extends Component {
   };
 
   uploadImage = async uri => {
+    this.setState({ imageIsLoading: true });
     const response = await fetch(uri);
     const blob = await response.blob();
     const uuid = this.uuidv4();
@@ -138,7 +142,7 @@ class AddRecipe extends Component {
       .child(this.props.auth.uid + "/" + uuid);
     const putImage = await ref.put(blob);
     ref.getDownloadURL().then(url => {
-      this.setState({ imageUrl: url });
+      this.setState({ imageUrl: url, imageIsLoading: false });
     });
     return putImage;
   };
@@ -395,7 +399,7 @@ class AddRecipe extends Component {
         {auth.uid ? (
           <View style={styles.container}>
             <View style={[styles.imageBox, { width: screenWidth }]}>
-              {this.state.imageUrl ? (
+              {this.state.imageUrl && !this.state.imageIsLoading ? (
                 <TouchableOpacity
                   onPress={() => this._onOpenActionSheet()}
                   style={styles.addImage}
@@ -408,6 +412,8 @@ class AddRecipe extends Component {
                     }}
                   />
                 </TouchableOpacity>
+              ) : this.state.imageIsLoading ? (
+                <ActivityIndicator />
               ) : (
                 <TouchableOpacity
                   onPress={() => this._onOpenActionSheet()}
@@ -437,6 +443,7 @@ class AddRecipe extends Component {
                     { label: "Hard", value: "hard" }
                   ]}
                   placeholder={{ label: "Difficulty", value: null }}
+                  value={this.state.difficulty}
                 />
               </View>
               <View style={styles.inputBox}>
@@ -452,6 +459,7 @@ class AddRecipe extends Component {
                     { label: "6", value: "6" }
                   ]}
                   placeholder={{ label: "Servings", value: null }}
+                  value={this.state.servings}
                 />
               </View>
               <View>
@@ -493,6 +501,8 @@ class AddRecipe extends Component {
                     textAlignVertical={"top"}
                     value={this.state.description}
                     onChangeText={description => this.setState({ description })}
+                    returnKeyType="done"
+                    onSubmitEditing={Keyboard.dismiss}
                   />
                 </View>
               </View>
@@ -504,8 +514,12 @@ class AddRecipe extends Component {
                 >
                   <Text style={Typography.FONT_H3_BLACK_BOLD}>Meal Type</Text>
                   <Text>
-                    {this.state.mealTypes.length > 0
-                      ? this.state.mealTypes[0] + "..."
+                    {this.state.mealTypes.length > 1
+                      ? this.state.mealTypes[0] +
+                        "+" +
+                        (this.state.mealTypes.length - 1)
+                      : this.state.mealTypes.length == 1
+                      ? this.state.mealTypes[0]
                       : "None"}
                   </Text>
                 </TouchableOpacity>
@@ -524,8 +538,12 @@ class AddRecipe extends Component {
                 >
                   <Text style={Typography.FONT_H3_BLACK_BOLD}>Dish Type</Text>
                   <Text>
-                    {this.state.dishTypes.length > 0
-                      ? this.state.dishTypes[0] + "..."
+                    {this.state.dishTypes.length > 1
+                      ? this.state.dishTypes[0] +
+                        "+" +
+                        (this.state.dishTypes.length - 1)
+                      : this.state.dishTypes.length == 1
+                      ? this.state.dishTypes[0]
                       : "None"}
                   </Text>
                 </TouchableOpacity>
@@ -546,8 +564,12 @@ class AddRecipe extends Component {
                 >
                   <Text style={Typography.FONT_H3_BLACK_BOLD}>Cuisine</Text>
                   <Text>
-                    {this.state.cuisine.length > 0
-                      ? this.state.cuisine[0] + "..."
+                    {this.state.cuisine.length > 1
+                      ? this.state.cuisine[0] +
+                        "+" +
+                        (this.state.cuisine.length - 1)
+                      : this.state.cuisine.length == 1
+                      ? this.state.cuisine[0]
                       : "None"}
                   </Text>
                 </TouchableOpacity>
@@ -569,8 +591,12 @@ class AddRecipe extends Component {
                     Food Preferences
                   </Text>
                   <Text>
-                    {this.state.healthTypes.length > 0
-                      ? this.state.healthTypes[0] + "..."
+                    {this.state.healthTypes.length > 1
+                      ? this.state.healthTypes[0] +
+                        "+" +
+                        (this.state.healthTypes.length - 1)
+                      : this.state.healthTypes.length == 1
+                      ? this.state.healthTypes[0]
                       : "None"}
                   </Text>
                 </TouchableOpacity>

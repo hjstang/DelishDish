@@ -139,12 +139,10 @@ export default class Explore extends Component {
                         { width: getBoxWidth(screenWidth) }
                       ]}
                       activeOpacity={0.1}
-                      onPress={() => {
-                        this.setState({
-                          searchWord: item.title,
-                          isLoading: true
+                      onPress={async () => {
+                        navigation.navigate("ApiCategorySearch", {
+                          category: item.title
                         });
-                        this.getSearchResult(item.title);
                       }}
                     >
                       <CategoryBox category={item} />
