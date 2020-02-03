@@ -1,20 +1,18 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, Image, ImageBackground } from "react-native";
+import { StyleSheet, Text, View, Image } from "react-native";
 import * as Typography from "../styles/typography";
 
 export default class CategoryBox extends Component {
   render() {
     const { category } = this.props;
     return (
-      <View style={styles.container}>
-        <ImageBackground style={styles.image} source={category.image}>
-          <View style={styles.textBox}>
-            <Text style={[Typography.FONT_REGULAR_WHITE, styles.text]}>
-              {category.title}
-            </Text>
-          </View>
-        </ImageBackground>
-        <View style={styles.overlay} />
+      <View>
+        <Image style={styles.image} source={category.image}/>
+        <View style={styles.textBox}>
+          <Text style={[Typography.FONT_REGULAR_WHITE, styles.text]}>
+            {category.title}
+          </Text>
+        </View>
       </View>
     );
   }
@@ -29,9 +27,6 @@ const styles = StyleSheet.create({
 
   text: {
     textAlign: "center"
-  },
-  overlay: {
-    backgroundColor: "#000000"
   },
   textBox: {
     position: "absolute",

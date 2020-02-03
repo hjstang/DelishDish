@@ -25,7 +25,7 @@ export default class RecipesView extends Component {
                 style={[styles.button, { width: getBoxWidth(screenWidth) }]}
                 activeOpacity={0.1}
                 onPress={() => {
-                  navigation.navigate("Recipe", { recipe: { item } });
+                  navigation.navigate("Recipe", {recipe: item});
                 }}
               >
                 <RecipeBox recipe={item} />

@@ -21,7 +21,8 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 class Recipe extends Component {
   render() {
     const { navigation } = this.props;
-    const recipe = navigation.state.params.recipe.item;
+    const recipe = navigation.state.params.recipe;
+    const createdNow = navigation.state.params.createdNow;
 
     const ingredientsList = recipe.ingredients.map((ingredient, index) => {
       return (
@@ -43,15 +44,17 @@ class Recipe extends Component {
               flexGrow: 1
             }}
           >
-            <View>
+              <View>
               <Image
-                source={{ uri: recipe.imageUrl }}
-                style={{ width: screenWidth, height: 250 }}
+                  source={{ uri: recipe.imageUrl }}
+                  style={{ width: screenWidth, height: 250 }}
               />
+            {!createdNow ? (
               <View style={styles.returnButton}>
                 <ReturnButton navigation={navigation} />
               </View>
-            </View>
+            ) : null}
+              </View>
             <View style={styles.infoBox}>
               <Text style={[Typography.FONT_H1_BLACK, { marginVertical: 5 }]}>
                 {recipe.title}
