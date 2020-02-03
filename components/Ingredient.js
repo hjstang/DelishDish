@@ -7,7 +7,7 @@ export default class Ingredient extends Component {
   render() {
     return (
       <View style={styles.ingredient}>
-        <Text style={Typography.FONT_REGULAR_GREY}>
+        <Text style={Typography.FONT_REGULAR_GREY_THIN}>
           {this.props.quantity} {this.props.measure}
         </Text>
         <Text style={Typography.FONT_REGULAR_GREY}> {this.props.name} </Text>
@@ -19,7 +19,7 @@ export default class Ingredient extends Component {
 const styles = StyleSheet.create({
   ingredient: {
     flexDirection: "row",
-    borderBottomColor: Colors.GREY,
+    borderBottomColor: Colors.LIGHTGREY,
     borderBottomWidth: 1,
     width: 320,
     marginTop: 10

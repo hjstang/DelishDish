@@ -17,12 +17,14 @@ export default class Tag extends Component {
 const styles = StyleSheet.create({
   tag: {
     borderRadius: 5,
-    marginRight: 4,
-    justifyContent: "center",
-    width: 50,
-    marginTop: 10
+    marginHorizontal: 5,
+    marginVertical: 5,
+    justifyContent: "center"
   },
   text: {
-    alignSelf: "center"
+    alignSelf: "center",
+    marginHorizontal: 20,
+    textAlign: "center",
+    justifyContent: "center"
   }
 });

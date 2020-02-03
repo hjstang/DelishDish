@@ -5,96 +5,152 @@ import {
   View,
   ScrollView,
   Image,
-  Linking
+  Linking,
+  TouchableOpacity
 } from "react-native";
 import Tag from "./Tag";
 import Ingredient from "./Ingredient";
 import * as Typography from "../styles/typography";
+import * as Colors from "../styles/colors";
 import { deleteRecipe, editRecipe } from "../store/actions/recipeActions";
 import { connect } from "react-redux";
 import ReturnButton from "./ReturnButton";
+import { getScreenWidth } from "../utils/sizing";
+import Icon from "react-native-vector-icons/MaterialIcons";
 
 class Recipe extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      imageUrl: "",
-      title: " Blue Cheese Burger",
-      id: "",
-      difficulty: "Easy",
-      servings: 0,
-      ingredients: [],
-      description:
-        "This is the description of the Blue Cheese Burger. It is supereasy to make",
-      cuisine: "",
-      dishTypes: [],
-      healthTypes: [],
-      favorited: false,
-      sourceUrl: ""
-    };
-  }
-
   render() {
     const { navigation } = this.props;
     const recipe = navigation.state.params.recipe;
     const createdNow = navigation.state.params.createdNow;
 
-    const ingredientsList = recipe.ingredients.map(ingredient => {
+    const ingredientsList = recipe.ingredients.map((ingredient, index) => {
       return (
         <Ingredient
           name={ingredient.name}
           measure={ingredient.measure}
           quantity={ingredient.quantity}
+          key={"key" + index}
         />
       );
     });
+    const screenWidth = getScreenWidth();
 
     return (
       <View style={styles.container}>
         {recipe ? (
           <ScrollView
-            scontentContainerStyle={{
+            contentContainerStyle={{
               flexGrow: 1
             }}
           >
-            <Image source={require("../assets/images/burger.png")} />
+              <View>
+              <Image
+                  source={{ uri: recipe.imageUrl }}
+                  style={{ width: screenWidth, height: 250 }}
+              />
             {!createdNow ? (
               <View style={styles.returnButton}>
                 <ReturnButton navigation={navigation} />
               </View>
             ) : null}
+              </View>
             <View style={styles.infoBox}>
               <Text style={[Typography.FONT_H1_BLACK, { marginVertical: 5 }]}>
                 {recipe.title}
               </Text>
               <View style={{ flexDirection: "row", marginBottom: 5 }}>
                 <View style={{ flexDirection: "row" }}>
-                  <Image source={require("../assets/menu/explore.png")} />
+                  <Icon
+                    name={"restaurant-menu"}
+                    size={25}
+                    color={Colors.GREY}
+                  />
                   <Text style={Typography.FONT_REGULAR_GREY}>
                     {recipe.difficulty}
                   </Text>
                 </View>
                 <View style={{ flexDirection: "row" }}>
-                  <Image source={require("../assets/menu/explore.png")} />
+                  <Icon name={"room-service"} size={25} color={Colors.GREY} />
                   <Text style={Typography.FONT_REGULAR_GREY}>
-                    {recipe.servings}
+                    {"Servings " + recipe.servings}
                   </Text>
                 </View>
+                <TouchableOpacity>
+                  {recipe.favorited ? (
+                    <Icon name={"favorite"} size={25} color={Colors.GREEN} />
+                  ) : (
+                    <Icon
+                      name={"favorite-border"}
+                      size={25}
+                      color={Colors.GREY}
+                    />
+                  )}
+                </TouchableOpacity>
               </View>
             </View>
-            <View style={styles.info}>
+            <View
+              style={[
+                styles.info,
+                { width: screenWidth * 0.9, alignSelf: "center" }
+              ]}
+            >
               <View style={styles.ingredients}>
                 <Text style={Typography.FONT_H3_BLACK_BOLD}>Ingredients</Text>
                 {ingredientsList}
               </View>
-              <View styling={styles.description}>
+              <View>
                 <Text style={Typography.FONT_H3_BLACK_BOLD}>Description</Text>
-                <Text style={Typography.FONT_REGULAR_BLACK}>
+                <Text style={Typography.FONT_REGULAR_BLACK_THIN}>
                   {recipe.description}
                 </Text>
               </View>
-              <View style={styles.tags}>
-                <Tag text={"Burger"} type={"#FFB6C3"} />
+              <View
+                style={[
+                  styles.tags,
+                  {
+                    flexDirection: "row",
+                    flexWrap: "wrap",
+                    alignItems: "flex-start"
+                  }
+                ]}
+              >
+                {recipe.cuisine
+                  ? recipe.cuisine.map((tag, index) => (
+                      <Tag
+                        text={tag}
+                        type={Colors.CUISINE}
+                        key={"key" + index}
+                      />
+                    ))
+                  : null}
+                {recipe.mealTypes
+                  ? recipe.mealTypes.map((tag, index) => (
+                      <Tag
+                        text={tag}
+                        type={Colors.MEAL_TYPE}
+                        key={"key" + index}
+                      />
+                    ))
+                  : null}
+                {recipe.dishTypes
+                  ? recipe.dishTypes.map((tag, index) => (
+                      <Tag
+                        text={tag}
+                        type={Colors.DISH_TYPE}
+                        key={"key" + index}
+                      />
+                    ))
+                  : null}
+                {recipe.healthTypes
+                  ? recipe.healthTypes.map((tag, index) => (
+                      <Tag
+                        text={tag}
+                        type={Colors.HEALTH_TYPE}
+                        key={"key" + index}
+                      />
+                    ))
+                  : null}
               </View>
               <Text
                 style={[Typography.FONT_REGULAR_DARKGREY_BOLD, styles.url]}
@@ -102,6 +158,9 @@ class Recipe extends Component {
               >
                 {recipe.sourceUrl}
               </Text>
+              <TouchableOpacity style={styles.editButton}>
+                <Text style={Typography.FONT_H3_WHITE}>Edit dish</Text>
+              </TouchableOpacity>
             </View>
           </ScrollView>
         ) : (
@@ -130,11 +189,11 @@ const styles = StyleSheet.create({
     flexGrow: 1
   },
   infoBox: {
-    backgroundColor: "white",
+    backgroundColor: Colors.WHITE,
     borderRadius: 20,
-    width: 325,
+    width: 322,
     height: 125,
-    shadowColor: "#000000",
+    shadowColor: Colors.BLACK,
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.5,
     shadowRadius: 1,
@@ -142,19 +201,23 @@ const styles = StyleSheet.create({
     position: "absolute",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 250,
+    marginTop: 170,
     alignSelf: "center"
   },
-  info: {
-    marginHorizontal: 20,
-    justifyContent: "center"
-  },
   ingredients: { marginTop: 70, marginBottom: 10 },
-  description: {},
   tags: { marginTop: 10 },
   url: { marginTop: 10, alignSelf: "center" },
   returnButton: {
     position: "absolute",
     marginTop: 40
+  },
+  editButton: {
+    width: 140,
+    height: 30,
+    backgroundColor: Colors.LIGHTGREEN,
+    alignSelf: "center",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 5
   }
 });

@@ -11,6 +11,7 @@ const FONT_WEIGHT_MEDIUM = "500";
 const FONT_WEIGHT_BOLD = "800";
 
 // FONT SIZE
+const FONT_SIZE_48 = 48;
 const FONT_SIZE_26 = 26;
 const FONT_SIZE_24 = 24;
 const FONT_SIZE_18 = 18;
@@ -18,6 +19,13 @@ const FONT_SIZE_14 = 14;
 const FONT_SIZE_12 = 12;
 
 // FONT STYLE
+export const FONT_LARGE_GREEN = {
+    fontFamily: FONT_FAMILY_BOLD,
+    fontWeight: FONT_WEIGHT_BOLD,
+    fontSize: FONT_SIZE_48,
+    color: Colors.GREEN
+};
+
 export const FONT_H1_BLACK = {
     fontFamily: FONT_FAMILY_BOLD,
     fontWeight: FONT_WEIGHT_BOLD,
@@ -101,6 +109,13 @@ export const FONT_REGULAR_BLACK = {
     color: Colors.BLACK
 };
 
+export const FONT_REGULAR_GREEN = {
+    fontFamily: FONT_FAMILY_MEDIUM,
+    fontWeight: FONT_WEIGHT_MEDIUM,
+    fontSize: FONT_SIZE_14,
+    color: Colors.GREEN
+};
+
 export const FONT_REGULAR_GREY = {
     fontFamily: FONT_FAMILY_MEDIUM,
     fontWeight: FONT_WEIGHT_MEDIUM,
@@ -113,6 +128,13 @@ export const FONT_REGULAR_GREY_THIN = {
     fontWeight: FONT_WEIGHT_LIGHT,
     fontSize: FONT_SIZE_14,
     color: Colors.GREY
+};
+
+export const FONT_REGULAR_BLACK_THIN = {
+    fontFamily: FONT_FAMILY,
+    fontWeight: FONT_WEIGHT_LIGHT,
+    fontSize: FONT_SIZE_14,
+    color: Colors.BLACK
 };
 
 export const FONT_REGULAR_WHITE_BOLD = {
