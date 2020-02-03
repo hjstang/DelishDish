@@ -19,6 +19,7 @@ import { TouchableWithoutFeedback } from "react-native-web";
 import CategoryBox from "../components/CategoryBox";
 import { searchBySearchWord, searchByMealType } from "../utils/searchFunctions";
 import { getBoxWidth, getScreenWidth } from "../utils/sizing";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 class Search extends Component {
   constructor(props) {
@@ -77,10 +78,10 @@ class Search extends Component {
     const { auth, navigation } = this.props;
     const screenWidth = getScreenWidth();
     return (
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.container}>
-          {auth.uid ? (
-            <View>
+      <KeyboardAwareScrollView>
+        {auth.uid ? (
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={styles.container}>
               <Text style={[Typography.FONT_H3_GREEN, { alignSelf: "center" }]}>
                 Delish Dish
               </Text>
@@ -102,11 +103,11 @@ class Search extends Component {
                     screenWidth={screenWidth}
                   />
                 ) : this.state.searched ? (
-                    <View>
-                      <Text style={[Typography.FONT_H3_BLACK, styles.noRecipes]}>
-                        You don't have any recipes {"\n"} in this category yet...
-                      </Text>
-                    </View>
+                  <View>
+                    <Text style={[Typography.FONT_H3_BLACK, styles.noRecipes]}>
+                      You don't have any recipes {"\n"} in this category yet...
+                    </Text>
+                  </View>
                 ) : (
                   <View>
                     <FlatList
@@ -138,11 +139,11 @@ class Search extends Component {
                 )}
               </View>
             </View>
-          ) : (
-            <LoginScreen />
-          )}
-        </View>
-      </TouchableWithoutFeedback>
+          </TouchableWithoutFeedback>
+        ) : (
+          <LoginScreen />
+        )}
+      </KeyboardAwareScrollView>
     );
   }
 }
