@@ -12,13 +12,19 @@ import Tag from "./Tag";
 import Ingredient from "./Ingredient";
 import * as Typography from "../styles/typography";
 import * as Colors from "../styles/colors";
-import { deleteRecipe, editRecipe } from "../store/actions/recipeActions";
+import { setFavoriteRecipe } from "../store/actions/recipeActions";
 import { connect } from "react-redux";
 import ReturnButton from "./ReturnButton";
 import { getScreenWidth } from "../utils/sizing";
 import Icon from "react-native-vector-icons/MaterialIcons";
 
 class Recipe extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      favorited: this.props.navigation.state.params.recipe.favorited
+    };
+  }
   render() {
     const { navigation } = this.props;
     const recipe = navigation.state.params.recipe;
@@ -76,8 +82,16 @@ class Recipe extends Component {
                     {"Servings " + recipe.servings}
                   </Text>
                 </View>
-                <TouchableOpacity>
-                  {recipe.favorited ? (
+                <TouchableOpacity
+                  onPress={() => {
+                    this.props.setFavoriteRecipe(
+                      recipe.id,
+                      !this.state.favorited
+                    );
+                    this.setState({ favorited: !this.state.favorited });
+                  }}
+                >
+                  {this.state.favorited ? (
                     <Icon name={"favorite"} size={25} color={Colors.GREEN} />
                   ) : (
                     <Icon
@@ -178,9 +192,8 @@ class Recipe extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    deleteRecipe: recipeId => dispatch(deleteRecipe(recipeId)),
-    editRecipe: (recipeId, recipeChanges) =>
-      dispatch(editRecipe(recipeId, recipeChanges))
+    setFavoriteRecipe: (recipeId, favorite) =>
+      dispatch(setFavoriteRecipe(recipeId, favorite))
   };
 };
 
