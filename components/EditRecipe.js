@@ -338,8 +338,8 @@ class EditRecipe extends Component {
             const deletingRow = this.state.activeRowKey;
             console.log(deletingRow);
             Alert.alert(
-              "Alert",
               "Are you sure you want to delete?",
+              "",
               [
                 {
                   text: "No",
@@ -668,8 +668,26 @@ class EditRecipe extends Component {
                     { alignSelf: "center" }
                   ]}
                   onPress={() => {
-                    this.props.deleteRecipe(this.state.recipeId);
-                    navigation.popToTop();
+                    Alert.alert(
+                      "Are you sure you want to delete the recipe?",
+                      "This can't be undone",
+                      [
+                        {
+                          text: "No",
+                          onPress: () => console.log("Cancel Pressed"),
+                          style: "cancel"
+                        },
+                        {
+                          text: "Yes",
+                          onPress: () => {
+                            console.log("Yes pressed");
+                            this.props.deleteRecipe(this.state.recipeId);
+                            navigation.popToTop();
+                          }
+                        }
+                      ],
+                      { cancelable: true }
+                    );
                   }}
                 >
                   Delete recipe
