@@ -90,6 +90,9 @@ class EditRecipe extends Component {
     super(props);
     this.state = {
       recipeId: "",
+      authorId: "",
+      createdAt: "",
+      favorited: false,
       title: "",
       cuisine: [],
       description: "",
@@ -128,6 +131,9 @@ class EditRecipe extends Component {
     const rec = this.props.navigation.state.params.recipe;
     this.setState({
       recipeId: rec.id,
+      authorId: rec.authorId,
+      createdAt: rec.createdAt,
+      favorited: rec.favorited,
       title: rec.title,
       cuisine: rec.cuisine,
       description: rec.description,
@@ -231,7 +237,11 @@ class EditRecipe extends Component {
 
   getRecipeFromState = () => {
     const {
+      recipeId,
       title,
+      authorId,
+      createdAt,
+      favorited,
       cuisine,
       description,
       difficulty,
@@ -244,11 +254,14 @@ class EditRecipe extends Component {
       mealTypes
     } = this.state;
     return {
+      id: recipeId,
       title,
+      authorId,
+      createdAt,
+      favorited,
       cuisine,
       description,
       difficulty,
-      favorited: false,
       imageUrl,
       servings,
       sourceUrl,
@@ -641,6 +654,8 @@ class EditRecipe extends Component {
                   ]}
                   onPress={() => {
                     const recipe = this.getRecipeFromState();
+                    console.log("IMAGE URL");
+                    console.log(this.state.imageUrl);
                     this.props.editRecipe(this.state.recipeId, recipe);
                     navigation.navigate("Recipe", { recipe: recipe });
                   }}
