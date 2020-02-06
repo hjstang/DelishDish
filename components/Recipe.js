@@ -60,22 +60,38 @@ class Recipe extends Component {
                 {recipe.title}
               </Text>
               <View style={{ flexDirection: "row", marginBottom: 5 }}>
-                <View style={{ flexDirection: "row", alignItems: "center" }}>
-                  <Icon
-                    name={"restaurant-menu"}
-                    size={25}
-                    color={Colors.GREY}
-                  />
-                  <Text style={Typography.FONT_REGULAR_GREY}>
-                    {recipe.difficulty}
-                  </Text>
-                </View>
-                <View style={{ flexDirection: "row", alignItems: "center" }}>
-                  <Icon name={"room-service"} size={25} color={Colors.GREY} />
-                  <Text style={Typography.FONT_REGULAR_GREY}>
-                    {"Servings " + recipe.servings}
-                  </Text>
-                </View>
+                {recipe.difficulty ? (
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      marginRight: 10
+                    }}
+                  >
+                    <Icon
+                      name={"restaurant-menu"}
+                      size={25}
+                      color={Colors.GREY}
+                    />
+                    <Text style={Typography.FONT_REGULAR_GREY}>
+                      {recipe.difficulty}
+                    </Text>
+                  </View>
+                ) : null}
+                {recipe.servings ? (
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      marginRight: 10
+                    }}
+                  >
+                    <Icon name={"room-service"} size={25} color={Colors.GREY} />
+                    <Text style={Typography.FONT_REGULAR_GREY}>
+                      {"Servings " + recipe.servings}
+                    </Text>
+                  </View>
+                ) : null}
                 <TouchableOpacity style={{ alignItems: "center" }}>
                   {recipe.favorited ? (
                     <Icon name={"favorite"} size={25} color={Colors.GREEN} />
