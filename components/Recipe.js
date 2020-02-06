@@ -164,7 +164,7 @@ class Recipe extends Component {
                   navigation.navigate("EditRecipe", { recipe: recipe });
                 }}
               >
-                <Text style={Typography.FONT_H3_WHITE}>Edit dish</Text>
+                <Text style={Typography.FONT_H3_WHITE}>Edit recipe</Text>
               </TouchableOpacity>
             </View>
           </ScrollView>
