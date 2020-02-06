@@ -630,14 +630,15 @@ class EditRecipe extends Component {
                 </View>
                 <TouchableOpacity
                   disabled={!this.validateAddRecipe()}
-                  style={
+                  style={[
                     this.validateAddRecipe()
                       ? [styles.addButton, { backgroundColor: Colors.GREEN }]
                       : [
                           styles.addButton,
                           { backgroundColor: Colors.MEDIUM_GREY }
-                        ]
-                  }
+                        ],
+                    { marginBottom: 20 }
+                  ]}
                   onPress={() => {
                     const recipe = this.getRecipeFromState();
                     this.props.editRecipe(this.state.recipeId, recipe);
@@ -646,6 +647,18 @@ class EditRecipe extends Component {
                 >
                   <Text style={Typography.FONT_H3_WHITE}>Save changes</Text>
                 </TouchableOpacity>
+                <Text
+                  style={[
+                    Typography.FONT_REGULAR_DARKGREY_BOLD,
+                    { alignSelf: "center" }
+                  ]}
+                  onPress={() => {
+                    this.props.deleteRecipe(this.state.recipeId);
+                    navigation.popToTop();
+                  }}
+                >
+                  Delete recipe
+                </Text>
               </View>
             </View>
           </View>
