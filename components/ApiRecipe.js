@@ -13,9 +13,10 @@ import * as Typography from "../styles/typography";
 import ReturnButton from "./ReturnButton";
 import * as Colors from "../styles/colors";
 import { getScreenWidth } from "../utils/sizing";
+import Icon from "react-native-vector-icons/MaterialIcons";
 
 class ApiRecipe extends Component {
-  constructor(props) {
+  /*constructor(props) {
     super(props);
     this.state = {
       imageUrl: "",
@@ -26,7 +27,7 @@ class ApiRecipe extends Component {
       healthTypes: [],
       sourceUrl: ""
     };
-  }
+  }*/
 
   render() {
     const { navigation } = this.props;
@@ -62,22 +63,18 @@ class ApiRecipe extends Component {
               <ReturnButton navigation={navigation} />
             </View>
             <View style={styles.infoBox}>
-              <Text style={[Typography.FONT_H1_BLACK, { marginVertical: 5 }]}>
+              <Text style={[Typography.FONT_H1_BLACK, { marginVertical: 5, marginLeft: 15 }]}>
                 {recipe.title}
               </Text>
-              <View style={{ flexDirection: "row", marginBottom: 5 }}>
-                <View style={{ flexDirection: "row" }}>
-                  <Image source={require("../assets/menu/explore.png")} />
+              <View style={{ flexDirection: "row", marginBottom: 5, alignItems: "center" }}>
+                  <Icon
+                      name={"restaurant-menu"}
+                      size={25}
+                      color={Colors.GREY}
+                  />
                   <Text style={Typography.FONT_REGULAR_GREY}>
-                    {recipe.difficulty}
+                    {" Servings " + recipe.servings}
                   </Text>
-                </View>
-                <View style={{ flexDirection: "row" }}>
-                  <Image source={require("../assets/menu/explore.png")} />
-                  <Text style={Typography.FONT_REGULAR_GREY}>
-                    {recipe.servings}
-                  </Text>
-                </View>
               </View>
             </View>
             <View style={styles.info}>
@@ -129,12 +126,19 @@ const styles = StyleSheet.create({
   },
   info: {
     marginHorizontal: 20,
-    justifyContent: "center"
+    justifyContent: "center",
+    marginBottom: 30
   },
   ingredients: { marginTop: 70, marginBottom: 10 },
   description: {},
-  tags: { marginTop: 10 },
-  Url: { marginTop: 10, alignSelf: "center" },
+  tags: {
+    marginTop: 10,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    alignItems: "flex-start",
+    marginBottom: 20
+  },
+  url: { alignSelf: "center", textDecorationLine: "underline" },
   returnButton: {
     position: "absolute",
     marginTop: 40

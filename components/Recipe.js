@@ -60,7 +60,7 @@ class Recipe extends Component {
                 {recipe.title}
               </Text>
               <View style={{ flexDirection: "row", marginBottom: 5 }}>
-                <View style={{ flexDirection: "row" }}>
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
                   <Icon
                     name={"restaurant-menu"}
                     size={25}
@@ -70,13 +70,13 @@ class Recipe extends Component {
                     {recipe.difficulty}
                   </Text>
                 </View>
-                <View style={{ flexDirection: "row" }}>
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
                   <Icon name={"room-service"} size={25} color={Colors.GREY} />
                   <Text style={Typography.FONT_REGULAR_GREY}>
                     {"Servings " + recipe.servings}
                   </Text>
                 </View>
-                <TouchableOpacity>
+                <TouchableOpacity style={{ alignItems: "center" }}>
                   {recipe.favorited ? (
                     <Icon name={"favorite"} size={25} color={Colors.GREEN} />
                   ) : (
@@ -99,7 +99,7 @@ class Recipe extends Component {
                 <Text style={Typography.FONT_H3_BLACK_BOLD}>Ingredients</Text>
                 {ingredientsList}
               </View>
-              <View style={{marginTop: 10, marginBottom: 10}}>
+              <View style={{ marginTop: 10, marginBottom: 10 }}>
                 <Text style={Typography.FONT_H3_BLACK_BOLD}>Description</Text>
                 <Text style={Typography.FONT_REGULAR_BLACK_THIN}>
                   {recipe.description}
