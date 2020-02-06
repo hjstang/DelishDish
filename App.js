@@ -24,6 +24,7 @@ import { Asset } from "expo-asset";
 import { AppLoading } from "expo";
 import CategorySearch from "./components/CategorySearch";
 import ApiCategorySearch from "./components/ApiCategorySearch";
+import EditRecipe from "./components/EditRecipe";
 
 console.disableYellowBox = true;
 
@@ -55,7 +56,8 @@ const SearchStack = createStackNavigator(
   {
     Search: SearchScreen,
     Recipe: Recipe,
-    CategorySearch: CategorySearch
+    CategorySearch: CategorySearch,
+    EditRecipe: EditRecipe
   },
   {
     initialRouteName: "Search",
@@ -67,7 +69,8 @@ const SearchStack = createStackNavigator(
 const FavoritesStack = createStackNavigator(
   {
     Favorites: FavoritesScreen,
-    Recipe: Recipe
+    Recipe: Recipe,
+    EditRecipe: EditRecipe
   },
   {
     initialRouteName: "Favorites",
@@ -79,7 +82,8 @@ const FavoritesStack = createStackNavigator(
 const ProfileStack = createStackNavigator(
   {
     Profile: ProfileScreen,
-    Recipe: Recipe
+    Recipe: Recipe,
+    EditRecipe: EditRecipe
   },
   {
     initialRouteName: "Profile",
