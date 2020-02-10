@@ -88,7 +88,7 @@ class Recipe extends Component {
                   >
                     <Icon name={"room-service"} size={25} color={Colors.GREY} />
                     <Text style={Typography.FONT_REGULAR_GREY}>
-                      {"Servings " + recipe.servings}
+                      {" " + recipe.servings}
                     </Text>
                   </View>
                 ) : null}
