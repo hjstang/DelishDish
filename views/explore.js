@@ -34,7 +34,7 @@ export default class Explore extends Component {
 
   async getApiData(searchWord) {
     const response = await fetch(
-      `https://api.edamam.com/search?q=${searchWord}&app_id=${config.appId}&app_key=${config.appKey}&to=5`
+      `https://api.edamam.com/search?q=${searchWord}&app_id=${config.appId}&app_key=${config.appKey}&to=10`
     );
     const responseJson = await response.json();
     if (response.ok) {
@@ -93,6 +93,10 @@ export default class Explore extends Component {
     {
       title: "Wok",
       image: require("../assets/images/wok.jpg")
+    },
+    {
+      title: "Pasta",
+      image: require("../assets/images/pasta.jpg")
     }
   ];
 
@@ -106,7 +110,7 @@ export default class Explore extends Component {
           <Text style={[Typography.FONT_H3_GREEN, { alignSelf: "center" }]}>
             Delish Dish
           </Text>
-          <View style={{ width: screenWidth * 0.9 }}>
+          <View style={{ width: screenWidth * 0.9, flex: 1 }}>
             <View style={{ marginVertical: 15, marginLeft: 5 }}>
               <Text style={Typography.FONT_H1_BLACK}>Explore New Recipes </Text>
             </View>
@@ -119,41 +123,43 @@ export default class Explore extends Component {
                 this.getSearchResult(this.state.searchWord)
               }
             />
-            {this.state.searchResult ? (
-              <ApiRecipesView
-                recipes={this.state.searchResult}
-                navigation={navigation}
-                screenWidth={screenWidth}
-              />
-            ) : this.state.searched ? (
-              <Text>No result</Text>
-            ) : !this.state.isLoading ? (
-              <View>
-                <FlatList
-                  data={this.categories}
-                  numColumns={2}
-                  renderItem={({ item }) => (
-                    <TouchableOpacity
-                      style={[
-                        styles.button,
-                        { width: getBoxWidth(screenWidth) }
-                      ]}
-                      activeOpacity={0.1}
-                      onPress={async () => {
-                        navigation.navigate("ApiCategorySearch", {
-                          category: item.title
-                        });
-                      }}
-                    >
-                      <CategoryBox category={item} />
-                    </TouchableOpacity>
-                  )}
-                  keyExtractor={item => item.title}
+            <View style={{ flex: 1 }}>
+              {this.state.searchResult ? (
+                <ApiRecipesView
+                  recipes={this.state.searchResult}
+                  navigation={navigation}
+                  screenWidth={screenWidth}
                 />
-              </View>
-            ) : (
-              <ActivityIndicator />
-            )}
+              ) : this.state.searched ? (
+                <Text>No result</Text>
+              ) : !this.state.isLoading ? (
+                <View>
+                  <FlatList
+                    data={this.categories}
+                    numColumns={2}
+                    renderItem={({ item }) => (
+                      <TouchableOpacity
+                        style={[
+                          styles.button,
+                          { width: getBoxWidth(screenWidth) }
+                        ]}
+                        activeOpacity={0.1}
+                        onPress={async () => {
+                          navigation.navigate("ApiCategorySearch", {
+                            category: item.title
+                          });
+                        }}
+                      >
+                        <CategoryBox category={item} />
+                      </TouchableOpacity>
+                    )}
+                    keyExtractor={item => item.title}
+                  />
+                </View>
+              ) : (
+                <ActivityIndicator />
+              )}
+            </View>
           </View>
         </View>
       </TouchableWithoutFeedback>

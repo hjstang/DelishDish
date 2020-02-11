@@ -12,13 +12,19 @@ import Tag from "./Tag";
 import Ingredient from "./Ingredient";
 import * as Typography from "../styles/typography";
 import * as Colors from "../styles/colors";
-import { deleteRecipe, editRecipe } from "../store/actions/recipeActions";
+import { setFavoriteRecipe } from "../store/actions/recipeActions";
 import { connect } from "react-redux";
 import ReturnButton from "./ReturnButton";
 import { getScreenWidth } from "../utils/sizing";
 import Icon from "react-native-vector-icons/MaterialIcons";
 
 class Recipe extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      favorited: this.props.navigation.state.params.recipe.favorited
+    };
+  }
   render() {
     const { navigation } = this.props;
     const recipe = navigation.state.params.recipe;
@@ -46,7 +52,7 @@ class Recipe extends Component {
           >
             <View>
               <Image
-                source={{ uri: recipe.imageUrl }}
+                source={{ uri: recipe.imageUrl, cache: "force-cache"  }}
                 style={{ width: screenWidth, height: 250 }}
               />
               {!createdNow ? (
@@ -56,7 +62,12 @@ class Recipe extends Component {
               ) : null}
             </View>
             <View style={styles.infoBox}>
-              <Text style={[Typography.FONT_H1_BLACK, { marginVertical: 5 }]}>
+              <Text
+                style={[
+                  Typography.FONT_H1_BLACK,
+                  { marginHorizontal: 10, marginVertical: 5, textAlign: "center" }
+                ]}
+              >
                 {recipe.title}
               </Text>
               <View style={{ flexDirection: "row", marginBottom: 5 }}>
@@ -92,17 +103,6 @@ class Recipe extends Component {
                     </Text>
                   </View>
                 ) : null}
-                <TouchableOpacity style={{ alignItems: "center" }}>
-                  {recipe.favorited ? (
-                    <Icon name={"favorite"} size={25} color={Colors.GREEN} />
-                  ) : (
-                    <Icon
-                      name={"favorite-border"}
-                      size={25}
-                      color={Colors.GREY}
-                    />
-                  )}
-                </TouchableOpacity>
               </View>
             </View>
             <View
@@ -111,16 +111,87 @@ class Recipe extends Component {
                 { width: screenWidth * 0.9, alignSelf: "center" }
               ]}
             >
-              <View style={styles.ingredients}>
-                <Text style={Typography.FONT_H3_BLACK_BOLD}>Ingredients</Text>
-                {ingredientsList}
-              </View>
-              <View style={{ marginTop: 10, marginBottom: 10 }}>
-                <Text style={Typography.FONT_H3_BLACK_BOLD}>Description</Text>
-                <Text style={Typography.FONT_REGULAR_BLACK_THIN}>
-                  {recipe.description}
-                </Text>
-              </View>
+              {this.state.favorited ? (
+                <TouchableOpacity
+                  style={{
+                    alignSelf: "center",
+                    flexDirection: "row",
+                    width: 140,
+                    height: 25,
+                    backgroundColor: Colors.LIGHTGREEN,
+                    marginTop: 60,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    borderRadius: 5
+                  }}
+                  onPress={() => {
+                    this.props.setFavoriteRecipe(
+                      recipe.id,
+                      !this.state.favorited
+                    );
+                    this.setState({ favorited: !this.state.favorited });
+                  }}
+                >
+                  <Icon name={"favorite"} size={20} color={Colors.WHITE} />
+                  <Text
+                    style={[
+                      Typography.FONT_REGULAR_WHITE_BOLD,
+                      { marginLeft: 5 }
+                    ]}
+                  >
+                    FAVORITED
+                  </Text>
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity
+                  style={{
+                    alignSelf: "center",
+                    flexDirection: "row",
+                    width: 140,
+                    height: 25,
+                    backgroundColor: Colors.LIGHTGREEN,
+                    marginTop: 60,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    borderRadius: 5
+                  }}
+                  onPress={() => {
+                    this.props.setFavoriteRecipe(
+                      recipe.id,
+                      !this.state.favorited
+                    );
+                    this.setState({ favorited: !this.state.favorited });
+                  }}
+                >
+                  <Icon
+                    name={"favorite-border"}
+                    size={20}
+                    color={Colors.WHITE}
+                  />
+                  <Text
+                    style={[
+                      Typography.FONT_REGULAR_WHITE_BOLD,
+                      { marginLeft: 5 }
+                    ]}
+                  >
+                    FAVORITE
+                  </Text>
+                </TouchableOpacity>
+              )}
+              {ingredientsList.length !== 0 ? (
+                <View style={styles.ingredients}>
+                  <Text style={Typography.FONT_H3_BLACK_BOLD}>Ingredients</Text>
+                  {ingredientsList}
+                </View>
+              ) : null}
+              {recipe.description !== "" ? (
+                <View style={{ marginTop: 10, marginBottom: 10 }}>
+                  <Text style={Typography.FONT_H3_BLACK_BOLD}>Description</Text>
+                  <Text style={Typography.FONT_REGULAR_BLACK_THIN}>
+                    {recipe.description}
+                  </Text>
+                </View>
+              ) : null}
               <View
                 style={[
                   styles.tags,
@@ -174,8 +245,13 @@ class Recipe extends Component {
               >
                 {recipe.sourceUrl}
               </Text>
-              <TouchableOpacity style={styles.editButton}>
-                <Text style={Typography.FONT_H3_WHITE}>Edit dish</Text>
+              <TouchableOpacity
+                style={styles.editButton}
+                onPress={() => {
+                  navigation.navigate("EditRecipe", { recipe: recipe });
+                }}
+              >
+                <Text style={Typography.FONT_H3_WHITE}>Edit recipe</Text>
               </TouchableOpacity>
             </View>
           </ScrollView>
@@ -189,9 +265,8 @@ class Recipe extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    deleteRecipe: recipeId => dispatch(deleteRecipe(recipeId)),
-    editRecipe: (recipeId, recipeChanges) =>
-      dispatch(editRecipe(recipeId, recipeChanges))
+    setFavoriteRecipe: (recipeId, favorite) =>
+      dispatch(setFavoriteRecipe(recipeId, favorite))
   };
 };
 
@@ -220,7 +295,7 @@ const styles = StyleSheet.create({
     marginTop: 170,
     alignSelf: "center"
   },
-  ingredients: { marginTop: 70, marginBottom: 10 },
+  ingredients: { marginTop: 10, marginBottom: 10 },
   tags: { marginTop: 10 },
   url: {
     marginTop: 15,
@@ -233,9 +308,9 @@ const styles = StyleSheet.create({
     marginTop: 40
   },
   editButton: {
-    width: 140,
-    height: 30,
-    backgroundColor: Colors.LIGHTGREEN,
+    width: 200,
+    height: 40,
+    backgroundColor: Colors.DARKGREY,
     alignSelf: "center",
     alignItems: "center",
     justifyContent: "center",

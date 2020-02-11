@@ -11,7 +11,7 @@ export default class RecipeBox extends Component {
         <View style={styles.image}>
           <Image
             style={{ height: 95, width: "100%" }}
-            source={{ uri: recipe.imageUrl }}
+            source={{ uri: recipe.imageUrl, cache: "force-cache"  }}
           />
         </View>
         <Text style={[Typography.FONT_SMALL_BLACK, styles.text]}>

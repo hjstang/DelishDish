@@ -50,3 +50,19 @@ export const editRecipe = (recipeId, recipeChanges) => {
       });
   };
 };
+
+export const setFavoriteRecipe = (recipeId, favorite) => {
+  return (dispatch, getState, getFirebase) => {
+    const firestore = getFirebase().firestore();
+    const ref = firestore.collection("recipes").doc(recipeId);
+
+    ref
+      .update({ favorited: favorite })
+      .then(() => {
+        dispatch({ type: "SET_FAVORITE", recipeId });
+      })
+      .catch(err => {
+        dispatch({ type: "SET_FAVORITE_ERROR", err });
+      });
+  };
+};

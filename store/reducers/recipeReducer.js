@@ -20,6 +20,12 @@ const recipeReducer = (state = initState, action) => {
     case "EDIT_RECIPE_ERROR":
       console.log("edit recipe error", action.err);
       return state;
+    case "SET_FAVORITE":
+      console.log("updated favorited-field", action.recipeId);
+      return state;
+    case "SET_FAVORITE_ERROR":
+      console.log("set favorite error", action.err);
+      return state;
     default:
       return state;
   }
