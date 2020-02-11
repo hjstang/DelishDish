@@ -44,39 +44,55 @@ class Recipe extends Component {
               flexGrow: 1
             }}
           >
-              <View>
+            <View>
               <Image
-                  source={{ uri: recipe.imageUrl }}
-                  style={{ width: screenWidth, height: 250 }}
+                source={{ uri: recipe.imageUrl }}
+                style={{ width: screenWidth, height: 250 }}
               />
-            {!createdNow ? (
-              <View style={styles.returnButton}>
-                <ReturnButton navigation={navigation} />
-              </View>
-            ) : null}
-              </View>
+              {!createdNow ? (
+                <View style={styles.returnButton}>
+                  <ReturnButton navigation={navigation} />
+                </View>
+              ) : null}
+            </View>
             <View style={styles.infoBox}>
               <Text style={[Typography.FONT_H1_BLACK, { marginVertical: 5 }]}>
                 {recipe.title}
               </Text>
               <View style={{ flexDirection: "row", marginBottom: 5 }}>
-                <View style={{ flexDirection: "row" }}>
-                  <Icon
-                    name={"restaurant-menu"}
-                    size={25}
-                    color={Colors.GREY}
-                  />
-                  <Text style={Typography.FONT_REGULAR_GREY}>
-                    {recipe.difficulty}
-                  </Text>
-                </View>
-                <View style={{ flexDirection: "row" }}>
-                  <Icon name={"room-service"} size={25} color={Colors.GREY} />
-                  <Text style={Typography.FONT_REGULAR_GREY}>
-                    {"Servings " + recipe.servings}
-                  </Text>
-                </View>
-                <TouchableOpacity>
+                {recipe.difficulty ? (
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      marginRight: 10
+                    }}
+                  >
+                    <Icon
+                      name={"restaurant-menu"}
+                      size={25}
+                      color={Colors.GREY}
+                    />
+                    <Text style={Typography.FONT_REGULAR_GREY}>
+                      {recipe.difficulty}
+                    </Text>
+                  </View>
+                ) : null}
+                {recipe.servings ? (
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      marginRight: 10
+                    }}
+                  >
+                    <Icon name={"room-service"} size={25} color={Colors.GREY} />
+                    <Text style={Typography.FONT_REGULAR_GREY}>
+                      {" " + recipe.servings}
+                    </Text>
+                  </View>
+                ) : null}
+                <TouchableOpacity style={{ alignItems: "center" }}>
                   {recipe.favorited ? (
                     <Icon name={"favorite"} size={25} color={Colors.GREEN} />
                   ) : (
@@ -99,7 +115,7 @@ class Recipe extends Component {
                 <Text style={Typography.FONT_H3_BLACK_BOLD}>Ingredients</Text>
                 {ingredientsList}
               </View>
-              <View>
+              <View style={{ marginTop: 10, marginBottom: 10 }}>
                 <Text style={Typography.FONT_H3_BLACK_BOLD}>Description</Text>
                 <Text style={Typography.FONT_REGULAR_BLACK_THIN}>
                   {recipe.description}
@@ -206,7 +222,12 @@ const styles = StyleSheet.create({
   },
   ingredients: { marginTop: 70, marginBottom: 10 },
   tags: { marginTop: 10 },
-  url: { marginTop: 10, alignSelf: "center" },
+  url: {
+    marginTop: 15,
+    marginBottom: 20,
+    alignSelf: "center",
+    textDecorationLine: "underline"
+  },
   returnButton: {
     position: "absolute",
     marginTop: 40
@@ -218,6 +239,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 5
+    borderRadius: 5,
+    marginBottom: 30
   }
 });
