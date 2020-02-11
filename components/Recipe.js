@@ -133,7 +133,12 @@ class Recipe extends Component {
                   }}
                 >
                   <Icon name={"favorite"} size={20} color={Colors.WHITE} />
-                  <Text style={[Typography.FONT_REGULAR_WHITE_BOLD, { marginLeft: 5 }]}>
+                  <Text
+                    style={[
+                      Typography.FONT_REGULAR_WHITE_BOLD,
+                      { marginLeft: 5 }
+                    ]}
+                  >
                     FAVORITED
                   </Text>
                 </TouchableOpacity>
@@ -163,21 +168,30 @@ class Recipe extends Component {
                     size={20}
                     color={Colors.WHITE}
                   />
-                  <Text style={[Typography.FONT_REGULAR_WHITE_BOLD, { marginLeft: 5 }]}>
+                  <Text
+                    style={[
+                      Typography.FONT_REGULAR_WHITE_BOLD,
+                      { marginLeft: 5 }
+                    ]}
+                  >
                     FAVORITE
                   </Text>
                 </TouchableOpacity>
               )}
-              <View style={styles.ingredients}>
-                <Text style={Typography.FONT_H3_BLACK_BOLD}>Ingredients</Text>
-                {ingredientsList}
-              </View>
-              <View style={{ marginTop: 10, marginBottom: 10 }}>
-                <Text style={Typography.FONT_H3_BLACK_BOLD}>Description</Text>
-                <Text style={Typography.FONT_REGULAR_BLACK_THIN}>
-                  {recipe.description}
-                </Text>
-              </View>
+              {ingredientsList.length !== 0 ? (
+                <View style={styles.ingredients}>
+                  <Text style={Typography.FONT_H3_BLACK_BOLD}>Ingredients</Text>
+                  {ingredientsList}
+                </View>
+              ) : null}
+              {recipe.description !== "" ? (
+                <View style={{ marginTop: 10, marginBottom: 10 }}>
+                  <Text style={Typography.FONT_H3_BLACK_BOLD}>Description</Text>
+                  <Text style={Typography.FONT_REGULAR_BLACK_THIN}>
+                    {recipe.description}
+                  </Text>
+                </View>
+              ) : null}
               <View
                 style={[
                   styles.tags,
