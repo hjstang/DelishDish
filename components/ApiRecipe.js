@@ -73,7 +73,7 @@ class ApiRecipe extends Component {
                       color={Colors.GREY}
                   />
                   <Text style={Typography.FONT_REGULAR_GREY}>
-                    {" Servings " + recipe.servings}
+                    {" " + recipe.servings}
                   </Text>
               </View>
             </View>
