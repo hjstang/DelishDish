@@ -65,7 +65,7 @@ class Recipe extends Component {
               <Text
                 style={[
                   Typography.FONT_H1_BLACK,
-                  { margin: 5, textAlign: "center" }
+                  { marginHorizontal: 10, marginVertical: 5, textAlign: "center" }
                 ]}
               >
                 {recipe.title}
@@ -118,7 +118,7 @@ class Recipe extends Component {
                     flexDirection: "row",
                     width: 140,
                     height: 25,
-                    backgroundColor: Colors.GREEN,
+                    backgroundColor: Colors.LIGHTGREEN,
                     marginTop: 60,
                     justifyContent: "center",
                     alignItems: "center",
@@ -149,7 +149,7 @@ class Recipe extends Component {
                     flexDirection: "row",
                     width: 140,
                     height: 25,
-                    backgroundColor: Colors.GREEN,
+                    backgroundColor: Colors.LIGHTGREEN,
                     marginTop: 60,
                     justifyContent: "center",
                     alignItems: "center",
