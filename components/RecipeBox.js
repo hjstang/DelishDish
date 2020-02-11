@@ -10,7 +10,7 @@ export default class RecipeBox extends Component {
       <View>
         <View style={styles.image}>
           <Image
-            style={{ height: 105, width: "100%" }}
+            style={{ height: 95, width: "100%" }}
             source={{ uri: recipe.imageUrl }}
           />
         </View>
@@ -23,7 +23,6 @@ export default class RecipeBox extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {},
   image: {
     overflow: "hidden",
     borderBottomLeftRadius: 0,
@@ -31,9 +30,9 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 5,
     borderTopRightRadius: 5
   },
-
   text: {
-    marginLeft: 5,
-    marginVertical: 7
+    marginHorizontal: 5,
+    marginVertical: 7,
+    overflow: "hidden"
   }
 });

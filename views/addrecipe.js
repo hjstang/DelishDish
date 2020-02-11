@@ -438,9 +438,9 @@ class AddRecipe extends Component {
                   style={pickerStyle}
                   onValueChange={difficulty => this.setState({ difficulty })}
                   items={[
-                    { label: "Easy", value: "easy" },
-                    { label: "Medium", value: "medium" },
-                    { label: "Hard", value: "hard" }
+                    { label: "Easy", value: "Easy" },
+                    { label: "Medium", value: "Medium" },
+                    { label: "Hard", value: "Hard" }
                   ]}
                   placeholder={{ label: "Difficulty", value: null }}
                   value={this.state.difficulty}

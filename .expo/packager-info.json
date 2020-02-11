@@ -1,9 +1,9 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 3415,
-  "expoServerNgrokUrl": "https://gb-5rc.idamerete.delishdish.exp.direct",
-  "packagerNgrokUrl": "https://packager.gb-5rc.idamerete.delishdish.exp.direct",
-  "ngrokPid": 3426
+  "expoServerPort": null,
+  "packagerPort": null,
+  "packagerPid": null,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null
 }
