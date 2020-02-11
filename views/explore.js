@@ -93,6 +93,10 @@ export default class Explore extends Component {
     {
       title: "Wok",
       image: require("../assets/images/wok.jpg")
+    },
+    {
+      title: "Pasta",
+      image: require("../assets/images/pasta.jpg")
     }
   ];
 

@@ -189,7 +189,8 @@ export default class App extends Component {
       require("./assets/images/dinner.jpg"),
       require("./assets/images/snack.jpg"),
       require("./assets/images/dessert.jpg"),
-      require("./assets/images/baking.jpg")
+      require("./assets/images/baking.jpg"),
+      require("./assets/images/pasta.jpg")
     ]);
 
     const fontAssets = cacheFonts([
