@@ -52,7 +52,7 @@ class Recipe extends Component {
           >
             <View>
               <Image
-                source={{ uri: recipe.imageUrl }}
+                source={{ uri: recipe.imageUrl, cache: "force-cache"  }}
                 style={{ width: screenWidth, height: 250 }}
               />
               {!createdNow ? (
