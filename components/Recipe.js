@@ -62,61 +62,47 @@ class Recipe extends Component {
               ) : null}
             </View>
             <View style={styles.infoBox}>
-              <Text style={[Typography.FONT_H1_BLACK, { marginVertical: 5 }]}>
+              <Text
+                style={[
+                  Typography.FONT_H1_BLACK,
+                  { margin: 5, textAlign: "center" }
+                ]}
+              >
                 {recipe.title}
               </Text>
               <View style={{ flexDirection: "row", marginBottom: 5 }}>
-                  {recipe.difficulty ? (
-                      <View
-                          style={{
-                              flexDirection: "row",
-                              alignItems: "center",
-                              marginRight: 10
-                          }}
-                      >
-                          <Icon
-                              name={"restaurant-menu"}
-                              size={25}
-                              color={Colors.GREY}
-                          />
-                          <Text style={Typography.FONT_REGULAR_GREY}>
-                              {recipe.difficulty}
-                          </Text>
-                      </View>
-                  ) : null}
-                  {recipe.servings ? (
-                      <View
-                          style={{
-                              flexDirection: "row",
-                              alignItems: "center",
-                              marginRight: 10
-                          }}
-                      >
-                          <Icon name={"room-service"} size={25} color={Colors.GREY} />
-                          <Text style={Typography.FONT_REGULAR_GREY}>
-                              {" " + recipe.servings}
-                          </Text>
-                      </View>
-                  ) : null}
-                <TouchableOpacity
-                  onPress={() => {
-                    this.props.setFavoriteRecipe(
-                      recipe.id,
-                      !this.state.favorited
-                    );
-                    this.setState({ favorited: !this.state.favorited });
-                  }}
-                >
-                  {this.state.favorited ? (
-                    <Icon name={"favorite"} size={25} color={Colors.GREEN} />
-                  ) : (
+                {recipe.difficulty ? (
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      marginRight: 10
+                    }}
+                  >
                     <Icon
-                      name={"favorite-border"}
+                      name={"restaurant-menu"}
                       size={25}
                       color={Colors.GREY}
                     />
-                  )}
-                </TouchableOpacity>
+                    <Text style={Typography.FONT_REGULAR_GREY}>
+                      {recipe.difficulty}
+                    </Text>
+                  </View>
+                ) : null}
+                {recipe.servings ? (
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      marginRight: 10
+                    }}
+                  >
+                    <Icon name={"room-service"} size={25} color={Colors.GREY} />
+                    <Text style={Typography.FONT_REGULAR_GREY}>
+                      {" " + recipe.servings}
+                    </Text>
+                  </View>
+                ) : null}
               </View>
             </View>
             <View
@@ -125,6 +111,63 @@ class Recipe extends Component {
                 { width: screenWidth * 0.9, alignSelf: "center" }
               ]}
             >
+              {this.state.favorited ? (
+                <TouchableOpacity
+                  style={{
+                    alignSelf: "center",
+                    flexDirection: "row",
+                    width: 140,
+                    height: 25,
+                    backgroundColor: Colors.GREEN,
+                    marginTop: 60,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    borderRadius: 5
+                  }}
+                  onPress={() => {
+                    this.props.setFavoriteRecipe(
+                      recipe.id,
+                      !this.state.favorited
+                    );
+                    this.setState({ favorited: !this.state.favorited });
+                  }}
+                >
+                  <Icon name={"favorite"} size={20} color={Colors.WHITE} />
+                  <Text style={[Typography.FONT_REGULAR_WHITE_BOLD, { marginLeft: 5 }]}>
+                    FAVORITED
+                  </Text>
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity
+                  style={{
+                    alignSelf: "center",
+                    flexDirection: "row",
+                    width: 140,
+                    height: 25,
+                    backgroundColor: Colors.GREEN,
+                    marginTop: 60,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    borderRadius: 5
+                  }}
+                  onPress={() => {
+                    this.props.setFavoriteRecipe(
+                      recipe.id,
+                      !this.state.favorited
+                    );
+                    this.setState({ favorited: !this.state.favorited });
+                  }}
+                >
+                  <Icon
+                    name={"favorite-border"}
+                    size={20}
+                    color={Colors.WHITE}
+                  />
+                  <Text style={[Typography.FONT_REGULAR_WHITE_BOLD, { marginLeft: 5 }]}>
+                    FAVORITE
+                  </Text>
+                </TouchableOpacity>
+              )}
               <View style={styles.ingredients}>
                 <Text style={Typography.FONT_H3_BLACK_BOLD}>Ingredients</Text>
                 {ingredientsList}
@@ -238,7 +281,7 @@ const styles = StyleSheet.create({
     marginTop: 170,
     alignSelf: "center"
   },
-  ingredients: { marginTop: 70, marginBottom: 10 },
+  ingredients: { marginTop: 10, marginBottom: 10 },
   tags: { marginTop: 10 },
   url: {
     marginTop: 15,
@@ -251,9 +294,9 @@ const styles = StyleSheet.create({
     marginTop: 40
   },
   editButton: {
-    width: 140,
-    height: 30,
-    backgroundColor: Colors.LIGHTGREEN,
+    width: 200,
+    height: 40,
+    backgroundColor: Colors.DARKGREY,
     alignSelf: "center",
     alignItems: "center",
     justifyContent: "center",
