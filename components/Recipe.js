@@ -119,7 +119,7 @@ class Recipe extends Component {
                     width: 140,
                     height: 25,
                     backgroundColor: Colors.LIGHTGREEN,
-                    marginTop: 60,
+                    marginTop: 80,
                     justifyContent: "center",
                     alignItems: "center",
                     borderRadius: 5
@@ -150,7 +150,7 @@ class Recipe extends Component {
                     width: 140,
                     height: 25,
                     backgroundColor: Colors.LIGHTGREEN,
-                    marginTop: 60,
+                    marginTop: 80,
                     justifyContent: "center",
                     alignItems: "center",
                     borderRadius: 5
@@ -292,7 +292,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 170,
+    marginTop: 190,
     alignSelf: "center"
   },
   ingredients: { marginTop: 10, marginBottom: 10 },
