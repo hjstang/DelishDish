@@ -31,6 +31,7 @@ import AddIngredientModal from "../components/AddIngredientModal";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import ReturnButton from "./ReturnButton";
 import {MEAL_TYPES, DISH_TYPES, HEALTH_TYPES, CUISINE_TYPES} from "../utils/constants";
+import {uuidv4} from "../utils/functions";
 
 class EditRecipe extends Component {
   constructor(props) {
@@ -95,19 +96,11 @@ class EditRecipe extends Component {
     });
   }
 
-  uuidv4 = () => {
-    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
-      let r = (Math.random() * 16) | 0,
-        v = c == "x" ? r : (r & 0x3) | 0x8;
-      return v.toString(16);
-    });
-  };
-
   uploadImage = async uri => {
     this.setState({ imageIsLoading: true });
     const response = await fetch(uri);
     const blob = await response.blob();
-    const uuid = this.uuidv4();
+    const uuid = uuidv4();
 
     let ref = await firebase
       .storage()
