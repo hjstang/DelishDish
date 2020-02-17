@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
-import ExploreScreen from "./views/explore";
-import SearchScreen from "./views/search";
-import AddRecipeScreen from "./views/addrecipe";
-import FavoritesScreen from "./views/favorites";
-import ProfileScreen from "./views/profile";
+import ExploreScreen from "./views/Explore";
+import SearchScreen from "./views/Search";
+import AddRecipeScreen from "./views/AddRecipe";
+import FavoritesScreen from "./views/Favorites";
+import ProfileScreen from "./views/Profile";
 import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import { createStackNavigator } from "react-navigation-stack";
