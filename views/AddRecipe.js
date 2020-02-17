@@ -245,8 +245,8 @@ class AddRecipe extends Component {
             const deletingRow = this.state.activeRowKey;
             console.log(deletingRow);
             Alert.alert(
-              "Alert",
               "Are you sure you want to delete?",
+              "",
               [
                 {
                   text: "No",
