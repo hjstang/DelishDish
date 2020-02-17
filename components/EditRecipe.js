@@ -30,60 +30,7 @@ import ChooseTypeModal from "../components/ChooseTypeModal";
 import AddIngredientModal from "../components/AddIngredientModal";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import ReturnButton from "./ReturnButton";
-
-const MEAL_TYPES = [
-  "Breakfast",
-  "Lunch",
-  "Dinner",
-  "Snack",
-  "Dessert",
-  "Drink",
-  "Baking"
-];
-const DISH_TYPES = [
-  "Bread",
-  "Drinks",
-  "Desserts",
-  "Main course",
-  "Pancake",
-  "Salad",
-  "Sandwiches",
-  "Side dish",
-  "Soup",
-  "Starter",
-  "Sweets"
-];
-const HEALTH_TYPES = [
-  "Vegan",
-  "Vegetarian",
-  "Gluten-free",
-  "Dairy-free",
-  "Egg-free",
-  "Fodmap-free",
-  "Keto-friendly",
-  "Kosher",
-  "No-suger",
-  "Pescetarian"
-];
-const CUISINE_TYPES = [
-  "American",
-  "Asian",
-  "British",
-  "Central Europe",
-  "Chinese",
-  "Eastern Europe",
-  "French",
-  "Indian",
-  "Italian",
-  "Japanese",
-  "Kosher",
-  "Mediterranean",
-  "Mexican",
-  "Middle Eastern",
-  "Nordic",
-  "South American",
-  "South East Asian"
-];
+import {MEAL_TYPES, DISH_TYPES, HEALTH_TYPES, CUISINE_TYPES} from "../utils/constants";
 
 class EditRecipe extends Component {
   constructor(props) {
