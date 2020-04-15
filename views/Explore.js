@@ -34,7 +34,7 @@ export default class Explore extends Component {
 
   async getApiData(searchWord) {
     const response = await fetch(
-      `https://api.edamam.com/search?q=${searchWord}&app_id=${config.appId}&app_key=${config.appKey}&to=10`
+      `https://api.edamam.com/search?q=${searchWord}&app_id=${config.appId}&app_key=${config.appKey}&to=100`
     );
     const responseJson = await response.json();
     if (response.ok) {
