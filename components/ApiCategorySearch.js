@@ -13,7 +13,7 @@ import * as Colors from "../styles/colors";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { getScreenWidth } from "../utils/sizing";
 import ApiRecipesView from "./ApiRecipesView";
-import config from "../backend/apiConfig";
+import config from "../config/apiConfig";
 
 class ApiCategorySearch extends Component {
   constructor(props) {

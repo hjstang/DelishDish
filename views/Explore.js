@@ -9,7 +9,7 @@ import {
   FlatList,
   ActivityIndicator
 } from "react-native";
-import config from "../backend/apiConfig";
+import config from "../config/apiConfig";
 import * as Typography from "../styles/typography";
 import * as Colors from "../styles/colors";
 import { TouchableWithoutFeedback } from "react-native-web";

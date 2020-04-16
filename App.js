@@ -14,7 +14,7 @@ import rootReducer from "./store/reducers/rootReducer";
 import thunk from "redux-thunk";
 import { createFirestoreInstance } from "redux-firestore";
 import { ReactReduxFirebaseProvider, getFirebase } from "react-redux-firebase";
-import firebaseConfig from "./backend/firebaseConfig";
+import firebaseConfig from "./config/firebaseConfig";
 import * as Font from "expo-font";
 import Recipe from "./components/Recipe";
 import ApiRecipe from "./components/ApiRecipe";
