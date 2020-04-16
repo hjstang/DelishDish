@@ -5,8 +5,7 @@ import {
   View,
   ScrollView,
   Image,
-  Linking,
-  Dimensions
+  Linking
 } from "react-native";
 import Tag from "./Tag";
 import * as Typography from "../styles/typography";
@@ -16,18 +15,6 @@ import { getScreenWidth } from "../utils/sizing";
 import Icon from "react-native-vector-icons/MaterialIcons";
 
 class ApiRecipe extends Component {
-  /*constructor(props) {
-    super(props);
-    this.state = {
-      imageUrl: "",
-      title: " Blue Cheese Burger",
-      id: "",
-      servings: 0,
-      ingredients: [],
-      healthTypes: [],
-      sourceUrl: ""
-    };
-  }*/
 
   render() {
     const { navigation } = this.props;

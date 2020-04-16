@@ -29,60 +29,8 @@ import Swipeout from "react-native-swipeout";
 import ChooseTypeModal from "../components/ChooseTypeModal";
 import AddIngredientModal from "../components/AddIngredientModal";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-
-const MEAL_TYPES = [
-  "Breakfast",
-  "Lunch",
-  "Dinner",
-  "Snack",
-  "Dessert",
-  "Drink",
-  "Baking"
-];
-const DISH_TYPES = [
-  "Bread",
-  "Drinks",
-  "Desserts",
-  "Main course",
-  "Pancake",
-  "Salad",
-  "Sandwiches",
-  "Side dish",
-  "Soup",
-  "Starter",
-  "Sweets"
-];
-const HEALTH_TYPES = [
-  "Vegan",
-  "Vegetarian",
-  "Gluten-free",
-  "Dairy-free",
-  "Egg-free",
-  "Fodmap-free",
-  "Keto-friendly",
-  "Kosher",
-  "No-suger",
-  "Pescetarian"
-];
-const CUISINE_TYPES = [
-  "American",
-  "Asian",
-  "British",
-  "Central Europe",
-  "Chinese",
-  "Eastern Europe",
-  "French",
-  "Indian",
-  "Italian",
-  "Japanese",
-  "Kosher",
-  "Mediterranean",
-  "Mexican",
-  "Middle Eastern",
-  "Nordic",
-  "South American",
-  "South East Asian"
-];
+import {MEAL_TYPES, CUISINE_TYPES, HEALTH_TYPES, DISH_TYPES} from "../utils/constants";
+import {uuidv4} from "../utils/functions";
 
 class AddRecipe extends Component {
   constructor(props) {
@@ -122,19 +70,11 @@ class AddRecipe extends Component {
     this.addNewIngredient = this.addNewIngredient.bind(this);
   }
 
-  uuidv4 = () => {
-    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
-      let r = (Math.random() * 16) | 0,
-        v = c == "x" ? r : (r & 0x3) | 0x8;
-      return v.toString(16);
-    });
-  };
-
   uploadImage = async uri => {
     this.setState({ imageIsLoading: true });
     const response = await fetch(uri);
     const blob = await response.blob();
-    const uuid = this.uuidv4();
+    const uuid = uuidv4();
 
     let ref = await firebase
       .storage()
@@ -305,8 +245,8 @@ class AddRecipe extends Component {
             const deletingRow = this.state.activeRowKey;
             console.log(deletingRow);
             Alert.alert(
-              "Alert",
               "Are you sure you want to delete?",
+              "",
               [
                 {
                   text: "No",
@@ -629,7 +569,7 @@ class AddRecipe extends Component {
                         ]
                   }
                   onPress={() => {
-                    const recipeId = this.uuidv4();
+                    const recipeId = uuidv4();
                     const recipeFromState = this.getRecipeFromState();
                     const authorId = auth.uid;
                     const createdAt = new Date();

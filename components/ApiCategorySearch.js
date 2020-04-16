@@ -13,7 +13,7 @@ import * as Colors from "../styles/colors";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { getScreenWidth } from "../utils/sizing";
 import ApiRecipesView from "./ApiRecipesView";
-import config from "../backend/apiConfig";
+import config from "../config/apiConfig";
 
 class ApiCategorySearch extends Component {
   constructor(props) {
@@ -35,7 +35,7 @@ class ApiCategorySearch extends Component {
     const searchWord = search.toLowerCase();
 
     const response = await fetch(
-      `https://api.edamam.com/search?q=${searchWord}&app_id=${config.appId}&app_key=${config.appKey}&to=10`
+      `https://api.edamam.com/search?q=${searchWord}&app_id=${config.appId}&app_key=${config.appKey}&to=100`
     );
     const responseJson = await response.json();
     if (response.ok) {
