@@ -6,9 +6,13 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Clone
 Clone this repo to your local machine using 
-```git clone https://github.com/hjstang/DelishDish.git```
+```
+git clone https://github.com/hjstang/DelishDish.git
+```
 or using SSH key
-```git clone git@github.com:hjstang/DelishDish.git```
+```
+git clone git@github.com:hjstang/DelishDish.git
+```
 
 ### Setup
 Install npm
