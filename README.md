@@ -27,7 +27,7 @@ $ npm install expo-cli --global
 ```
 
 ### Configure Recipe API
-1. Sign up for 'Recipe Search API' on Edamam website: https://developer.edamam.com/edamam-recipe-api
+1. Sign up for `Recipe Search API` on Edamam website: https://developer.edamam.com/edamam-recipe-api
 2. Go to the file `apiConfig_sample.js` in the config folder. Replace `YOUR_APP_ID` and `YOUR_APP_KEY` in this file with your credentials
 3. Rename the file to `apiConfig.js`
 
@@ -57,6 +57,7 @@ The “Explore”-screen is the screen that is shown when the app is launched. H
 On the “Search”-screen, the user is able to browse own recipes by predefined meal types like breakfast, lunch, dinner etc. The user can also use the search field to search for own recipes, and it is possible to search for recipe name or content. 
 
 [![search](https://i.postimg.cc/y8Cp2KcZ/Skjermbilde-2020-08-05-kl-15-05-39.png)](https://postimg.cc/KRQ5gd9G)
+
 [![recipe](https://i.postimg.cc/NGrWnpSZ/Skjermbilde-2020-08-05-kl-15-06-26.png)](https://postimg.cc/YjMnGfpx)
 
 ### Add New Recipes
@@ -75,6 +76,9 @@ On the “Profile”-screen the user can view its profile information, in additi
 [![profile](https://i.postimg.cc/Hsz71479/Skjermbilde-2020-08-05-kl-15-03-05.png)](https://postimg.cc/w7tBhN21)
 
 ## Built With
+
+[![system overview](https://i.postimg.cc/zfVdgf14/Skjermbilde-2020-08-05-kl-15-07-50.png)](https://postimg.cc/f3Qj4Dyv)
+
 - **React Native with Expo**
 - **Redux**
 - **Firebase**
@@ -84,8 +88,6 @@ On the “Profile”-screen the user can view its profile information, in additi
   
  ### Edamam Recipe Search API
  <a href="https://developer.edamam.com/edamam-recipe-api" target="_blank">Edamam Recipe Search API</a> is used to retrieve recipes that can be used as inspiration for the user. The API is accessed by sending HTTPS requests on specific URLs. On success, the API returns HTTP code 200 OK and the body contains the results of the query in JSON format.
-
-[![system overview](https://i.postimg.cc/zfVdgf14/Skjermbilde-2020-08-05-kl-15-07-50.png)](https://postimg.cc/f3Qj4Dyv)
 
 ## Created By
 Created by Helene Janine Stang <a href="https://github.com/hjstang" target="_blank">`(@hjstang)`</a> and Ida Merete Enholm <a href="https://github.com/idaame" target="_blank">`(@idaame)`</a>.
